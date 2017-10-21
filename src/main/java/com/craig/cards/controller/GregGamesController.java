@@ -12,7 +12,7 @@ import com.craig.cards.service.GregGamesService;
 
 @RestController
 @RequestMapping("/greggames")
-@CrossOrigin("http://localhost:4200/")
+//@CrossOrigin(SYSTE)
 public class GregGamesController {
 	
 	@Autowired
