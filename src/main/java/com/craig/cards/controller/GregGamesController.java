@@ -12,7 +12,7 @@ import com.craig.cards.service.GregGamesService;
 
 @RestController
 @RequestMapping("/greggames")
-@CrossOrigin(origins= {"http://localhost:4200","https://greggames.herokuapp.com"})
+//@CrossOrigin(origins= {"http://localhost:4200","https://greggames.herokuapp.com"})
 public class GregGamesController {
 	
 	@Autowired

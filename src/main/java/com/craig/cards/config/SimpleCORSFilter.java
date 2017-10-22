@@ -33,7 +33,7 @@
 //		// TODO Auto-generated method stub
 //		HttpServletRequest request = (HttpServletRequest) req;
 //	    HttpServletResponse response = (HttpServletResponse) res;
-//
+//	  
 //	    System.out.println(WebUtils.getHeadersInfo(request).toString());
 //	    response.setHeader("Access-Control-Allow-Origin", System.getProperty("CROSS_ORIGIN"));
 //	    response.setHeader("X-Access-Control-Allow-Origin", System.getProperty("CROSS_ORIGIN"));
@@ -45,6 +45,7 @@
 //	    response.setHeader("X-Access-Control-Max-Age", "3600");
 //	    response.setHeader("Access-Control-Allow-Headers", "Origin,X-Requested-With,Content-Type,Accept,content-type,application/json");
 //	    response.setHeader("X-Access-Control-Allow-Headers", "Origin,X-Requested-With,Content-Type,Accept,content-type,application/json");
+//	    
 //	    chain.doFilter(req, res);
 //		
 //	}
