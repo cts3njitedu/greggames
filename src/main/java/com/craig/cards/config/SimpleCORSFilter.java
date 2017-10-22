@@ -15,6 +15,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 
+import com.craig.cards.util.WebUtils;
+
 @Configuration
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class SimpleCORSFilter implements Filter{
@@ -32,6 +34,7 @@ public class SimpleCORSFilter implements Filter{
 		HttpServletRequest request = (HttpServletRequest) req;
 	    HttpServletResponse response = (HttpServletResponse) res;
 
+	    System.out.println(WebUtils.getHeadersInfo(request).toString());
 	    response.setHeader("Access-Control-Allow-Origin", System.getProperty("CROSS_ORIGIN"));
 	    response.setHeader("X-Access-Control-Allow-Origin", System.getProperty("CROSS_ORIGIN"));
 	    response.setHeader("Access-Control-Allow-Credentials", "true");
