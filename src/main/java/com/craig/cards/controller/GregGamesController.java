@@ -1,7 +1,6 @@
 package com.craig.cards.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,7 +18,7 @@ public class GregGamesController {
 	private GregGamesService service;
 
 
-	@RequestMapping(method=RequestMethod.GET)
+	@RequestMapping(method=RequestMethod.GET, value="/cards")
 	public @ResponseBody GregGames[] getGregGames() {
 		
 		return service.getGregGames();
