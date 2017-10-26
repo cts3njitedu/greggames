@@ -2,38 +2,44 @@ package com.craig.greggames.controller.spades;
 
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.craig.greggames.controller.spades.model.Game;
-import com.craig.greggames.model.Card;
-import com.craig.greggames.model.Hand;
+import com.craig.greggames.model.SpadeGame;
 import com.craig.greggames.service.spades.SpadeService;
 
 @RestController
-@RequestMapping("/spades")
+@RequestMapping("/cards/spades")
 public class SpadesController {
 
 	@Autowired
 	private SpadeService spadeService;
 
 
-	@RequestMapping(method=RequestMethod.POST)
-	public @ResponseBody Card postHello(@RequestBody Card player) {
+	@RequestMapping(method=RequestMethod.GET, path= {"/games"})
+	public @ResponseBody List<SpadeGame> getGames() {
 		
-		return player;
+		return spadeService.getGames();
 	}
 	
-	@RequestMapping(path= {"/hand"}, method=RequestMethod.POST)
-	public @ResponseBody Hand getHand(@RequestBody Game game) {
 	
-		return spadeService.getHand(game);
+	@RequestMapping(method=RequestMethod.POST, path= {"/games"})
+	public @ResponseBody List<SpadeGame> addGame(SpadeGame spadeGame) {
+		
+		return spadeService.getGames();
 	}
-	
+//	
+//	@RequestMapping(path= {"/hand"}, method=RequestMethod.POST)
+//	public @ResponseBody Hand getHand(@RequestBody Game game) {
+//	
+//		return spadeService.getHand(game);
+//	}
+//	
 	
 	
 	

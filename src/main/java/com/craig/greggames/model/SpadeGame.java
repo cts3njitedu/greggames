@@ -22,4 +22,11 @@ public class SpadeGame {
 		this.pointsToWin = pointsToWin;
 	}
 
+	@Override
+	public String toString() {
+		return "SpadeGame [gameId=" + gameId + ", pointsToWin=" + pointsToWin + "]";
+	}
+	
+	
+
 }

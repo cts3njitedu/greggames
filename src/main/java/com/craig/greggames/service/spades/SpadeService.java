@@ -1,9 +1,12 @@
 package com.craig.greggames.service.spades;
 
-import com.craig.greggames.controller.spades.model.Game;
-import com.craig.greggames.model.Hand;
+import java.util.List;
+
+import com.craig.greggames.model.SpadeGame;
 
 public interface SpadeService {
 	
-	public Hand getHand(Game game);
+	public List<SpadeGame> getGames();
+	
+	public SpadeGame addGame(SpadeGame spadeGame); 
 }
