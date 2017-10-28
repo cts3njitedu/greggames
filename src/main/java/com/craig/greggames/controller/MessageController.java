@@ -5,6 +5,7 @@ import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.craig.greggames.model.SpadeGame;
 import com.craig.greggames.service.message.MessageService;
@@ -26,7 +27,7 @@ public class MessageController {
 
 	@MessageMapping("/greggames/{ggType}")
     @SendTo("/topic/{ggType}")
-    public SpadeGame addGame(@DestinationVariable String ggType, SpadeGame spadeGame) throws Exception {
+    public SpadeGame addGame(@DestinationVariable String ggType, @RequestBody SpadeGame spadeGame) throws Exception {
         //Thread.sleep(1000); // simulated delay
 		//System.out.println(spadeGame.toString());
          return messageService.addGame(spadeGame);
