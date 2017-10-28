@@ -1,7 +1,5 @@
 package com.craig.greggames.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -28,7 +26,7 @@ public class MessageController {
 
 	@MessageMapping("/greggames/{ggType}")
     @SendTo("/topic/{ggType}")
-    public List<SpadeGame> addGame(@DestinationVariable String ggType, SpadeGame spadeGame) throws Exception {
+    public SpadeGame addGame(@DestinationVariable String ggType, SpadeGame spadeGame) throws Exception {
         //Thread.sleep(1000); // simulated delay
 		//System.out.println(spadeGame.toString());
          return messageService.addGame(spadeGame);

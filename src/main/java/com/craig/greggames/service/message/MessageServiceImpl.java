@@ -1,7 +1,5 @@
 package com.craig.greggames.service.message;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +13,12 @@ public class MessageServiceImpl implements MessageService {
 	private SpadeService spadeService;
 	
 	@Override
-	public List<SpadeGame> addGame(SpadeGame spadeGame) {
+	public SpadeGame addGame(SpadeGame spadeGame) {
 		// TODO Auto-generated method stub
+		System.out.println(spadeGame.toString());
+		return spadeService.addGame(spadeGame);
 		
-		spadeService.addGame(spadeGame);
-		return spadeService.getGames();
+		
 		
 	}
 

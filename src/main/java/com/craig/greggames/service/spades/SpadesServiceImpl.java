@@ -23,7 +23,11 @@ public class SpadesServiceImpl implements SpadeService {
 		for(SpadeGameDAO spadeGameDAO : spadeGamesDAO) {
 			
 			SpadeGame spadeGame = new SpadeGame();
+			spadeGame.setBags(spadeGameDAO.getBags());
+			spadeGame.setBidNil(spadeGameDAO.getBidNil());
 			spadeGame.setGameId(spadeGameDAO.getGameId());
+			spadeGame.setNumberOfPlayers(spadeGameDAO.getNumberOfPlayers());
+			spadeGame.setOverBook(spadeGameDAO.getOverBook());
 			spadeGame.setPointsToWin(spadeGameDAO.getPointsToWin());
 			spadeGames.add(spadeGame);
 		}
@@ -34,7 +38,25 @@ public class SpadesServiceImpl implements SpadeService {
 		// TODO Auto-generated method stub
 		SpadeGameDAO spadeGameDAO = new SpadeGameDAO();
 		spadeGameDAO.setPointsToWin(spadeGame.getPointsToWin());
-		repository.save(spadeGameDAO);
+		spadeGameDAO.setBags(spadeGame.getBags());
+		spadeGameDAO.setBidNil(spadeGame.getBidNil());
+		spadeGameDAO.setOverBook(spadeGame.getOverBook());
+		spadeGameDAO.setNumberOfPlayers(spadeGame.getNumberOfPlayers());
+		spadeGameDAO = repository.save(spadeGameDAO);
+		return findGame(spadeGameDAO.getGameId());
+	}
+	@Override
+	public SpadeGame findGame(String gameId) {
+		// TODO Auto-generated method stub
+		SpadeGameDAO spadeGameDAO = repository.findOne(gameId);
+		SpadeGame spadeGame = new SpadeGame();
+		spadeGame.setBags(spadeGameDAO.getBags());
+		spadeGame.setBidNil(spadeGameDAO.getBidNil());
+		spadeGame.setGameId(spadeGameDAO.getGameId());
+		spadeGame.setNumberOfPlayers(spadeGameDAO.getNumberOfPlayers());
+		spadeGame.setOverBook(spadeGameDAO.getOverBook());
+		spadeGame.setPointsToWin(spadeGameDAO.getPointsToWin());
+		
 		return spadeGame;
 	}
 
