@@ -1,9 +1,12 @@
-package com.craig.greggames.model;
+package com.craig.greggames.mongo.model;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Player {
+import com.craig.greggames.model.Card;
+import com.craig.greggames.model.PlayerTable;
+
+public abstract class PlayerDAO {
 
 	private String userId;
 	private PlayerTable name;
@@ -73,5 +76,4 @@ public abstract class Player {
 	public void setRemainingCards(List<Card> remainingCards) {
 		this.remainingCards = remainingCards;
 	}
-
 }

@@ -1,4 +1,4 @@
-package com.craig.greggames.controller.spades.model;
+package com.craig.greggames.mongo.model;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -6,8 +6,7 @@ import java.util.Map;
 import com.craig.greggames.model.Player;
 import com.craig.greggames.model.PlayerTable;
 
-public class Team {
-
+public class SpadeTeamDAO {
 	private int totalBid;
 
 	private int totalCurrentScore;
@@ -18,7 +17,7 @@ public class Team {
 
 	private boolean isOverBook;
 
-	private Map<PlayerTable,Player> players;
+	private Map<PlayerTable, Player> players;
 	private boolean isWon;
 
 	public int getTotalBid() {
@@ -62,14 +61,9 @@ public class Team {
 	}
 
 	public Map<PlayerTable, Player> getPlayers() {
-		if(players==null) {
-			
-			players = new EnumMap<PlayerTable,Player>(PlayerTable.class);
-			
-			for(PlayerTable player: PlayerTable.values()) {
-				
-				players.put(player, new SpadePlayer());
-			}
+		if (players == null) {
+
+			players = new EnumMap<PlayerTable, Player>(PlayerTable.class);
 		}
 		return players;
 	}
@@ -85,9 +79,5 @@ public class Team {
 	public void setWon(boolean isWon) {
 		this.isWon = isWon;
 	}
-	
-	
-
-	
 
 }

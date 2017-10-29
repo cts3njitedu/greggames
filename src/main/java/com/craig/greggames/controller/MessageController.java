@@ -7,7 +7,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.craig.greggames.model.SpadeGame;
+import com.craig.greggames.controller.spades.model.SpadeGame;
 import com.craig.greggames.service.message.MessageService;
 //@CrossOrigin(origins = "http://localhost:4200")
 @Controller
@@ -31,5 +31,14 @@ public class MessageController {
         //Thread.sleep(1000); // simulated delay
 		//System.out.println(spadeGame.toString());
          return messageService.addGame(spadeGame);
+    }
+	
+	
+	@MessageMapping("/greggames/{ggType}/{gameId}")
+    @SendTo("/topic/{ggType}")
+    public SpadeGame getGame(@DestinationVariable String ggType) throws Exception {
+        //Thread.sleep(1000); // simulated delay
+		//System.out.println(spadeGame.toString());
+         return messageService.getGame(ggType);
     }
 }

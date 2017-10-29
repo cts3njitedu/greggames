@@ -3,7 +3,7 @@ package com.craig.greggames.service.message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.craig.greggames.model.SpadeGame;
+import com.craig.greggames.controller.spades.model.SpadeGame;
 import com.craig.greggames.service.spades.SpadeService;
 
 @Service
@@ -20,6 +20,12 @@ public class MessageServiceImpl implements MessageService {
 		
 		
 		
+	}
+
+	@Override
+	public SpadeGame getGame(String gameId) {
+		// TODO Auto-generated method stub
+		return spadeService.findGame(gameId);
 	}
 
 	

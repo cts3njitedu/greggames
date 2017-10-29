@@ -1,8 +1,6 @@
-package com.craig.greggames.controller.spades.model;
+package com.craig.greggames.mongo.model;
 
-import com.craig.greggames.model.Player;
-
-public class SpadePlayer extends Player {
+public class SpadePlayerDAO extends PlayerDAO{
 
 	private int playerBid;
 	private int playerCurrentScore;

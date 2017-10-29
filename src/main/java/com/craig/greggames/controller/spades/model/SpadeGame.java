@@ -1,19 +1,16 @@
-package com.craig.greggames.mongo.model;
+package com.craig.greggames.controller.spades.model;
 
 import java.util.EnumMap;
 import java.util.Map;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-import com.craig.greggames.controller.spades.model.Team;
+import com.craig.greggames.model.Game;
 import com.craig.greggames.model.PlayerTable;
 import com.craig.greggames.model.TeamTable;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@Document(collection = "spadegame")
-public class SpadeGameDAO {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class SpadeGame extends Game {
 
-	@Id
 	private String gameId;
 
 	private boolean isStarting;
@@ -112,6 +109,13 @@ public class SpadeGameDAO {
 		if (teams == null) {
 
 			teams = new EnumMap<TeamTable, Team>(TeamTable.class);
+			
+			for(TeamTable team: TeamTable.values()) {
+				
+				teams.put(team, new Team());
+			}
+			
+			
 		}
 		return teams;
 	}
@@ -190,6 +194,10 @@ public class SpadeGameDAO {
 		this.handCount = handCount;
 	}
 
-
+	@Override
+	public String toString() {
+		return "SpadeGame [gameId=" + gameId + ", pointsToWin=" + pointsToWin + ", bags=" + bags + ", overBook="
+				+ overBook + ", bidNil=" + bidNil + ", numberOfPlayers=" + numberOfPlayers + "]";
+	}
 
 }
