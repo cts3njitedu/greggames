@@ -176,9 +176,13 @@ public class SpadeGameCreator {
 			if(spadePlayer.getName()==gameWinner.getName()) {
 				
 				spadePlayer.setWon(true);
+				spadePlayer.setTurn(true);
+				newSpadeGame.setCurrTrick(spadePlayer.getName());
 			}
 			else {
 				spadePlayer.setWon(false);
+				spadePlayer.setTurn(false);
+				
 			}
 		}
 
@@ -237,17 +241,51 @@ public class SpadeGameCreator {
 	}
 	private void updateHandAndTrick(SpadeGame newSpadeGame) {
 		
-		newSpadeGame.setHandCount(newSpadeGame.getHandCount()+1);
+		
 		
 		if(newSpadeGame.getTrickCount()==13) {
 			
 			newSpadeGame.setTrickCount(0);
+			newSpadeGame.setHandCount(newSpadeGame.getHandCount()+1);
+			getStartHand(newSpadeGame);
+			
+			
+			
+
 		}
 		else {
 			newSpadeGame.setTrickCount(newSpadeGame.getTrickCount()+1);
 		}
 		
 		
+		
+	}
+	
+	private void getStartTrick(SpadeGame newSpadeGame, boolean isNewHand) {
+		int newStartCount = newSpadeGame.getStartHand().getCode();
+		
+		if(true) {
+			
+			newSpadeGame.setStartTrick(newSpadeGame.getStartHand());
+			newSpadeGame.setCurrTrick(newSpadeGame.getStartHand());
+			//newSpadeGame.set
+			
+		}
+		
+		
+	}
+	private void getStartHand(SpadeGame newSpadeGame){
+		
+		int playerCount = newSpadeGame.getStartHand().getCode();
+		int newStartCount = ((playerCount+1)%4)+1;
+		
+
+		
+		newSpadeGame.setStartHand(PlayerTable.getPlayer(newStartCount));
+		
+		
+	
+			
 		
 	}
 }

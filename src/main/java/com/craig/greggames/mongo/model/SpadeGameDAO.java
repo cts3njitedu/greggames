@@ -30,7 +30,7 @@ public class SpadeGameDAO {
 	private int handCount;
 	private boolean isGameOver;
 
-	private Map<TeamTable, Team> teams;
+	private Map<TeamTable, SpadeTeamDAO> teams;
 
 	private boolean isDealing;
 	private int numberDeals;
@@ -108,15 +108,22 @@ public class SpadeGameDAO {
 		this.isGameOver = isGameOver;
 	}
 
-	public Map<TeamTable, Team> getTeams() {
+	public Map<TeamTable, SpadeTeamDAO> getTeams() {
 		if (teams == null) {
 
-			teams = new EnumMap<TeamTable, Team>(TeamTable.class);
+			teams = new EnumMap<TeamTable, SpadeTeamDAO>(TeamTable.class);
+			
+			for(TeamTable team: TeamTable.values()) {
+				
+				teams.put(team, new SpadeTeamDAO());
+			}
+			
+			
 		}
 		return teams;
 	}
 
-	public void setTeams(Map<TeamTable, Team> teams) {
+	public void setTeams(Map<TeamTable, SpadeTeamDAO> teams) {
 		this.teams = teams;
 	}
 
