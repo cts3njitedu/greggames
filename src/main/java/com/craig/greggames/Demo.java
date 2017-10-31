@@ -24,7 +24,9 @@ public class Demo {
 		spadeGame.setOverBook(100);
 		spadeGame.setGameOver(false);
 		spadeGame.setPointsToWin(500);
+		spadeGame.setNumberOfTeams(2);
 
+		spadeGame.getTeams();
 		spadeGame = creator.execute(spadeGame);
 
 		PlayerTable player = spadeGame.getCurrTrick();
@@ -41,6 +43,24 @@ public class Demo {
 
 		spadeGame.getTeams().get(team).getPlayers().get(player)
 				.setPlayingCard(new Card(CardSuit.CLUBS, CardValue.NINE));
+		
+		spadeGame = creator.execute(spadeGame);
+		
+		player = spadeGame.getCurrTrick();
+
+		team = TeamTable.getTeam(player.getCode() % 2);
+
+		spadeGame.getTeams().get(team).getPlayers().get(player)
+				.setPlayingCard(new Card(CardSuit.DIAMONDS, CardValue.NINE));
+		
+		spadeGame = creator.execute(spadeGame);
+		
+		player = spadeGame.getCurrTrick();
+
+		team = TeamTable.getTeam(player.getCode() % 2);
+
+		spadeGame.getTeams().get(team).getPlayers().get(player)
+				.setPlayingCard(new Card(CardSuit.HEARTS, CardValue.KING));
 		
 		spadeGame = creator.execute(spadeGame);
 

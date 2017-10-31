@@ -30,6 +30,17 @@ public enum TeamTable {
 		}
 		return null;
 	}
+	
+	public static TeamTable getTeamByName(int code) {
+		
+		for(TeamTable team: TeamTable.values()) {
+			
+			if(team.getCode()==code) {
+				return team;
+			}
+		}
+		return null;
+	}
 
 	public int getCode() {
 		return code;

@@ -38,6 +38,8 @@ public class SpadeGame extends Game {
 	private int bidNil;
 
 	private int numberOfPlayers;
+	
+	private int numberOfTeams;
 
 	public String getGameId() {
 		return gameId;
@@ -110,9 +112,9 @@ public class SpadeGame extends Game {
 
 			teams = new EnumMap<TeamTable, Team>(TeamTable.class);
 			
-			for(TeamTable team: TeamTable.values()) {
+			for(int code=1; code<=numberOfTeams; code++) {
 				
-				teams.put(team, new Team());
+				teams.put(TeamTable.getTeamByName(code), new Team());
 			}
 			
 			
@@ -192,6 +194,15 @@ public class SpadeGame extends Game {
 
 	public void setHandCount(int handCount) {
 		this.handCount = handCount;
+	}
+	
+
+	public int getNumberOfTeams() {
+		return numberOfTeams;
+	}
+
+	public void setNumberOfTeams(int numberOfTeams) {
+		this.numberOfTeams = numberOfTeams;
 	}
 
 	@Override

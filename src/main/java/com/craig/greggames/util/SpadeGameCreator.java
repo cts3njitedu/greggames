@@ -30,12 +30,7 @@ public class SpadeGameCreator {
 
 				determinePlayerWinner(newSpadeGame);
 
-			} else {
-
-				reAdjustCards(newSpadeGame);
-				updateHandAndTrick(newSpadeGame);
-
-			}
+			} 
 
 			if (newSpadeGame.getTrickCount() == 13) {
 
@@ -44,6 +39,10 @@ public class SpadeGameCreator {
 				determineGameWinner(newSpadeGame);
 
 				distributeCards(newSpadeGame);
+			}
+			else {
+				
+				reAdjustCards(newSpadeGame);
 			}
 
 			updateHandAndTrick(newSpadeGame);
@@ -260,10 +259,8 @@ public class SpadeGameCreator {
 			if (newEndCount > 4) {
 				newEndCount = newEndCount - 4;
 			}
-
-			newSpadeGame.setStartTrick(PlayerTable.getPlayer(newStartCount));
 			newSpadeGame.setCurrTrick(PlayerTable.getPlayer(newStartCount));
-			newSpadeGame.setEndTrick(PlayerTable.getPlayer(newEndCount));
+	
 
 		}
 
