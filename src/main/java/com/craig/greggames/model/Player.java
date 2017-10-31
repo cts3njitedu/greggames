@@ -12,7 +12,7 @@ public abstract class Player {
 	private boolean isTurn;
 	private boolean isWon;
 	private List<Card> remainingCards;
-
+	private TeamTable team;
 	public String getUserId() {
 		return userId;
 	}
@@ -73,5 +73,15 @@ public abstract class Player {
 	public void setRemainingCards(List<Card> remainingCards) {
 		this.remainingCards = remainingCards;
 	}
+
+	public TeamTable getTeam() {
+		return team;
+	}
+
+	public void setTeam(TeamTable team) {
+		this.team = team;
+	}
+	
+	
 
 }

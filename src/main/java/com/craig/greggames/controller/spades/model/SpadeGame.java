@@ -196,8 +196,13 @@ public class SpadeGame extends Game {
 
 	@Override
 	public String toString() {
-		return "SpadeGame [gameId=" + gameId + ", pointsToWin=" + pointsToWin + ", bags=" + bags + ", overBook="
-				+ overBook + ", bidNil=" + bidNil + ", numberOfPlayers=" + numberOfPlayers + "]";
+		return "SpadeGame [gameId=" + gameId + ", isStarting=" + isStarting + ", pointsToWin=" + pointsToWin
+				+ ", startHand=" + startHand + ", startTrick=" + startTrick + ", currTrick=" + currTrick + ", endTrick="
+				+ endTrick + ", trickCount=" + trickCount + ", handCount=" + handCount + ", isGameOver=" + isGameOver
+				+ ", teams=" + teams + ", isDealing=" + isDealing + ", numberDeals=" + numberDeals + ", bags=" + bags
+				+ ", overBook=" + overBook + ", bidNil=" + bidNil + ", numberOfPlayers=" + numberOfPlayers + "]";
 	}
+
+	
 
 }

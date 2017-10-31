@@ -1,8 +1,5 @@
 package com.craig.greggames.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public enum PlayerTable {
 
 	PLAYER1(1), PLAYER2(2), PLAYER3(3), PLAYER4(4);
@@ -20,9 +17,9 @@ public enum PlayerTable {
 	
 	public static PlayerTable getPlayer(int code) {
 		
-		List<PlayerTable> players = new ArrayList<PlayerTable>();
 		
-		for(PlayerTable player: players) {
+		
+		for(PlayerTable player: PlayerTable.values()) {
 			
 			if(player.getCode()==code) {
 				return player;

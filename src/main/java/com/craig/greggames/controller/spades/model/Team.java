@@ -18,7 +18,7 @@ public class Team {
 
 	private boolean isOverBook;
 
-	private Map<PlayerTable,Player> players;
+	private Map<PlayerTable,SpadePlayer> players;
 	private boolean isWon;
 
 	public int getTotalBid() {
@@ -61,20 +61,16 @@ public class Team {
 		this.isOverBook = isOverBook;
 	}
 
-	public Map<PlayerTable, Player> getPlayers() {
+	public Map<PlayerTable, SpadePlayer> getPlayers() {
 		if(players==null) {
 			
-			players = new EnumMap<PlayerTable,Player>(PlayerTable.class);
+			players = new EnumMap<PlayerTable,SpadePlayer>(PlayerTable.class);
 			
-			for(PlayerTable player: PlayerTable.values()) {
-				
-				players.put(player, new SpadePlayer());
-			}
 		}
 		return players;
 	}
 
-	public void setPlayers(Map<PlayerTable, Player> players) {
+	public void setPlayers(Map<PlayerTable, SpadePlayer> players) {
 		this.players = players;
 	}
 

@@ -5,34 +5,44 @@ import java.util.List;
 import com.craig.greggames.controller.spades.model.SpadeGame;
 import com.craig.greggames.controller.spades.model.SpadePlayer;
 import com.craig.greggames.model.Card;
+import com.craig.greggames.model.CardSuit;
+import com.craig.greggames.model.CardValue;
 import com.craig.greggames.model.PlayerTable;
 import com.craig.greggames.model.TeamTable;
 import com.craig.greggames.util.SpadeGameCreator;
 
 public class Demo {
 
-	
-	public static void main (String [] args) {
-		
+	public static void main(String[] args) {
+
 		SpadeGameCreator creator = new SpadeGameCreator();
-		
+
 		SpadeGame spadeGame = new SpadeGame();
-		
+
 		spadeGame.setStarting(true);
-		spadeGame.setStartTrick(PlayerTable.PLAYER3);
-		spadeGame.setEndTrick(PlayerTable.PLAYER2);
 		spadeGame.setBags(100);
 		spadeGame.setOverBook(100);
-		spadeGame.setCurrTrick(PlayerTable.PLAYER3);
 		spadeGame.setGameOver(false);
-		spadeGame.setStartHand(PlayerTable.PLAYER3);
 		spadeGame.setPointsToWin(500);
-		
+
 		spadeGame = creator.execute(spadeGame);
+
+		PlayerTable player = spadeGame.getCurrTrick();
+
+		TeamTable team = TeamTable.getTeam(player.getCode() % 2);
+
+		spadeGame.getTeams().get(team).getPlayers().get(player)
+				.setPlayingCard(new Card(CardSuit.CLUBS, CardValue.FIVE));
+		spadeGame = creator.execute(spadeGame);
+		
+		player = spadeGame.getCurrTrick();
+
+		team = TeamTable.getTeam(player.getCode() % 2);
+
+		spadeGame.getTeams().get(team).getPlayers().get(player)
+				.setPlayingCard(new Card(CardSuit.CLUBS, CardValue.NINE));
 		
 		spadeGame = creator.execute(spadeGame);
 
-		
-		
 	}
 }
