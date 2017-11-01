@@ -13,13 +13,15 @@ public enum TeamTable {
 		this.code = code;
 	}
 	
-	public static TeamTable getTeam(int code) {
+	public static TeamTable getTeamByPlayer(int code, int numberOfTeams) {
 		
-		if(code==0) {
-			code = 2;
-		}
-		else {
-			code =1;
+		if(numberOfTeams==2) {
+			if(code%2==0) {
+				code = 2;
+			}
+			else {
+				code=1;
+			}
 		}
 		for(TeamTable team: TeamTable.values()) {
 			

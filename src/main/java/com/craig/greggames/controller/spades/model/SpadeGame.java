@@ -15,14 +15,17 @@ public class SpadeGame extends Game {
 
 	private boolean isStarting;
 
+	private boolean isBidding;
+
 	private int pointsToWin;
 
 	private PlayerTable startHand;
-	private PlayerTable startTrick;
+	private PlayerTable startTurn;
 
-	private PlayerTable currTrick;
-	private PlayerTable endTrick;
+	private PlayerTable currTurn;
 	private int trickCount;
+
+	private int turnCount;
 
 	private int handCount;
 	private boolean isGameOver;
@@ -38,7 +41,7 @@ public class SpadeGame extends Game {
 	private int bidNil;
 
 	private int numberOfPlayers;
-	
+
 	private int numberOfTeams;
 
 	public String getGameId() {
@@ -97,8 +100,6 @@ public class SpadeGame extends Game {
 		this.numberOfPlayers = numberOfPlayers;
 	}
 
-	
-
 	public boolean isGameOver() {
 		return isGameOver;
 	}
@@ -111,13 +112,12 @@ public class SpadeGame extends Game {
 		if (teams == null) {
 
 			teams = new EnumMap<TeamTable, Team>(TeamTable.class);
-			
-			for(int code=1; code<=numberOfTeams; code++) {
-				
+
+			for (int code = 1; code <= numberOfTeams; code++) {
+
 				teams.put(TeamTable.getTeamByName(code), new Team());
 			}
-			
-			
+
 		}
 		return teams;
 	}
@@ -150,36 +150,6 @@ public class SpadeGame extends Game {
 		this.startHand = startHand;
 	}
 
-	public PlayerTable getStartTrick() {
-		return startTrick;
-	}
-
-	public void setStartTrick(PlayerTable startTrick) {
-		this.startTrick = startTrick;
-	}
-	
-	
-
-
-
-	public PlayerTable getCurrTrick() {
-		return currTrick;
-	}
-
-	public void setCurrTrick(PlayerTable currTrick) {
-		this.currTrick = currTrick;
-	}
-	
-	
-
-	public PlayerTable getEndTrick() {
-		return endTrick;
-	}
-
-	public void setEndTrick(PlayerTable endTrick) {
-		this.endTrick = endTrick;
-	}
-
 	public int getTrickCount() {
 		return trickCount;
 	}
@@ -195,7 +165,6 @@ public class SpadeGame extends Game {
 	public void setHandCount(int handCount) {
 		this.handCount = handCount;
 	}
-	
 
 	public int getNumberOfTeams() {
 		return numberOfTeams;
@@ -205,15 +174,46 @@ public class SpadeGame extends Game {
 		this.numberOfTeams = numberOfTeams;
 	}
 
-	@Override
-	public String toString() {
-		return "SpadeGame [gameId=" + gameId + ", isStarting=" + isStarting + ", pointsToWin=" + pointsToWin
-				+ ", startHand=" + startHand + ", startTrick=" + startTrick + ", currTrick=" + currTrick + ", endTrick="
-				+ endTrick + ", trickCount=" + trickCount + ", handCount=" + handCount + ", isGameOver=" + isGameOver
-				+ ", teams=" + teams + ", isDealing=" + isDealing + ", numberDeals=" + numberDeals + ", bags=" + bags
-				+ ", overBook=" + overBook + ", bidNil=" + bidNil + ", numberOfPlayers=" + numberOfPlayers + "]";
+	public boolean isBidding() {
+		return isBidding;
 	}
 
-	
+	public void setBidding(boolean isBidding) {
+		this.isBidding = isBidding;
+	}
+
+	public int getTurnCount() {
+		return turnCount;
+	}
+
+	public void setTurnCount(int turnCount) {
+		this.turnCount = turnCount;
+	}
+
+	public PlayerTable getStartTurn() {
+		return startTurn;
+	}
+
+	public void setStartTurn(PlayerTable startTurn) {
+		this.startTurn = startTurn;
+	}
+
+	public PlayerTable getCurrTurn() {
+		return currTurn;
+	}
+
+	public void setCurrTurn(PlayerTable currTurn) {
+		this.currTurn = currTurn;
+	}
+
+	@Override
+	public String toString() {
+		return "SpadeGame [gameId=" + gameId + ", isStarting=" + isStarting + ", isBidding=" + isBidding
+				+ ", pointsToWin=" + pointsToWin + ", startHand=" + startHand + ", startTurn=" + startTurn
+				+ ", currTurn=" + currTurn + ", trickCount=" + trickCount + ", turnCount=" + turnCount + ", handCount="
+				+ handCount + ", isGameOver=" + isGameOver + ", teams=" + teams + ", isDealing=" + isDealing
+				+ ", numberDeals=" + numberDeals + ", bags=" + bags + ", overBook=" + overBook + ", bidNil=" + bidNil
+				+ ", numberOfPlayers=" + numberOfPlayers + ", numberOfTeams=" + numberOfTeams + "]";
+	}
 
 }
