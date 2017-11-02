@@ -6,9 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.craig.greggames.controller.spades.model.SpadeGame;
-import com.craig.greggames.mongo.model.SpadeGameDAO;
-import com.craig.greggames.mongo.model.SpadeGameRespository;
+import com.craig.greggames.model.mongo.spades.SpadeGameDAO;
+import com.craig.greggames.model.mongo.spades.SpadeGameRespository;
+import com.craig.greggames.model.spades.SpadeGame;
 
 @Service
 public class SpadesServiceImpl implements SpadeService {

@@ -1,4 +1,4 @@
-package com.craig.greggames.model;
+package com.craig.greggames.model.card;
 
 public class Card {
 
@@ -58,4 +58,10 @@ public class Card {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "Card [value=" + value + ", suit=" + suit + "]";
+	}
+
+	
 }

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.craig.greggames.model.Card;
-import com.craig.greggames.model.Deck;
+import com.craig.greggames.model.card.Card;
+import com.craig.greggames.model.card.Deck;
 
 public class RandomUtility {
 	

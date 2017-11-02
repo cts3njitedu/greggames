@@ -4,13 +4,13 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
 
-import com.craig.greggames.controller.spades.model.SpadeGame;
-import com.craig.greggames.controller.spades.model.SpadePlayer;
-import com.craig.greggames.controller.spades.model.Team;
-import com.craig.greggames.model.Card;
-import com.craig.greggames.model.CardSuit;
-import com.craig.greggames.model.PlayerTable;
 import com.craig.greggames.model.TeamTable;
+import com.craig.greggames.model.card.Card;
+import com.craig.greggames.model.card.CardSuit;
+import com.craig.greggames.model.player.PlayerTable;
+import com.craig.greggames.model.spades.SpadeGame;
+import com.craig.greggames.model.spades.SpadePlayer;
+import com.craig.greggames.model.spades.SpadeTeam;
 
 public class SpadeGameCreator {
 
@@ -24,12 +24,11 @@ public class SpadeGameCreator {
 	}
 
 	private void playGame(SpadeGame newSpadeGame) {
-		
-		
+
 		if (newSpadeGame.isStarting()) {
-			
+
 			makeTeams(newSpadeGame);
-			int start = rand.nextInt(4)+1;
+			int start = rand.nextInt(4) + 1;
 			newSpadeGame.setBidding(true);
 			newSpadeGame.setStartTurn(PlayerTable.getPlayer(start));
 			newSpadeGame.setStartHand(PlayerTable.getPlayer(start));
@@ -38,55 +37,50 @@ public class SpadeGameCreator {
 			distributeCards(newSpadeGame);
 			newSpadeGame.setStarting(false);
 			newSpadeGame.setTurnCount(1);
-			
-			
+
 		}
-		
-		else if(newSpadeGame.isBidding()) {
-			
-			
-			//check the turn count. if 4 set bidding to false;
-			
-			if(newSpadeGame.getTurnCount()==4) {
-				
+
+		else if (newSpadeGame.isBidding()) {
+
+			// check the turn count. if 4 set bidding to false;
+
+			if (newSpadeGame.getTurnCount() == 4) {
+
 				newSpadeGame.setCurrTurn(newSpadeGame.getStartTurn());
 				newSpadeGame.setBidding(false);
-				
+
 				newSpadeGame.setTurnCount(1);
 				newSpadeGame.setTrickCount(1);
-			}
-			else {
-				
+			} else {
+
 				int currTurnCode = newSpadeGame.getCurrTurn().getCode() + 1;
-				
-				if(currTurnCode>4) {
+
+				if (currTurnCode > 4) {
 					currTurnCode = currTurnCode - 4;
 				}
 				newSpadeGame.setCurrTurn(PlayerTable.getPlayer(currTurnCode));
-				newSpadeGame.setTurnCount(newSpadeGame.getTurnCount()+1);
+				newSpadeGame.setTurnCount(newSpadeGame.getTurnCount() + 1);
 			}
-		
-			
-		}
-		else {
-			
-			if(newSpadeGame.getTurnCount()==4) {
-				
-				//determine who won the trick
+
+		} else {
+
+			if (newSpadeGame.getTurnCount() == 4) {
+
+				// determine who won the trick
 				SpadePlayer spadePlayer = determinePlayerWinner(newSpadeGame);
-				//determine the amount of points the winner has
-				determinePlayerPoints(newSpadeGame,spadePlayer);
-				//reAdjust cards. should return boolean
-				boolean isCardsLeft = reAdjustCards(newSpadeGame);
-				
-				if(!isCardsLeft) {
-					
-					//determine the total team score;
+				// determine the amount of points the winner has
+				determinePlayerPoints(newSpadeGame, spadePlayer);
+				// reAdjust cards. should return boolean
+				reAdjustCards(newSpadeGame);
+
+				if (newSpadeGame.getTrickCount() == 13) {
+
+					// determine the total team score;
 					determineTeamPoints(newSpadeGame);
-					//determine if someone won the game;
+					// determine if someone won the game;
 					determineGameWinner(newSpadeGame);
-					int start = newSpadeGame.getStartHand().getCode()+1;
-					if(start>4) {
+					int start = newSpadeGame.getStartHand().getCode() + 1;
+					if (start > 4) {
 						start = start - 4;
 					}
 					newSpadeGame.setBidding(true);
@@ -94,29 +88,37 @@ public class SpadeGameCreator {
 					newSpadeGame.setStartTurn(newSpadeGame.getStartHand());
 					newSpadeGame.setCurrTurn(newSpadeGame.getStartHand());
 					newSpadeGame.setHandCount(1);
+				
 					distributeCards(newSpadeGame);
 					newSpadeGame.setHandCount(newSpadeGame.getHandCount());
 					newSpadeGame.setTrickCount(0);
-					newSpadeGame.setTurnCount(0);
-					
-				}
-				else {
-					
+					newSpadeGame.setTurnCount(1);
+
+				} else {
+
+		
 					newSpadeGame.setCurrTurn(spadePlayer.getName());
 					newSpadeGame.setStartTurn(spadePlayer.getName());
-					newSpadeGame.setTurnCount(0);
-					newSpadeGame.setTrickCount(newSpadeGame.getTrickCount());
-					
+					newSpadeGame.setTurnCount(1);
+					newSpadeGame.setTrickCount(newSpadeGame.getTrickCount() + 1);
+
 				}
+				removePlayingCard(newSpadeGame);
+			} else {
+
+				reAdjustCards(newSpadeGame);
+				int curr = newSpadeGame.getCurrTurn().getCode() + 1;
+				if (curr > 4) {
+					curr = curr - 4;
+				}
+				newSpadeGame.setCurrTurn(PlayerTable.getPlayer(curr));
+				newSpadeGame.setTurnCount(newSpadeGame.getTurnCount() + 1);
+
 			}
-			
+
 		}
-		
-		
-		
+
 	}
-
-
 
 	private void makeTeams(SpadeGame newSpadeGame) {
 
@@ -138,29 +140,28 @@ public class SpadeGameCreator {
 
 		List<Card> cards = DealUtility.getSpadeHand();
 		int i = 0;
-		int dealCode = newSpadeGame.getCurrTurn().getCode()+1;
-		if(dealCode>4) {
+		int dealCode = newSpadeGame.getCurrTurn().getCode() + 1;
+		if (dealCode > 4) {
 			dealCode = dealCode - 4;
 		}
-		
-		for(int turn=1; turn<=4; turn++) {
-			
+
+		for (int turn = 1; turn <= 4; turn++) {
+
 			newSpadeGame.getTeams().get(TeamTable.getTeamByPlayer(dealCode, newSpadeGame.getNumberOfTeams()))
-			.getPlayers().get(PlayerTable.getPlayer(dealCode)).getRemainingCards().addAll(cards.subList(i, i + 13));
+					.getPlayers().get(PlayerTable.getPlayer(dealCode)).getRemainingCards()
+					.addAll(cards.subList(i, i + 13));
 			dealCode++;
-			if(dealCode>4) {
-				dealCode=dealCode-4;
+			if (dealCode > 4) {
+				dealCode = dealCode - 4;
 			}
-			i=i+13;
+			i = i + 13;
 		}
-		
 
 	}
 
 	public SpadePlayer determinePlayerWinner(SpadeGame newSpadeGame) {
 
 		int code = newSpadeGame.getStartTurn().getCode();
-		
 
 		SpadePlayer gameWinner = newSpadeGame.getTeams()
 				.get(TeamTable.getTeamByPlayer(code, newSpadeGame.getNumberOfTeams())).getPlayers()
@@ -196,7 +197,7 @@ public class SpadeGameCreator {
 
 		return gameWinner;
 	}
-	
+
 	private void determinePlayerPoints(SpadeGame newSpadeGame, SpadePlayer gameWinner) {
 
 		for (PlayerTable player : PlayerTable.values()) {
@@ -209,6 +210,7 @@ public class SpadeGameCreator {
 
 				spadePlayer.setWon(true);
 				spadePlayer.setTurn(true);
+				spadePlayer.setPlayerCurrentScore(spadePlayer.getPlayerCurrentScore()+10);
 				newSpadeGame.setStartTurn(spadePlayer.getName());
 
 			} else {
@@ -222,7 +224,7 @@ public class SpadeGameCreator {
 
 	private void determineTeamPoints(SpadeGame newSpadeGame) {
 
-		for (Entry<TeamTable, Team> entry : newSpadeGame.getTeams().entrySet()) {
+		for (Entry<TeamTable, SpadeTeam> entry : newSpadeGame.getTeams().entrySet()) {
 			int teamScore = 0;
 			for (Entry<PlayerTable, SpadePlayer> entryPlayer : entry.getValue().getPlayers().entrySet()) {
 
@@ -245,14 +247,12 @@ public class SpadeGameCreator {
 
 	}
 
-	
-
 	private void determineGameWinner(SpadeGame newSpadeGame) {
 
 		int maxScore = 0;
 		boolean isEqual = false;
 		TeamTable maxTeam = null;
-		for (Entry<TeamTable, Team> entry : newSpadeGame.getTeams().entrySet()) {
+		for (Entry<TeamTable, SpadeTeam> entry : newSpadeGame.getTeams().entrySet()) {
 
 			if (entry.getValue().getTotalScore() == maxScore) {
 
@@ -279,36 +279,31 @@ public class SpadeGameCreator {
 
 	}
 
-	private boolean reAdjustCards(SpadeGame newSpadeGame) {
+	private void reAdjustCards(SpadeGame newSpadeGame) {
 
-		int finishCount = 0;
+		PlayerTable player = newSpadeGame.getCurrTurn();
+
+		Card oldPlayingCard = newSpadeGame.getTeams()
+				.get(TeamTable.getTeamByPlayer(player.getCode(), newSpadeGame.getNumberOfTeams())).getPlayers()
+
+				.get(player).getPlayingCard();
+
+		List<Card> cardsLeft = newSpadeGame.getTeams()
+				.get(TeamTable.getTeamByPlayer(player.getCode(), newSpadeGame.getNumberOfTeams())).getPlayers()
+				.get(player).getRemainingCards();
+
+		cardsLeft.remove(oldPlayingCard);
+
+	}
+
+	private void removePlayingCard(SpadeGame newSpadeGame) {
+
 		for (PlayerTable player : PlayerTable.values()) {
 
-			Card oldPlayingCard = newSpadeGame.getTeams()
-					.get(TeamTable.getTeamByPlayer(player.getCode(), newSpadeGame.getNumberOfTeams())).getPlayers()
-
-					.get(player).getPlayingCard();
-
-			List<Card> cardsLeft = newSpadeGame.getTeams().get(TeamTable.getTeamByPlayer(player.getCode(), newSpadeGame.getNumberOfTeams()))
-					.getPlayers().get(player).getRemainingCards();
-			
-			if(cardsLeft.size()==1) {
-				
-				finishCount++;
-			}
-			else {
-				cardsLeft.remove(oldPlayingCard);
-			}
 			newSpadeGame.getTeams().get(TeamTable.getTeamByPlayer(player.getCode(), newSpadeGame.getNumberOfTeams()))
 					.getPlayers().get(player).setPlayingCard(null);
 
 		}
-		
-		if(finishCount==4) {
-			return false;
-		}
-		return true;
-
 	}
 
 }

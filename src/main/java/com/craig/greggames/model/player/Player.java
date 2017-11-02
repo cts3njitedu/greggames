@@ -1,7 +1,10 @@
-package com.craig.greggames.model;
+package com.craig.greggames.model.player;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.craig.greggames.model.TeamTable;
+import com.craig.greggames.model.card.Card;
 
 public abstract class Player {
 

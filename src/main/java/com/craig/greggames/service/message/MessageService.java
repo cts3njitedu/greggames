@@ -1,6 +1,6 @@
 package com.craig.greggames.service.message;
 
-import com.craig.greggames.controller.spades.model.SpadeGame;
+import com.craig.greggames.model.spades.SpadeGame;
 
 public interface MessageService {
 	

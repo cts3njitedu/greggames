@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.craig.greggames.controller.spades.model.SpadeGame;
+import com.craig.greggames.model.spades.SpadeGame;
 import com.craig.greggames.service.spades.SpadeService;
 
 @RestController

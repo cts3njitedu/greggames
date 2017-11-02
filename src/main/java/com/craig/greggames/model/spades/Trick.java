@@ -1,4 +1,4 @@
-package com.craig.greggames.controller.spades.model;
+package com.craig.greggames.model.spades;
 
 public class Trick {
 

@@ -1,4 +1,4 @@
-package com.craig.greggames.model;
+package com.craig.greggames.model.card;
 
 public enum CardValue {
 

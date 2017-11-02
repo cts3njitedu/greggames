@@ -2,7 +2,7 @@ package com.craig.greggames.service.spades;
 
 import java.util.List;
 
-import com.craig.greggames.controller.spades.model.SpadeGame;
+import com.craig.greggames.model.spades.SpadeGame;
 
 public interface SpadeService {
 	

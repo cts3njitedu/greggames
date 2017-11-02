@@ -1,10 +1,10 @@
-package com.craig.greggames.mongo.model;
+package com.craig.greggames.model.mongo.spades;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.craig.greggames.model.Card;
-import com.craig.greggames.model.PlayerTable;
+import com.craig.greggames.model.card.Card;
+import com.craig.greggames.model.player.PlayerTable;
 
 public abstract class PlayerDAO {
 

@@ -3,7 +3,7 @@ package com.craig.greggames.service.message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.craig.greggames.controller.spades.model.SpadeGame;
+import com.craig.greggames.model.spades.SpadeGame;
 import com.craig.greggames.service.spades.SpadeService;
 
 @Service

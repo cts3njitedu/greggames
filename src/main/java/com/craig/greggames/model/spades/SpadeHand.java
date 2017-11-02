@@ -1,4 +1,4 @@
-package com.craig.greggames.controller.spades.model;
+package com.craig.greggames.model.spades;
 
 import java.util.ArrayList;
 import java.util.List;

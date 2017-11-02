@@ -1,10 +1,10 @@
-package com.craig.greggames.mongo.model;
+package com.craig.greggames.model.mongo.spades;
 
 import java.util.EnumMap;
 import java.util.Map;
 
-import com.craig.greggames.model.Player;
-import com.craig.greggames.model.PlayerTable;
+import com.craig.greggames.model.player.Player;
+import com.craig.greggames.model.player.PlayerTable;
 
 public class SpadeTeamDAO {
 	private int totalBid;

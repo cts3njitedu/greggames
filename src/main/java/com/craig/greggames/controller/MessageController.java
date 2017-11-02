@@ -7,7 +7,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.craig.greggames.controller.spades.model.SpadeGame;
+import com.craig.greggames.model.spades.SpadeGame;
 import com.craig.greggames.service.message.MessageService;
 //@CrossOrigin(origins = "http://localhost:4200")
 @Controller

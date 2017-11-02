@@ -1,11 +1,11 @@
-package com.craig.greggames.controller.spades.model;
+package com.craig.greggames.model.spades;
 
 import java.util.EnumMap;
 import java.util.Map;
 
 import com.craig.greggames.model.Game;
-import com.craig.greggames.model.PlayerTable;
 import com.craig.greggames.model.TeamTable;
+import com.craig.greggames.model.player.PlayerTable;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -30,7 +30,7 @@ public class SpadeGame extends Game {
 	private int handCount;
 	private boolean isGameOver;
 
-	private Map<TeamTable, Team> teams;
+	private Map<TeamTable, SpadeTeam> teams;
 
 	private boolean isDealing;
 	private int numberDeals;
@@ -108,21 +108,21 @@ public class SpadeGame extends Game {
 		this.isGameOver = isGameOver;
 	}
 
-	public Map<TeamTable, Team> getTeams() {
+	public Map<TeamTable, SpadeTeam> getTeams() {
 		if (teams == null) {
 
-			teams = new EnumMap<TeamTable, Team>(TeamTable.class);
+			teams = new EnumMap<TeamTable, SpadeTeam>(TeamTable.class);
 
 			for (int code = 1; code <= numberOfTeams; code++) {
 
-				teams.put(TeamTable.getTeamByName(code), new Team());
+				teams.put(TeamTable.getTeamByName(code), new SpadeTeam());
 			}
 
 		}
 		return teams;
 	}
 
-	public void setTeams(Map<TeamTable, Team> teams) {
+	public void setTeams(Map<TeamTable, SpadeTeam> teams) {
 		this.teams = teams;
 	}
 

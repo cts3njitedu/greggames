@@ -2,7 +2,7 @@ package com.craig.greggames.util;
 
 import java.util.List;
 
-import com.craig.greggames.model.Card;
+import com.craig.greggames.model.card.Card;
 
 public class DealUtility {
 	

@@ -1,4 +1,4 @@
-package com.craig.greggames.mongo.model;
+package com.craig.greggames.model.mongo.spades;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -6,9 +6,9 @@ import java.util.Map;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.craig.greggames.controller.spades.model.Team;
-import com.craig.greggames.model.PlayerTable;
 import com.craig.greggames.model.TeamTable;
+import com.craig.greggames.model.player.PlayerTable;
+import com.craig.greggames.model.spades.SpadeTeam;
 
 @Document(collection = "spadegame")
 public class SpadeGameDAO {

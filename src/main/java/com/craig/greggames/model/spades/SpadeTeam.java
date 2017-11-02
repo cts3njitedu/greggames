@@ -1,12 +1,12 @@
-package com.craig.greggames.controller.spades.model;
+package com.craig.greggames.model.spades;
 
 import java.util.EnumMap;
 import java.util.Map;
 
-import com.craig.greggames.model.Player;
-import com.craig.greggames.model.PlayerTable;
+import com.craig.greggames.model.player.Player;
+import com.craig.greggames.model.player.PlayerTable;
 
-public class Team {
+public class SpadeTeam {
 
 	private int totalBid;
 
@@ -80,6 +80,16 @@ public class Team {
 
 	public void setWon(boolean isWon) {
 		this.isWon = isWon;
+	}
+
+	@Override
+	public String toString() {
+		return "Team [totalBid=" + totalBid + ", totalCurrentScore=" + totalCurrentScore + ", totalScore=" + totalScore
+				+ ", bags=" + bags + ", isOverBook=" + isOverBook + ", players=" + players + ", isWon=" + isWon
+				+ ", getTotalBid()=" + getTotalBid() + ", getTotalCurrentScore()=" + getTotalCurrentScore()
+				+ ", getTotalScore()=" + getTotalScore() + ", getBags()=" + getBags() + ", isOverBook()=" + isOverBook()
+				+ ", getPlayers()=" + getPlayers() + ", isWon()=" + isWon() + ", getClass()=" + getClass()
+				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
 	}
 	
 	
