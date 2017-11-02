@@ -22,28 +22,28 @@ public class Demo {
 		spadeGame.setNumberOfTeams(2);
 
 		// spadeGame.getTeams();
-		spadeGame = creator.execute(spadeGame);
+		creator.execute(spadeGame);
 
 		spadeGame.getTeams()
 				.get(TeamTable.getTeamByPlayer(spadeGame.getCurrTurn().getCode(), spadeGame.getNumberOfTeams()))
 				.getPlayers().get(spadeGame.getCurrTurn()).setPlayerBid(50);
 
-		spadeGame = creator.execute(spadeGame);
+		creator.execute(spadeGame);
 
 		spadeGame.getTeams()
 				.get(TeamTable.getTeamByPlayer(spadeGame.getCurrTurn().getCode(), spadeGame.getNumberOfTeams()))
 				.getPlayers().get(spadeGame.getCurrTurn()).setPlayerBid(40);
-		spadeGame = creator.execute(spadeGame);
+		creator.execute(spadeGame);
 
 		spadeGame.getTeams()
 				.get(TeamTable.getTeamByPlayer(spadeGame.getCurrTurn().getCode(), spadeGame.getNumberOfTeams()))
 				.getPlayers().get(spadeGame.getCurrTurn()).setPlayerBid(10);
-		spadeGame = creator.execute(spadeGame);
+		creator.execute(spadeGame);
 
 		spadeGame.getTeams()
 				.get(TeamTable.getTeamByPlayer(spadeGame.getCurrTurn().getCode(), spadeGame.getNumberOfTeams()))
 				.getPlayers().get(spadeGame.getCurrTurn()).setPlayerBid(20);
-		spadeGame = creator.execute(spadeGame);
+		creator.execute(spadeGame);
 
 		System.out.println("Hand");
 		System.out.println("Start Hand: " + spadeGame.getStartHand());
@@ -76,7 +76,7 @@ public class Demo {
 			spadePlayer1 = spadeGame.getTeams().get(team).getPlayers().get(player);
 			spadeGame.getTeams().get(team).getPlayers().get(player)
 					.setPlayingCard(spadePlayer1.getRemainingCards().get(0));
-			spadeGame = creator.execute(spadeGame);
+			creator.execute(spadeGame);
 
 			player = spadeGame.getCurrTurn();
 
@@ -85,7 +85,7 @@ public class Demo {
 			spadeGame.getTeams().get(team).getPlayers().get(player)
 					.setPlayingCard(spadePlayer2.getRemainingCards().get(0));
 
-			spadeGame = creator.execute(spadeGame);
+			creator.execute(spadeGame);
 
 			player = spadeGame.getCurrTurn();
 			team = TeamTable.getTeamByPlayer(player.getCode(), spadeGame.getNumberOfTeams());
@@ -93,7 +93,7 @@ public class Demo {
 			spadeGame.getTeams().get(team).getPlayers().get(player)
 					.setPlayingCard(spadePlayer3.getRemainingCards().get(0));
 
-			spadeGame = creator.execute(spadeGame);
+			creator.execute(spadeGame);
 
 			player = spadeGame.getCurrTurn();
 			team = TeamTable.getTeamByPlayer(player.getCode(), spadeGame.getNumberOfTeams());
@@ -114,7 +114,7 @@ public class Demo {
 			SpadePlayer spadePlayer4a = spadeGame.getTeams().get(TeamTable.TEAM2).getPlayers().get(PlayerTable.PLAYER4);
 			System.out.println("Playing Card: " + spadePlayer4a.getPlayingCard());
 
-			spadeGame = creator.execute(spadeGame);
+			creator.execute(spadeGame);
 			System.out.println("Player 1");
 			spadePlayer1 = spadeGame.getTeams().get(TeamTable.TEAM1).getPlayers().get(PlayerTable.PLAYER1);
 			System.out.println("Current Score: " + spadePlayer1.getPlayerCurrentScore());
