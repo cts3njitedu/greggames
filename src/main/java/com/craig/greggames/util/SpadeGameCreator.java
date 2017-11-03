@@ -36,6 +36,8 @@ public class SpadeGameCreator {
 			distributeCards(newSpadeGame);
 			newSpadeGame.setStarting(false);
 			newSpadeGame.setTurnCount(1);
+			cleanUpBid(newSpadeGame);
+			
 
 		}
 
@@ -94,9 +96,11 @@ public class SpadeGameCreator {
 					newSpadeGame.setCurrTurn(newSpadeGame.getStartHand());
 
 					distributeCards(newSpadeGame);
+					cleanUpPoints(newSpadeGame);
 					newSpadeGame.setHandCount(newSpadeGame.getHandCount() + 1);
 					newSpadeGame.setTrickCount(0);
 					newSpadeGame.setTurnCount(1);
+					cleanUpBid(newSpadeGame);
 
 				} else {
 
@@ -214,7 +218,7 @@ public class SpadeGameCreator {
 				spadePlayer.setWon(true);
 				spadePlayer.setTurn(true);
 				spadePlayer.setPlayerCurrentScore(spadePlayer.getPlayerCurrentScore() + 10);
-		
+
 				newSpadeGame.setStartTurn(spadePlayer.getName());
 
 			} else {
@@ -235,29 +239,29 @@ public class SpadeGameCreator {
 			for (Entry<PlayerTable, SpadePlayer> entryPlayer : entry.getValue().getPlayers().entrySet()) {
 
 				int books = entryPlayer.getValue().getPlayerCurrentScore() - entryPlayer.getValue().getPlayerBid();
-				entryPlayer.getValue().setPlayerPreviousScore(entryPlayer.getValue().getPlayerCurrentScore());
+
 				if (books > 0) {
 					if (entryPlayer.getValue().getPlayerBid() == 0) {
 
-						teamScore = teamScore - newSpadeGame.getBidNilPoints() + books/10;
+						teamScore = teamScore - newSpadeGame.getBidNilPoints() + books / 10;
 						totalOverBags = totalOverBags + books;
-						
-						entryPlayer.getValue().setPlayerCurrentScore(-1*newSpadeGame.getBidNilPoints()+books/10);
-						
+
+						entryPlayer.getValue().setPlayerFinalScore(-1 * newSpadeGame.getBidNilPoints() + books / 10);
 
 					} else {
 						totalOverBags = totalOverBags + books;
-						entryPlayer.getValue().setPlayerCurrentScore(entryPlayer.getValue().getPlayerBid() + (books)/10);
-						teamScore = teamScore + entryPlayer.getValue().getPlayerBid() + (books)/10;
+						entryPlayer.getValue()
+								.setPlayerFinalScore(entryPlayer.getValue().getPlayerBid() + (books) / 10);
+						teamScore = teamScore + entryPlayer.getValue().getPlayerBid() + (books) / 10;
 					}
 				} else if (books < 0) {
 
 					teamScore = teamScore - entryPlayer.getValue().getPlayerBid();
-					entryPlayer.getValue().setPlayerCurrentScore(-1*entryPlayer.getValue().getPlayerBid());
+					entryPlayer.getValue().setPlayerFinalScore(-1 * entryPlayer.getValue().getPlayerBid());
 				} else {
 
 					teamScore = teamScore + entryPlayer.getValue().getPlayerBid();
-					entryPlayer.getValue().setPlayerCurrentScore(entryPlayer.getValue().getPlayerBid());
+					entryPlayer.getValue().setPlayerFinalScore(entryPlayer.getValue().getPlayerBid());
 				}
 
 			}
@@ -268,13 +272,11 @@ public class SpadeGameCreator {
 				newSpadeGame.getTeams().get(entry.getKey()).setOverBook(true);
 				newSpadeGame.getTeams().get(entry.getKey()).setBags(teamTotalBags - newSpadeGame.getBags());
 
-			}
-			else {
+			} else {
 				newSpadeGame.getTeams().get(entry.getKey()).setBags(teamTotalBags);
-				
+
 			}
 
-			
 			newSpadeGame.getTeams().get(entry.getKey())
 					.setTotalScore(newSpadeGame.getTeams().get(entry.getKey()).getTotalScore() + teamScore);
 
@@ -340,5 +342,30 @@ public class SpadeGameCreator {
 
 		}
 	}
+
+	private void cleanUpPoints(SpadeGame newSpadeGame) {
+
+		for (PlayerTable player : PlayerTable.values()) {
+
+			SpadePlayer spadePlayer = newSpadeGame.getTeams()
+					.get(TeamTable.getTeamByPlayer(player.getCode(), newSpadeGame.getNumberOfTeams())).getPlayers()
+					.get(player);
+			
+			spadePlayer.setPlayerCurrentScore(0);
+			spadePlayer.setPlayerBid(0);
+			
+		}
+		
+	}
+	
+	private void cleanUpBid(SpadeGame newSpadeGame) {
+		
+		for(Entry<TeamTable,SpadeTeam>team: newSpadeGame.getTeams().entrySet()) {
+		
+			team.getValue().setTotalBid(0);
+		}
+	}
+	
+	
 
 }

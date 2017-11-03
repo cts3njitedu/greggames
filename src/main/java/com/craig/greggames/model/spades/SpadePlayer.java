@@ -6,12 +6,11 @@ public class SpadePlayer extends Player {
 
 	private int playerBid;
 	private int playerCurrentScore;
-	private int playerPreviousScore;
+	private int playerFinalScore;
 	private boolean isFailBid;
 	private boolean isOverBook;
 	private int playerBags;
 	private boolean isBidding;
-	
 
 	public int getPlayerBid() {
 		return playerBid;
@@ -44,17 +43,14 @@ public class SpadePlayer extends Player {
 	public void setBidding(boolean isBidding) {
 		this.isBidding = isBidding;
 	}
-	
 
-	public int getPlayerPreviousScore() {
-		return playerPreviousScore;
+	public int getPlayerFinalScore() {
+		return playerFinalScore;
 	}
 
-	public void setPlayerPreviousScore(int playerPreviousScore) {
-		this.playerPreviousScore = playerPreviousScore;
+	public void setPlayerFinalScore(int playerFinalScore) {
+		this.playerFinalScore = playerFinalScore;
 	}
-	
-	
 
 	public boolean isFailBid() {
 		return isFailBid;
@@ -83,7 +79,5 @@ public class SpadePlayer extends Player {
 				+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString()
 				+ "]";
 	}
-	
-	
 
 }

@@ -1,4 +1,6 @@
-package com.craig.greggames;
+package com.craig.greggames.demo;
+
+import java.util.Random;
 
 import com.craig.greggames.model.TeamTable;
 import com.craig.greggames.model.player.PlayerTable;
@@ -6,45 +8,49 @@ import com.craig.greggames.model.spades.SpadeGame;
 import com.craig.greggames.model.spades.SpadePlayer;
 import com.craig.greggames.util.SpadeGameCreator;
 
-public class Demo {
+public class PlaySpades {
 
-	public static void main(String[] args) {
+	private SpadeGameCreator creator;
 
-		SpadeGameCreator creator = new SpadeGameCreator();
+	
+	public PlaySpades() {
 
-		SpadeGame spadeGame = new SpadeGame();
+		this.creator = new SpadeGameCreator();
+	}
 
-		spadeGame.setStarting(true);
-		spadeGame.setBags(100);
-		spadeGame.setBagPoints(100);
-		spadeGame.setGameOver(false);
-		spadeGame.setPointsToWin(500);
-		spadeGame.setNumberOfTeams(2);
-		spadeGame.setBidNilPoints(100);
-
-		// spadeGame.getTeams();
+	public void playGame(SpadeGame spadeGame) {
+		Random rand = new Random();
+	
 		creator.execute(spadeGame);
+		while (!spadeGame.isGameOver()) {
+			spadeGame.getTeams()
+					.get(TeamTable.getTeamByPlayer(spadeGame.getCurrTurn().getCode(), spadeGame.getNumberOfTeams()))
+					.getPlayers().get(spadeGame.getCurrTurn()).setPlayerBid(10*(rand.nextInt(6)+1));
 
-		spadeGame.getTeams()
-				.get(TeamTable.getTeamByPlayer(spadeGame.getCurrTurn().getCode(), spadeGame.getNumberOfTeams()))
-				.getPlayers().get(spadeGame.getCurrTurn()).setPlayerBid(50);
+			creator.execute(spadeGame);
 
-		creator.execute(spadeGame);
+			spadeGame.getTeams()
+					.get(TeamTable.getTeamByPlayer(spadeGame.getCurrTurn().getCode(), spadeGame.getNumberOfTeams()))
+					.getPlayers().get(spadeGame.getCurrTurn()).setPlayerBid(10*(rand.nextInt(6)+1));
+			creator.execute(spadeGame);
 
-		spadeGame.getTeams()
-				.get(TeamTable.getTeamByPlayer(spadeGame.getCurrTurn().getCode(), spadeGame.getNumberOfTeams()))
-				.getPlayers().get(spadeGame.getCurrTurn()).setPlayerBid(40);
-		creator.execute(spadeGame);
+			spadeGame.getTeams()
+					.get(TeamTable.getTeamByPlayer(spadeGame.getCurrTurn().getCode(), spadeGame.getNumberOfTeams()))
+					.getPlayers().get(spadeGame.getCurrTurn()).setPlayerBid(10*(rand.nextInt(6)+1));
+			creator.execute(spadeGame);
 
-		spadeGame.getTeams()
-				.get(TeamTable.getTeamByPlayer(spadeGame.getCurrTurn().getCode(), spadeGame.getNumberOfTeams()))
-				.getPlayers().get(spadeGame.getCurrTurn()).setPlayerBid(10);
-		creator.execute(spadeGame);
+			spadeGame.getTeams()
+					.get(TeamTable.getTeamByPlayer(spadeGame.getCurrTurn().getCode(), spadeGame.getNumberOfTeams()))
+					.getPlayers().get(spadeGame.getCurrTurn()).setPlayerBid(10*(rand.nextInt(6)+1));
+			creator.execute(spadeGame);
 
-		spadeGame.getTeams()
-				.get(TeamTable.getTeamByPlayer(spadeGame.getCurrTurn().getCode(), spadeGame.getNumberOfTeams()))
-				.getPlayers().get(spadeGame.getCurrTurn()).setPlayerBid(20);
-		creator.execute(spadeGame);
+			playRound(spadeGame);
+
+		}
+
+	}
+
+	private void playRound(SpadeGame spadeGame) {
 
 		System.out.println("Hand");
 		System.out.println("Start Hand: " + spadeGame.getStartHand());
@@ -101,7 +107,7 @@ public class Demo {
 			spadePlayer4 = spadeGame.getTeams().get(team).getPlayers().get(player);
 			spadeGame.getTeams().get(team).getPlayers().get(player)
 					.setPlayingCard(spadePlayer4.getRemainingCards().get(0));
-			
+
 			System.out.println("Player 1");
 			SpadePlayer spadePlayer1a = spadeGame.getTeams().get(TeamTable.TEAM1).getPlayers().get(PlayerTable.PLAYER1);
 			System.out.println("Playing Card: " + spadePlayer1a.getPlayingCard());
@@ -132,8 +138,8 @@ public class Demo {
 			spadePlayer4 = spadeGame.getTeams().get(TeamTable.TEAM2).getPlayers().get(PlayerTable.PLAYER4);
 			System.out.println("Current Score: " + spadePlayer4.getPlayerCurrentScore());
 			System.out.println("Remaining Cards: " + spadePlayer4.getRemainingCards().size());
-			
-			System.out.println("Trick: "+ spadeGame.getTrickCount());
+
+			System.out.println("Trick: " + spadeGame.getTrickCount());
 			System.out.println("Start Turn: " + spadeGame.getStartTurn());
 			System.out.println("Current Turn: " + spadeGame.getCurrTurn());
 
