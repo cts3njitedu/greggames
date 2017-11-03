@@ -27,7 +27,7 @@ public class SpadesServiceImpl implements SpadeService {
 			spadeGame.setBidNil(spadeGameDAO.getBidNil());
 			spadeGame.setGameId(spadeGameDAO.getGameId());
 			spadeGame.setNumberOfPlayers(spadeGameDAO.getNumberOfPlayers());
-			spadeGame.setOverBook(spadeGameDAO.getOverBook());
+			spadeGame.setBagPoints(spadeGameDAO.getOverBook());
 			spadeGame.setPointsToWin(spadeGameDAO.getPointsToWin());
 			spadeGames.add(spadeGame);
 		}
@@ -40,7 +40,7 @@ public class SpadesServiceImpl implements SpadeService {
 		spadeGameDAO.setPointsToWin(spadeGame.getPointsToWin());
 		spadeGameDAO.setBags(spadeGame.getBags());
 		spadeGameDAO.setBidNil(spadeGame.getBidNil());
-		spadeGameDAO.setOverBook(spadeGame.getOverBook());
+		spadeGameDAO.setOverBook(spadeGame.getBagPoints());
 		spadeGameDAO.setNumberOfPlayers(spadeGame.getNumberOfPlayers());
 		spadeGameDAO = repository.save(spadeGameDAO);
 		return findGame(spadeGameDAO.getGameId());
@@ -54,7 +54,7 @@ public class SpadesServiceImpl implements SpadeService {
 		spadeGame.setBidNil(spadeGameDAO.getBidNil());
 		spadeGame.setGameId(spadeGameDAO.getGameId());
 		spadeGame.setNumberOfPlayers(spadeGameDAO.getNumberOfPlayers());
-		spadeGame.setOverBook(spadeGameDAO.getOverBook());
+		spadeGame.setBagPoints(spadeGameDAO.getOverBook());
 		spadeGame.setPointsToWin(spadeGameDAO.getPointsToWin());
 		
 		return spadeGame;

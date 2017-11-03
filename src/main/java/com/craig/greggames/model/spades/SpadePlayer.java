@@ -6,6 +6,9 @@ public class SpadePlayer extends Player {
 
 	private int playerBid;
 	private int playerCurrentScore;
+	private int playerPreviousScore;
+	private boolean isFailBid;
+	private boolean isOverBook;
 	private int playerBags;
 	private boolean isBidding;
 	
@@ -40,6 +43,33 @@ public class SpadePlayer extends Player {
 
 	public void setBidding(boolean isBidding) {
 		this.isBidding = isBidding;
+	}
+	
+
+	public int getPlayerPreviousScore() {
+		return playerPreviousScore;
+	}
+
+	public void setPlayerPreviousScore(int playerPreviousScore) {
+		this.playerPreviousScore = playerPreviousScore;
+	}
+	
+	
+
+	public boolean isFailBid() {
+		return isFailBid;
+	}
+
+	public void setFailBid(boolean isFailBid) {
+		this.isFailBid = isFailBid;
+	}
+
+	public boolean isOverBook() {
+		return isOverBook;
+	}
+
+	public void setOverBook(boolean isOverBook) {
+		this.isOverBook = isOverBook;
 	}
 
 	@Override

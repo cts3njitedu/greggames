@@ -16,10 +16,11 @@ public class Demo {
 
 		spadeGame.setStarting(true);
 		spadeGame.setBags(100);
-		spadeGame.setOverBook(100);
+		spadeGame.setBagPoints(100);
 		spadeGame.setGameOver(false);
 		spadeGame.setPointsToWin(500);
 		spadeGame.setNumberOfTeams(2);
+		spadeGame.setBidNilPoints(100);
 
 		// spadeGame.getTeams();
 		creator.execute(spadeGame);

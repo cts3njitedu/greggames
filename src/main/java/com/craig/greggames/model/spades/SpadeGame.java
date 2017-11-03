@@ -36,7 +36,9 @@ public class SpadeGame extends Game {
 	private int numberDeals;
 	private int bags;
 
-	private int overBook;
+	private int bagPoints;
+	
+	private int bidNilPoints;
 
 	private int bidNil;
 
@@ -76,12 +78,21 @@ public class SpadeGame extends Game {
 		this.bags = bags;
 	}
 
-	public int getOverBook() {
-		return overBook;
+	
+	public int getBagPoints() {
+		return bagPoints;
 	}
 
-	public void setOverBook(int overBook) {
-		this.overBook = overBook;
+	public void setBagPoints(int bagPoints) {
+		this.bagPoints = bagPoints;
+	}
+
+	public int getBidNilPoints() {
+		return bidNilPoints;
+	}
+
+	public void setBidNilPoints(int bidNilPoints) {
+		this.bidNilPoints = bidNilPoints;
 	}
 
 	public int getBidNil() {
@@ -212,8 +223,10 @@ public class SpadeGame extends Game {
 				+ ", pointsToWin=" + pointsToWin + ", startHand=" + startHand + ", startTurn=" + startTurn
 				+ ", currTurn=" + currTurn + ", trickCount=" + trickCount + ", turnCount=" + turnCount + ", handCount="
 				+ handCount + ", isGameOver=" + isGameOver + ", teams=" + teams + ", isDealing=" + isDealing
-				+ ", numberDeals=" + numberDeals + ", bags=" + bags + ", overBook=" + overBook + ", bidNil=" + bidNil
-				+ ", numberOfPlayers=" + numberOfPlayers + ", numberOfTeams=" + numberOfTeams + "]";
+				+ ", numberDeals=" + numberDeals + ", bags=" + bags + ", bagPoints=" + bagPoints + ", bidNilPoints="
+				+ bidNilPoints + ", bidNil=" + bidNil + ", numberOfPlayers=" + numberOfPlayers + ", numberOfTeams="
+				+ numberOfTeams + "]";
 	}
+
 
 }
