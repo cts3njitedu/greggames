@@ -1,7 +1,9 @@
 package com.craig.greggames.util;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 import java.util.Random;
 
 import com.craig.greggames.model.TeamTable;
@@ -37,7 +39,6 @@ public class SpadeGameCreator {
 			newSpadeGame.setStarting(false);
 			newSpadeGame.setTurnCount(1);
 			cleanUpBid(newSpadeGame);
-			
 
 		}
 
@@ -97,10 +98,10 @@ public class SpadeGameCreator {
 
 					distributeCards(newSpadeGame);
 					cleanUpPoints(newSpadeGame);
+					cleanUpBid(newSpadeGame);
 					newSpadeGame.setHandCount(newSpadeGame.getHandCount() + 1);
 					newSpadeGame.setTrickCount(0);
 					newSpadeGame.setTurnCount(1);
-					cleanUpBid(newSpadeGame);
 
 				} else {
 
@@ -111,6 +112,10 @@ public class SpadeGameCreator {
 
 				}
 				removePlayingCard(newSpadeGame);
+
+				if (newSpadeGame.isGameOver()) {
+					determineWinnersAndLosers(newSpadeGame);
+				}
 			} else {
 
 				reAdjustCards(newSpadeGame);
@@ -139,6 +144,7 @@ public class SpadeGameCreator {
 			spadePlayer.setBidding(true);
 
 			newSpadeGame.getTeams().get(team).getPlayers().put(player, spadePlayer);
+			newSpadeGame.getTeams().get(team).setName(team);
 		}
 
 	}
@@ -246,7 +252,7 @@ public class SpadeGameCreator {
 						teamScore = teamScore - newSpadeGame.getBidNilPoints() + books / 10;
 						totalOverBags = totalOverBags + books;
 
-						entryPlayer.getValue().setPlayerFinalScore(-1 * newSpadeGame.getBidNilPoints() + books / 10);
+						entryPlayer.getValue().setPlayerFinalScore(newSpadeGame.getBidNilPoints() + books / 10);
 
 					} else {
 						totalOverBags = totalOverBags + books;
@@ -257,7 +263,7 @@ public class SpadeGameCreator {
 				} else if (books < 0) {
 
 					teamScore = teamScore - entryPlayer.getValue().getPlayerBid();
-					entryPlayer.getValue().setPlayerFinalScore(-1 * entryPlayer.getValue().getPlayerBid());
+					entryPlayer.getValue().setPlayerFinalScore(entryPlayer.getValue().getPlayerBid());
 				} else {
 
 					teamScore = teamScore + entryPlayer.getValue().getPlayerBid();
@@ -287,33 +293,29 @@ public class SpadeGameCreator {
 	private void determineGameWinner(SpadeGame newSpadeGame) {
 
 		int maxScore = 0;
-		boolean isEqual = false;
+		boolean maxEqual = false;
 		TeamTable maxTeam = null;
-		for (Entry<TeamTable, SpadeTeam> entry : newSpadeGame.getTeams().entrySet()) {
+		int minScore = 0;
+		boolean minEqual = false;
+		TeamTable minTeam = null;
+		List<SpadeTeam> spadeTeams = new ArrayList<SpadeTeam>();
+		for (TeamTable team : TeamTable.values()) {
 
-			if (entry.getValue().getTotalScore() == maxScore) {
-
-				if (maxScore >= newSpadeGame.getPointsToWin()) {
-					isEqual = true;
-				}
-			} else {
-				if (entry.getValue().getTotalScore() > maxScore) {
-					maxScore = entry.getValue().getTotalScore();
-					maxTeam = entry.getKey();
-				}
+			SpadeTeam spadeTeam = newSpadeGame.getTeams().get(team);
+			if(spadeTeam!=null) {
+				
+				spadeTeams.add(spadeTeam);
 			}
+			
 
 		}
-		if (newSpadeGame.getTeams().get(maxTeam).getTotalScore() >= newSpadeGame.getPointsToWin()) {
+		
+		List<SpadeTeam> winners = spadeTeams.stream().filter(x->x.getTotalScore()>=newSpadeGame.getPointsToWin()).collect(Collectors.toList());
+		
+		List<SpadeTeam> losers = spadeTeams.stream().filter(x->x.getTotalScore()<=newSpadeGame.getPointsToLose()).collect(Collectors.toList());
 
-			if (!isEqual) {
-
-				newSpadeGame.getTeams().get(maxTeam).setWon(true);
-				newSpadeGame.setGameOver(true);
-			}
-
-		}
-
+		System.out.println(winners.toString());
+		System.out.println(losers.toString());
 	}
 
 	private void reAdjustCards(SpadeGame newSpadeGame) {
@@ -350,22 +352,41 @@ public class SpadeGameCreator {
 			SpadePlayer spadePlayer = newSpadeGame.getTeams()
 					.get(TeamTable.getTeamByPlayer(player.getCode(), newSpadeGame.getNumberOfTeams())).getPlayers()
 					.get(player);
-			
+
 			spadePlayer.setPlayerCurrentScore(0);
 			spadePlayer.setPlayerBid(0);
-			
+
 		}
-		
+
 	}
-	
+
 	private void cleanUpBid(SpadeGame newSpadeGame) {
-		
-		for(Entry<TeamTable,SpadeTeam>team: newSpadeGame.getTeams().entrySet()) {
-		
+
+		for (Entry<TeamTable, SpadeTeam> team : newSpadeGame.getTeams().entrySet()) {
+
 			team.getValue().setTotalBid(0);
 		}
 	}
-	
-	
+
+	private void determineWinnersAndLosers(SpadeGame newSpadeGame) {
+
+		for (TeamTable team : TeamTable.values()) {
+
+			SpadeTeam spadeTeam = newSpadeGame.getTeams().get(team);
+			if (spadeTeam != null) {
+				if (true != spadeTeam.isLost()) {
+					spadeTeam.setLost(false);
+				}
+
+				if (true != spadeTeam.isWon()) {
+
+					spadeTeam.setWon(false);
+				}
+
+			}
+
+		}
+
+	}
 
 }

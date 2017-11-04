@@ -3,7 +3,7 @@ package com.craig.greggames.model.spades;
 import java.util.EnumMap;
 import java.util.Map;
 
-import com.craig.greggames.model.player.Player;
+import com.craig.greggames.model.TeamTable;
 import com.craig.greggames.model.player.PlayerTable;
 
 public class SpadeTeam {
@@ -18,8 +18,11 @@ public class SpadeTeam {
 
 	private boolean isOverBook;
 
-	private Map<PlayerTable,SpadePlayer> players;
+	private Map<PlayerTable, SpadePlayer> players;
 	private boolean isWon;
+	private boolean isLost;
+
+	private TeamTable name;
 
 	public int getTotalBid() {
 		return totalBid;
@@ -62,10 +65,10 @@ public class SpadeTeam {
 	}
 
 	public Map<PlayerTable, SpadePlayer> getPlayers() {
-		if(players==null) {
-			
-			players = new EnumMap<PlayerTable,SpadePlayer>(PlayerTable.class);
-			
+		if (players == null) {
+
+			players = new EnumMap<PlayerTable, SpadePlayer>(PlayerTable.class);
+
 		}
 		return players;
 	}
@@ -82,6 +85,22 @@ public class SpadeTeam {
 		this.isWon = isWon;
 	}
 
+	public boolean isLost() {
+		return isLost;
+	}
+
+	public void setLost(boolean isLost) {
+		this.isLost = isLost;
+	}
+
+	public TeamTable getName() {
+		return name;
+	}
+
+	public void setName(TeamTable name) {
+		this.name = name;
+	}
+
 	@Override
 	public String toString() {
 		return "Team [totalBid=" + totalBid + ", totalCurrentScore=" + totalCurrentScore + ", totalScore=" + totalScore
@@ -91,9 +110,5 @@ public class SpadeTeam {
 				+ ", getPlayers()=" + getPlayers() + ", isWon()=" + isWon() + ", getClass()=" + getClass()
 				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
 	}
-	
-	
-
-	
 
 }

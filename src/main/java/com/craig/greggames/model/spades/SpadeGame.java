@@ -37,7 +37,7 @@ public class SpadeGame extends Game {
 	private int bags;
 
 	private int bagPoints;
-	
+
 	private int bidNilPoints;
 
 	private int bidNil;
@@ -45,6 +45,8 @@ public class SpadeGame extends Game {
 	private int numberOfPlayers;
 
 	private int numberOfTeams;
+
+	private int pointsToLose;
 
 	public String getGameId() {
 		return gameId;
@@ -78,7 +80,6 @@ public class SpadeGame extends Game {
 		this.bags = bags;
 	}
 
-	
 	public int getBagPoints() {
 		return bagPoints;
 	}
@@ -217,6 +218,14 @@ public class SpadeGame extends Game {
 		this.currTurn = currTurn;
 	}
 
+	public int getPointsToLose() {
+		return pointsToLose;
+	}
+
+	public void setPointsToLose(int pointsToLose) {
+		this.pointsToLose = pointsToLose;
+	}
+
 	@Override
 	public String toString() {
 		return "SpadeGame [gameId=" + gameId + ", isStarting=" + isStarting + ", isBidding=" + isBidding
@@ -227,6 +236,5 @@ public class SpadeGame extends Game {
 				+ bidNilPoints + ", bidNil=" + bidNil + ", numberOfPlayers=" + numberOfPlayers + ", numberOfTeams="
 				+ numberOfTeams + "]";
 	}
-
 
 }
