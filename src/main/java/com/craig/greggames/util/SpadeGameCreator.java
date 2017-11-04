@@ -292,30 +292,36 @@ public class SpadeGameCreator {
 
 	private void determineGameWinner(SpadeGame newSpadeGame) {
 
-		int maxScore = 0;
-		boolean maxEqual = false;
-		TeamTable maxTeam = null;
-		int minScore = 0;
-		boolean minEqual = false;
-		TeamTable minTeam = null;
 		List<SpadeTeam> spadeTeams = new ArrayList<SpadeTeam>();
 		for (TeamTable team : TeamTable.values()) {
 
 			SpadeTeam spadeTeam = newSpadeGame.getTeams().get(team);
-			if(spadeTeam!=null) {
-				
+			if (spadeTeam != null) {
+
 				spadeTeams.add(spadeTeam);
 			}
-			
 
 		}
-		
-		List<SpadeTeam> winners = spadeTeams.stream().filter(x->x.getTotalScore()>=newSpadeGame.getPointsToWin()).collect(Collectors.toList());
-		
-		List<SpadeTeam> losers = spadeTeams.stream().filter(x->x.getTotalScore()<=newSpadeGame.getPointsToLose()).collect(Collectors.toList());
 
-		System.out.println(winners.toString());
-		System.out.println(losers.toString());
+		List<SpadeTeam> winners = spadeTeams.stream().filter(x -> x.getTotalScore() >= newSpadeGame.getPointsToWin())
+				.collect(Collectors.toList());
+
+		List<SpadeTeam> losers = spadeTeams.stream().filter(x -> x.getTotalScore() <= newSpadeGame.getPointsToLose())
+				.collect(Collectors.toList());
+
+		for (SpadeTeam w : winners) {
+
+			newSpadeGame.getTeams().get(w.getName()).setWon(true);
+			newSpadeGame.setGameOver(true);
+
+		}
+
+		for (SpadeTeam l : losers) {
+
+			newSpadeGame.getTeams().get(l.getName()).setLost(true);
+			newSpadeGame.setGameOver(true);
+
+		}
 	}
 
 	private void reAdjustCards(SpadeGame newSpadeGame) {
