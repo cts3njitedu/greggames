@@ -17,10 +17,10 @@ public class Demo {
 		spadeGame.setBags(50);
 		spadeGame.setBagPoints(500);
 		spadeGame.setGameOver(false);
-		spadeGame.setPointsToWin(25);
+		spadeGame.setPointsToWin(150);
 		spadeGame.setNumberOfTeams(2);
 		spadeGame.setBidNilPoints(100);
-		spadeGame.setPointsToLose(-200);
+		spadeGame.setPointsToLose(-500);
 		
 		playSpades.playGame(spadeGame);
 
@@ -32,14 +32,14 @@ public class Demo {
 				
 				if(spadeTeam.isWon()) {
 					System.out.println("Winner!");
-					System.out.println(spadeGame.getHandCount());
+					System.out.println("Number of Hands: " + spadeGame.getHandCount());
 					System.out.println(spadeTeam.getName());
 					System.out.println(spadeTeam.getTotalScore());
 			
 				}
 				if(spadeTeam.isLost()) {
 					System.out.println("Lost!");
-					System.out.println(spadeGame.getHandCount());
+					System.out.println("Number of Hands: " + spadeGame.getHandCount());
 					System.out.println(spadeTeam.getName());
 					System.out.println(spadeTeam.getTotalScore());
 				}

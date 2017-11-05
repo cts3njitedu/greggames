@@ -48,6 +48,8 @@ public class SpadeGame extends Game {
 
 	private int pointsToLose;
 
+	private PlayerTable tempWinner;
+
 	public String getGameId() {
 		return gameId;
 	}
@@ -224,6 +226,14 @@ public class SpadeGame extends Game {
 
 	public void setPointsToLose(int pointsToLose) {
 		this.pointsToLose = pointsToLose;
+	}
+
+	public PlayerTable getTempWinner() {
+		return tempWinner;
+	}
+
+	public void setTempWinner(PlayerTable tempWinner) {
+		this.tempWinner = tempWinner;
 	}
 
 	@Override

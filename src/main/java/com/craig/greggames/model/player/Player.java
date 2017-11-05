@@ -16,6 +16,9 @@ public abstract class Player {
 	private boolean isWon;
 	private List<Card> remainingCards;
 	private TeamTable team;
+
+	private boolean isBot;
+
 	public String getUserId() {
 		return userId;
 	}
@@ -23,8 +26,6 @@ public abstract class Player {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-
-	
 
 	public PlayerTable getName() {
 		return name;
@@ -84,7 +85,13 @@ public abstract class Player {
 	public void setTeam(TeamTable team) {
 		this.team = team;
 	}
-	
-	
+
+	public boolean isBot() {
+		return isBot;
+	}
+
+	public void setBot(boolean isBot) {
+		this.isBot = isBot;
+	}
 
 }

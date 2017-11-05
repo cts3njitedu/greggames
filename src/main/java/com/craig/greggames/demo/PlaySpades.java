@@ -19,29 +19,29 @@ public class PlaySpades {
 	}
 
 	public void playGame(SpadeGame spadeGame) {
-		Random rand = new Random();
+		
 	
 		creator.execute(spadeGame);
 		while (!spadeGame.isGameOver()) {
 			spadeGame.getTeams()
 					.get(TeamTable.getTeamByPlayer(spadeGame.getCurrTurn().getCode(), spadeGame.getNumberOfTeams()))
-					.getPlayers().get(spadeGame.getCurrTurn()).setPlayerBid(10*(rand.nextInt(5)+1));
+					.getPlayers().get(spadeGame.getCurrTurn()).setBot(true);
 
 			creator.execute(spadeGame);
 
 			spadeGame.getTeams()
 					.get(TeamTable.getTeamByPlayer(spadeGame.getCurrTurn().getCode(), spadeGame.getNumberOfTeams()))
-					.getPlayers().get(spadeGame.getCurrTurn()).setPlayerBid(10*(rand.nextInt(5)+1));
+					.getPlayers().get(spadeGame.getCurrTurn()).setBot(true);
 			creator.execute(spadeGame);
 
 			spadeGame.getTeams()
 					.get(TeamTable.getTeamByPlayer(spadeGame.getCurrTurn().getCode(), spadeGame.getNumberOfTeams()))
-					.getPlayers().get(spadeGame.getCurrTurn()).setPlayerBid(10*(rand.nextInt(5)+1));
+					.getPlayers().get(spadeGame.getCurrTurn()).setBot(true);
 			creator.execute(spadeGame);
 
 			spadeGame.getTeams()
 					.get(TeamTable.getTeamByPlayer(spadeGame.getCurrTurn().getCode(), spadeGame.getNumberOfTeams()))
-					.getPlayers().get(spadeGame.getCurrTurn()).setPlayerBid(10*(rand.nextInt(5)+1));
+					.getPlayers().get(spadeGame.getCurrTurn()).setBot(true);
 			creator.execute(spadeGame);
 
 			playRound(spadeGame);
