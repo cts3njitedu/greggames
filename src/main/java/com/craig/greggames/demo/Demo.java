@@ -15,7 +15,7 @@ public class Demo {
 
 		spadeGame.setStarting(true);
 		spadeGame.setBags(50);
-		spadeGame.setBagPoints(500);
+		spadeGame.setBagPoints(100);
 		spadeGame.setGameOver(false);
 		spadeGame.setPointsToWin(150);
 		spadeGame.setNumberOfTeams(2);

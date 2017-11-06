@@ -1,48 +1,49 @@
 package com.craig.greggames.demo;
 
-import java.util.Random;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.craig.greggames.model.TeamTable;
 import com.craig.greggames.model.player.PlayerTable;
 import com.craig.greggames.model.spades.SpadeGame;
 import com.craig.greggames.model.spades.SpadePlayer;
-import com.craig.greggames.util.SpadeGameCreator;
+import com.craig.greggames.service.spades.state.SpadeGameService;
 
+@Service
 public class PlaySpades {
 
-	private SpadeGameCreator creator;
+	@Autowired
+	private SpadeGameService creator;
 
-	
 	public PlaySpades() {
 
-		this.creator = new SpadeGameCreator();
+		this.creator = new SpadeGameService();
 	}
 
 	public void playGame(SpadeGame spadeGame) {
-		
-	
-		creator.execute(spadeGame);
+
+		creator.play(spadeGame);
 		while (!spadeGame.isGameOver()) {
 			spadeGame.getTeams()
 					.get(TeamTable.getTeamByPlayer(spadeGame.getCurrTurn().getCode(), spadeGame.getNumberOfTeams()))
 					.getPlayers().get(spadeGame.getCurrTurn()).setBot(true);
 
-			creator.execute(spadeGame);
+			creator.play(spadeGame);
 
 			spadeGame.getTeams()
 					.get(TeamTable.getTeamByPlayer(spadeGame.getCurrTurn().getCode(), spadeGame.getNumberOfTeams()))
 					.getPlayers().get(spadeGame.getCurrTurn()).setBot(true);
-			creator.execute(spadeGame);
+			creator.play(spadeGame);
 
 			spadeGame.getTeams()
 					.get(TeamTable.getTeamByPlayer(spadeGame.getCurrTurn().getCode(), spadeGame.getNumberOfTeams()))
 					.getPlayers().get(spadeGame.getCurrTurn()).setBot(true);
-			creator.execute(spadeGame);
+			creator.play(spadeGame);
 
 			spadeGame.getTeams()
 					.get(TeamTable.getTeamByPlayer(spadeGame.getCurrTurn().getCode(), spadeGame.getNumberOfTeams()))
 					.getPlayers().get(spadeGame.getCurrTurn()).setBot(true);
-			creator.execute(spadeGame);
+			creator.play(spadeGame);
 
 			playRound(spadeGame);
 
@@ -83,7 +84,7 @@ public class PlaySpades {
 			spadePlayer1 = spadeGame.getTeams().get(team).getPlayers().get(player);
 			spadeGame.getTeams().get(team).getPlayers().get(player)
 					.setPlayingCard(spadePlayer1.getRemainingCards().get(0));
-			creator.execute(spadeGame);
+			creator.play(spadeGame);
 
 			player = spadeGame.getCurrTurn();
 
@@ -92,7 +93,7 @@ public class PlaySpades {
 			spadeGame.getTeams().get(team).getPlayers().get(player)
 					.setPlayingCard(spadePlayer2.getRemainingCards().get(0));
 
-			creator.execute(spadeGame);
+			creator.play(spadeGame);
 
 			player = spadeGame.getCurrTurn();
 			team = TeamTable.getTeamByPlayer(player.getCode(), spadeGame.getNumberOfTeams());
@@ -100,7 +101,7 @@ public class PlaySpades {
 			spadeGame.getTeams().get(team).getPlayers().get(player)
 					.setPlayingCard(spadePlayer3.getRemainingCards().get(0));
 
-			creator.execute(spadeGame);
+			creator.play(spadeGame);
 
 			player = spadeGame.getCurrTurn();
 			team = TeamTable.getTeamByPlayer(player.getCode(), spadeGame.getNumberOfTeams());
@@ -121,7 +122,7 @@ public class PlaySpades {
 			SpadePlayer spadePlayer4a = spadeGame.getTeams().get(TeamTable.TEAM2).getPlayers().get(PlayerTable.PLAYER4);
 			System.out.println("Playing Card: " + spadePlayer4a.getPlayingCard());
 
-			creator.execute(spadeGame);
+			creator.play(spadeGame);
 			System.out.println("Player 1");
 			spadePlayer1 = spadeGame.getTeams().get(TeamTable.TEAM1).getPlayers().get(PlayerTable.PLAYER1);
 			System.out.println("Current Score: " + spadePlayer1.getPlayerCurrentScore());
