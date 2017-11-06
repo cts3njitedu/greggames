@@ -1,7 +1,9 @@
 package com.craig.greggames.service.spades.state;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -32,7 +34,7 @@ public class SpadeTeamService {
 		}
 
 	}
-	
+
 	public void determineTeamPoints(SpadeGame newSpadeGame) {
 
 		for (Entry<TeamTable, SpadeTeam> entry : newSpadeGame.getTeams().entrySet()) {
@@ -108,7 +110,7 @@ public class SpadeTeamService {
 		}
 
 	}
-	
+
 	public void determineGameWinner(SpadeGame newSpadeGame) {
 
 		// List<SpadeTeam> spadeTeams = new ArrayList<SpadeTeam>();
@@ -116,41 +118,36 @@ public class SpadeTeamService {
 		SpadeTeam maxScoreTeam = newSpadeGame.getTeams().values().stream()
 				.max(Comparator.comparing(SpadeTeam::getTotalScore)).get();
 
-		SpadeTeam minScoreTeam = newSpadeGame.getTeams().values().stream()
-				.min(Comparator.comparing(SpadeTeam::getTotalScore)).get();
+		List<SpadeTeam> winnerTeams = new ArrayList<SpadeTeam>();
+		for (SpadeTeam team : newSpadeGame.getTeams().values()) {
 
-		if (maxScoreTeam.getTotalScore() >= newSpadeGame.getPointsToWin()) {
+			if (team.getTotalScore() == maxScoreTeam.getTotalScore()) {
 
-			for (Entry<TeamTable, SpadeTeam> entry : newSpadeGame.getTeams().entrySet()) {
-
-				if (entry.getValue().getTotalScore() == maxScoreTeam.getTotalScore()) {
-
-					entry.getValue().setWon(true);
-				} else {
-					entry.getValue().setWon(false);
-				}
+				winnerTeams.add(team);
 			}
-			newSpadeGame.setGameOver(true);
-
 		}
 
-		else if (minScoreTeam.getTotalScore() <= newSpadeGame.getPointsToLose()) {
+		if (winnerTeams.size() == 1) {
 
-			for (Entry<TeamTable, SpadeTeam> entry : newSpadeGame.getTeams().entrySet()) {
+			if (maxScoreTeam.getTotalScore() >= newSpadeGame.getPointsToWin()) {
 
-				if (entry.getValue().getTotalScore() == maxScoreTeam.getTotalScore()) {
+				for (Entry<TeamTable, SpadeTeam> entry : newSpadeGame.getTeams().entrySet()) {
 
-					entry.getValue().setWon(true);
-				} else {
-					entry.getValue().setWon(false);
+					if (entry.getValue().getTotalScore() == maxScoreTeam.getTotalScore()) {
+
+						entry.getValue().setWon(true);
+					} else {
+						entry.getValue().setWon(false);
+					}
 				}
+				newSpadeGame.setGameOver(true);
+
 			}
-			newSpadeGame.setGameOver(true);
 
 		}
 
 	}
-	
+
 	public void cleanUpPoints(SpadeGame newSpadeGame) {
 
 		for (PlayerTable player : PlayerTable.values()) {

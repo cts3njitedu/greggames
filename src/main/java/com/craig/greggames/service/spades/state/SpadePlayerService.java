@@ -21,8 +21,11 @@ public class SpadePlayerService {
 				.get(PlayerTable.getPlayer(code));
 
 		if (newSpadeGame.getTempWinner() == null) {
+			if (newSpadeGame.getTrickCount() == 4) {
 
-			currPlayer.setWon(true);
+				currPlayer.setWon(true);
+			}
+
 			newSpadeGame.setTempWinner(currPlayer.getName());
 
 		} else {
@@ -35,8 +38,10 @@ public class SpadePlayerService {
 			Card currPlayerCard = currPlayer.getPlayingCard();
 			if (gameWinnerCard.getSuit() == currPlayerCard.getSuit()) {
 				if (currPlayerCard.getValue().getValue() > gameWinnerCard.getValue().getValue()) {
+					if (newSpadeGame.getTrickCount() == 4) {
 
-					currPlayer.setWon(true);
+						currPlayer.setWon(true);
+					}
 					gameWinner.setWon(false);
 					newSpadeGame.setTempWinner(currPlayer.getName());
 
@@ -46,7 +51,10 @@ public class SpadePlayerService {
 			} else {
 
 				if (currPlayerCard.getSuit() == CardSuit.SPADES) {
-					currPlayer.setWon(true);
+					if (newSpadeGame.getTrickCount() == 4) {
+
+						currPlayer.setWon(true);
+					}
 					gameWinner.setWon(false);
 					newSpadeGame.setTempWinner(currPlayer.getName());
 
@@ -72,7 +80,5 @@ public class SpadePlayerService {
 		newSpadeGame.setStartTurn(spadePlayer.getName());
 
 	}
-
-	
 
 }
