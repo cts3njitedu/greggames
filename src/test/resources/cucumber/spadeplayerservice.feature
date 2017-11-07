@@ -1,24 +1,14 @@
-
-@tag
 Feature: Make sure spade player methods are working
 
-  @tag1
-  Scenario: Title of your scenario
-    Given I want to write a step with precondition
-    And some other precondition
-    When I complete action
-    And some other action
-    And yet another action
-    Then I validate the outcomes
-    And check more outcomes
-
-  @tag2
-  Scenario Outline: Title of your scenario outline
-    Given I want to write a step with <name>
-    When I check for the <value> in step
-    Then I verify the <status> in step
-
-    Examples: 
-      | name  | value | status  |
-      | name1 |     5 | success |
-      | name2 |     7 | Fail    |
+  Scenario: Testing the determinePlayerWinner method
+    Given a state of game, a temp winner and the current player and temp winner playing card
+      | tempWinnerCardValue | tempWinnerSuit | currPlayerCardValue | currPlayerSuit | trickCount |
+      | KING                | SPADES         | THREE               | SPADES         |          1 |
+      | FIVE                | DIAMONDS       | THREE               | DIAMONDS       |          2 |
+      | SIX                 | CLUBS          | EIGHT               | SPADES         |          4 |
+      | SIX                 | CLUBS          | EIGHT               | CLUBS          |          4 |
+      | SIX                 | CLUBS          | ACE                 | DIAMONDS       |          1 |
+      | SIX                 | CLUBS          | SEVEN               | DIAMONDS       |          4 |
+      | SIX                 | CLUBS          | THREE               | CLUBS          |          4 |
+    When I determine who the temp winner is
+    Then I should be successful

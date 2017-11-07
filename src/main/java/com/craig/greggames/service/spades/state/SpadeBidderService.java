@@ -62,10 +62,13 @@ public class SpadeBidderService {
 
 			}
 			totalBid = 10 * (hearts + spades + diamonds + clubs);
+			team.getPlayers().get(newSpadeGame.getCurrTurn()).setPlayerBid(totalBid);
 
+		} else {
+
+			totalBid = player.getPlayerBid();
 		}
 		team.setTotalBid(team.getTotalBid() + totalBid);
-		team.getPlayers().get(newSpadeGame.getCurrTurn()).setPlayerBid(totalBid);
 
 	}
 

@@ -1,5 +1,6 @@
 package com.craig.greggames.service.cards;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -61,5 +62,13 @@ public class CardService {
 					.getPlayers().get(player).setPlayingCard(null);
 
 		}
+	}
+	
+	
+	public void sortCards(List<Card>cards) {
+		
+		
+		cards.sort((Card c1, Card c2)->c1.getValue().getValue()-c2.getValue().getValue());
+		
 	}
 }

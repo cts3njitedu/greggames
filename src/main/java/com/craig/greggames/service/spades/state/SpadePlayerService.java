@@ -1,5 +1,9 @@
 package com.craig.greggames.service.spades.state;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.craig.greggames.model.TeamTable;
@@ -9,9 +13,41 @@ import com.craig.greggames.model.player.PlayerTable;
 import com.craig.greggames.model.spades.SpadeGame;
 import com.craig.greggames.model.spades.SpadePlayer;
 import com.craig.greggames.model.spades.SpadeTeam;
+import com.craig.greggames.service.cards.CardService;
 
 @Service
 public class SpadePlayerService {
+
+	@Autowired
+	private CardService cardService;
+	public void determinePlayerCard(SpadeGame newSpadeGame) {
+
+		SpadePlayer currPlayer = newSpadeGame.getTeams()
+				.get(TeamTable.getTeamByPlayer(newSpadeGame.getCurrTurn().getCode(), newSpadeGame.getNumberOfTeams()))
+				.getPlayers().get(newSpadeGame.getCurrTurn());
+		if (currPlayer.isBot()) {
+
+			SpadePlayer winPlayer = newSpadeGame.getTeams().get(
+					TeamTable.getTeamByPlayer(newSpadeGame.getTempWinner().getCode(), newSpadeGame.getNumberOfTeams()))
+					.getPlayers().get(newSpadeGame.getTempWinner());
+			Card winnerCard = winPlayer.getPlayingCard();
+			List<Card>sortedCards = new ArrayList<Card>(currPlayer.getRemainingCards());
+			
+			cardService.sortCards(sortedCards);
+			
+			for(Card sortedCard: sortedCards) {
+				
+				
+				//if(sortedCard.getValue().getValue()>)
+			}
+					
+			//sortedCards.sort();
+			
+
+		}
+
+	}
+
 	public void determinePlayerWinner(SpadeGame newSpadeGame) {
 
 		int code = newSpadeGame.getCurrTurn().getCode();
@@ -46,6 +82,10 @@ public class SpadePlayerService {
 					newSpadeGame.setTempWinner(currPlayer.getName());
 
 				} else {
+					if (newSpadeGame.getTrickCount() == 4) {
+
+						gameWinner.setWon(true);
+					}
 					currPlayer.setWon(false);
 				}
 			} else {
@@ -59,6 +99,10 @@ public class SpadePlayerService {
 					newSpadeGame.setTempWinner(currPlayer.getName());
 
 				} else {
+					if (newSpadeGame.getTrickCount() == 4) {
+
+						gameWinner.setWon(true);
+					}
 
 					currPlayer.setWon(false);
 				}
