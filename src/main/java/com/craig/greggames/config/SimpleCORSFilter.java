@@ -1,5 +1,5 @@
-package com.craig.greggames.config;
-//package com.craig.cards.config;
+//package com.craig.greggames.config;
+//
 //
 //import java.io.IOException;
 //
@@ -16,7 +16,7 @@ package com.craig.greggames.config;
 //import org.springframework.core.Ordered;
 //import org.springframework.core.annotation.Order;
 //
-//import com.craig.cards.util.WebUtils;
+//import com.craig.greggames.util.WebUtils;
 //
 //@Configuration
 //@Order(Ordered.HIGHEST_PRECEDENCE)
