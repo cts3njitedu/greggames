@@ -11,7 +11,7 @@ import com.craig.greggames.model.GregGames;
 import com.craig.greggames.service.GregGamesService;
 
 @RestController
-@RequestMapping("gregproxy/greggames")
+@RequestMapping("/gregproxy/greggames")
 // @CrossOrigin(origins=
 // {"http://localhost:4200","https://greggames.herokuapp.com"})
 public class GregGamesController {
