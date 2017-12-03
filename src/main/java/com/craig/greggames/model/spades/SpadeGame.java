@@ -29,6 +29,8 @@ public class SpadeGame extends Game {
 
 	private int handCount;
 	private boolean isGameOver;
+	
+	private boolean isSpadePlayed;
 
 	private Map<TeamTable, SpadeTeam> teams;
 
@@ -236,15 +238,14 @@ public class SpadeGame extends Game {
 		this.tempWinner = tempWinner;
 	}
 
-	@Override
-	public String toString() {
-		return "SpadeGame [gameId=" + gameId + ", isStarting=" + isStarting + ", isBidding=" + isBidding
-				+ ", pointsToWin=" + pointsToWin + ", startHand=" + startHand + ", startTurn=" + startTurn
-				+ ", currTurn=" + currTurn + ", trickCount=" + trickCount + ", turnCount=" + turnCount + ", handCount="
-				+ handCount + ", isGameOver=" + isGameOver + ", teams=" + teams + ", isDealing=" + isDealing
-				+ ", numberDeals=" + numberDeals + ", bags=" + bags + ", bagPoints=" + bagPoints + ", bidNilPoints="
-				+ bidNilPoints + ", bidNil=" + bidNil + ", numberOfPlayers=" + numberOfPlayers + ", numberOfTeams="
-				+ numberOfTeams + "]";
+	
+	public boolean isSpadePlayed() {
+		return isSpadePlayed;
 	}
+
+	public void setSpadePlayed(boolean isSpadePlayed) {
+		this.isSpadePlayed = isSpadePlayed;
+	}
+
 
 }

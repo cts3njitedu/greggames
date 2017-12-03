@@ -68,16 +68,4 @@ public class SpadePlayer extends Player {
 		this.isOverBook = isOverBook;
 	}
 
-	@Override
-	public String toString() {
-		return "SpadePlayer [playerBid=" + playerBid + ", playerCurrentScore=" + playerCurrentScore + ", playerBags="
-				+ playerBags + ", isBidding=" + isBidding + ", getPlayerBid()=" + getPlayerBid()
-				+ ", getPlayerCurrentScore()=" + getPlayerCurrentScore() + ", getPlayerBags()=" + getPlayerBags()
-				+ ", isBidding()=" + isBidding() + ", getUserId()=" + getUserId() + ", getName()=" + getName()
-				+ ", getRank()=" + getRank() + ", getPlayingCard()=" + getPlayingCard() + ", isTurn()=" + isTurn()
-				+ ", isWon()=" + isWon() + ", getRemainingCards()=" + getRemainingCards() + ", getTeam()=" + getTeam()
-				+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString()
-				+ "]";
-	}
-
 }

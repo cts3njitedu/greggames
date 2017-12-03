@@ -4,9 +4,11 @@ public class SpadePlayerDAO extends PlayerDAO{
 
 	private int playerBid;
 	private int playerCurrentScore;
+	private int playerFinalScore;
+	private boolean isFailBid;
+	private boolean isOverBook;
 	private int playerBags;
 	private boolean isBidding;
-	
 
 	public int getPlayerBid() {
 		return playerBid;
@@ -39,5 +41,30 @@ public class SpadePlayerDAO extends PlayerDAO{
 	public void setBidding(boolean isBidding) {
 		this.isBidding = isBidding;
 	}
+
+	public int getPlayerFinalScore() {
+		return playerFinalScore;
+	}
+
+	public void setPlayerFinalScore(int playerFinalScore) {
+		this.playerFinalScore = playerFinalScore;
+	}
+
+	public boolean isFailBid() {
+		return isFailBid;
+	}
+
+	public void setFailBid(boolean isFailBid) {
+		this.isFailBid = isFailBid;
+	}
+
+	public boolean isOverBook() {
+		return isOverBook;
+	}
+
+	public void setOverBook(boolean isOverBook) {
+		this.isOverBook = isOverBook;
+	}
+
 
 }

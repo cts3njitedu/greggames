@@ -1,4 +1,4 @@
-package com.craig.greggames.controller;
+package com.craig.greggames.controller.message;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -35,10 +35,10 @@ public class MessageController {
 	
 	
 	@MessageMapping("/greggames/{ggType}/{gameId}")
-    @SendTo("/topic/{ggType}")
-    public SpadeGame getGame(@DestinationVariable String ggType) throws Exception {
+    @SendTo("/topic/{ggType}/{gameId}")
+    public SpadeGame modifyGameState(@DestinationVariable String ggType, @DestinationVariable String gameId, SpadeGame spadeGame) throws Exception {
         //Thread.sleep(1000); // simulated delay
 		//System.out.println(spadeGame.toString());
-         return messageService.getGame(ggType);
+         return messageService.modifyGameState(ggType, gameId, spadeGame);
     }
 }

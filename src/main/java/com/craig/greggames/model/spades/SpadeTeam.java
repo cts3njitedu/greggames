@@ -124,14 +124,6 @@ public class SpadeTeam {
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		return "Team [totalBid=" + totalBid + ", totalCurrentScore=" + totalCurrentScore + ", totalScore=" + totalScore
-				+ ", bags=" + bags + ", isOverBook=" + isOverBook + ", players=" + players + ", isWon=" + isWon
-				+ ", getTotalBid()=" + getTotalBid() + ", getTotalCurrentScore()=" + getTotalCurrentScore()
-				+ ", getTotalScore()=" + getTotalScore() + ", getBags()=" + getBags() + ", isOverBook()=" + isOverBook()
-				+ ", getPlayers()=" + getPlayers() + ", isWon()=" + isWon() + ", getClass()=" + getClass()
-				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
-	}
+	
 
 }

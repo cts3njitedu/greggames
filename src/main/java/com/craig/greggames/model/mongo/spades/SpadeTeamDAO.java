@@ -3,7 +3,7 @@ package com.craig.greggames.model.mongo.spades;
 import java.util.EnumMap;
 import java.util.Map;
 
-import com.craig.greggames.model.player.Player;
+import com.craig.greggames.model.TeamTable;
 import com.craig.greggames.model.player.PlayerTable;
 
 public class SpadeTeamDAO {
@@ -17,8 +17,11 @@ public class SpadeTeamDAO {
 
 	private boolean isOverBook;
 
-	private Map<PlayerTable, Player> players;
+	private Map<PlayerTable, SpadePlayerDAO> players;
 	private boolean isWon;
+	private boolean isLost;
+
+	private TeamTable name;
 
 	public int getTotalBid() {
 		return totalBid;
@@ -60,15 +63,16 @@ public class SpadeTeamDAO {
 		this.isOverBook = isOverBook;
 	}
 
-	public Map<PlayerTable, Player> getPlayers() {
+	public Map<PlayerTable, SpadePlayerDAO> getPlayers() {
 		if (players == null) {
 
-			players = new EnumMap<PlayerTable, Player>(PlayerTable.class);
+			players = new EnumMap<PlayerTable, SpadePlayerDAO>(PlayerTable.class);
+
 		}
 		return players;
 	}
 
-	public void setPlayers(Map<PlayerTable, Player> players) {
+	public void setPlayers(Map<PlayerTable, SpadePlayerDAO> players) {
 		this.players = players;
 	}
 
@@ -78,6 +82,22 @@ public class SpadeTeamDAO {
 
 	public void setWon(boolean isWon) {
 		this.isWon = isWon;
+	}
+
+	public boolean isLost() {
+		return isLost;
+	}
+
+	public void setLost(boolean isLost) {
+		this.isLost = isLost;
+	}
+
+	public TeamTable getName() {
+		return name;
+	}
+
+	public void setName(TeamTable name) {
+		this.name = name;
 	}
 
 }

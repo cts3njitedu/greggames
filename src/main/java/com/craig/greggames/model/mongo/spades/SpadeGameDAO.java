@@ -18,17 +18,22 @@ public class SpadeGameDAO {
 
 	private boolean isStarting;
 
+	private boolean isBidding;
+
 	private int pointsToWin;
 
 	private PlayerTable startHand;
-	private PlayerTable startTrick;
+	private PlayerTable startTurn;
 
-	private PlayerTable currTrick;
-	private PlayerTable endTrick;
+	private PlayerTable currTurn;
 	private int trickCount;
+
+	private int turnCount;
 
 	private int handCount;
 	private boolean isGameOver;
+
+	private boolean isSpadePlayed;
 
 	private Map<TeamTable, SpadeTeamDAO> teams;
 
@@ -36,11 +41,19 @@ public class SpadeGameDAO {
 	private int numberDeals;
 	private int bags;
 
-	private int overBook;
+	private int bagPoints;
+
+	private int bidNilPoints;
 
 	private int bidNil;
 
 	private int numberOfPlayers;
+
+	private int numberOfTeams;
+
+	private int pointsToLose;
+
+	private PlayerTable tempWinner;
 
 	public String getGameId() {
 		return gameId;
@@ -74,12 +87,20 @@ public class SpadeGameDAO {
 		this.bags = bags;
 	}
 
-	public int getOverBook() {
-		return overBook;
+	public int getBagPoints() {
+		return bagPoints;
 	}
 
-	public void setOverBook(int overBook) {
-		this.overBook = overBook;
+	public void setBagPoints(int bagPoints) {
+		this.bagPoints = bagPoints;
+	}
+
+	public int getBidNilPoints() {
+		return bidNilPoints;
+	}
+
+	public void setBidNilPoints(int bidNilPoints) {
+		this.bidNilPoints = bidNilPoints;
 	}
 
 	public int getBidNil() {
@@ -98,8 +119,6 @@ public class SpadeGameDAO {
 		this.numberOfPlayers = numberOfPlayers;
 	}
 
-	
-
 	public boolean isGameOver() {
 		return isGameOver;
 	}
@@ -112,13 +131,12 @@ public class SpadeGameDAO {
 		if (teams == null) {
 
 			teams = new EnumMap<TeamTable, SpadeTeamDAO>(TeamTable.class);
-			
-			for(TeamTable team: TeamTable.values()) {
-				
-				teams.put(team, new SpadeTeamDAO());
+
+			for (int code = 1; code <= numberOfTeams; code++) {
+
+				teams.put(TeamTable.getTeamByName(code), new SpadeTeamDAO());
 			}
-			
-			
+
 		}
 		return teams;
 	}
@@ -151,36 +169,6 @@ public class SpadeGameDAO {
 		this.startHand = startHand;
 	}
 
-	public PlayerTable getStartTrick() {
-		return startTrick;
-	}
-
-	public void setStartTrick(PlayerTable startTrick) {
-		this.startTrick = startTrick;
-	}
-	
-	
-
-
-
-	public PlayerTable getCurrTrick() {
-		return currTrick;
-	}
-
-	public void setCurrTrick(PlayerTable currTrick) {
-		this.currTrick = currTrick;
-	}
-	
-	
-
-	public PlayerTable getEndTrick() {
-		return endTrick;
-	}
-
-	public void setEndTrick(PlayerTable endTrick) {
-		this.endTrick = endTrick;
-	}
-
 	public int getTrickCount() {
 		return trickCount;
 	}
@@ -197,6 +185,68 @@ public class SpadeGameDAO {
 		this.handCount = handCount;
 	}
 
+	public int getNumberOfTeams() {
+		return numberOfTeams;
+	}
 
+	public void setNumberOfTeams(int numberOfTeams) {
+		this.numberOfTeams = numberOfTeams;
+	}
+
+	public boolean isBidding() {
+		return isBidding;
+	}
+
+	public void setBidding(boolean isBidding) {
+		this.isBidding = isBidding;
+	}
+
+	public int getTurnCount() {
+		return turnCount;
+	}
+
+	public void setTurnCount(int turnCount) {
+		this.turnCount = turnCount;
+	}
+
+	public PlayerTable getStartTurn() {
+		return startTurn;
+	}
+
+	public void setStartTurn(PlayerTable startTurn) {
+		this.startTurn = startTurn;
+	}
+
+	public PlayerTable getCurrTurn() {
+		return currTurn;
+	}
+
+	public void setCurrTurn(PlayerTable currTurn) {
+		this.currTurn = currTurn;
+	}
+
+	public int getPointsToLose() {
+		return pointsToLose;
+	}
+
+	public void setPointsToLose(int pointsToLose) {
+		this.pointsToLose = pointsToLose;
+	}
+
+	public PlayerTable getTempWinner() {
+		return tempWinner;
+	}
+
+	public void setTempWinner(PlayerTable tempWinner) {
+		this.tempWinner = tempWinner;
+	}
+
+	public boolean isSpadePlayed() {
+		return isSpadePlayed;
+	}
+
+	public void setSpadePlayed(boolean isSpadePlayed) {
+		this.isSpadePlayed = isSpadePlayed;
+	}
 
 }
