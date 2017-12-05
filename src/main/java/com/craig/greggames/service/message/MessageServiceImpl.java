@@ -3,8 +3,8 @@ package com.craig.greggames.service.message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.craig.greggames.model.mongo.spades.SpadeGameDAO;
 import com.craig.greggames.model.spades.SpadeGame;
+import com.craig.greggames.model.spades.dao.SpadeGameDAO;
 import com.craig.greggames.service.spades.SpadeService;
 import com.craig.greggames.service.spades.state.SpadeGameService;
 import com.craig.greggames.util.GregMapper;

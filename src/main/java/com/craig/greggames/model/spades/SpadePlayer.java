@@ -1,7 +1,10 @@
 package com.craig.greggames.model.spades;
 
 import com.craig.greggames.model.player.Player;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+//@JsonInclude(Include.NON_NULL)
 public class SpadePlayer extends Player {
 
 	private int playerBid;

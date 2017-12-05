@@ -11,4 +11,8 @@ public interface SpadeService {
 	public SpadeGame addGame(SpadeGame spadeGame); 
 	
 	public SpadeGame findGame(String gameId);
+	
+	public SpadeGame findGameHeaderInfo(String gameId);
+	
+	public SpadeGame startGame(String gameId);
 }

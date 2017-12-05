@@ -4,6 +4,12 @@ public class Card {
 
 	private CardValue value;
 	private CardSuit suit;
+	
+	
+
+	public Card() {
+		
+	}
 
 	public Card(CardValue value, CardSuit suit) {
 

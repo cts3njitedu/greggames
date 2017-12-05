@@ -25,6 +25,29 @@ public class SpadeGameService {
 	
 	@Autowired
 	private SpadePlayerService playerService;
+	
+	public void startGame(SpadeGame newSpadeGame) {
+		
+		
+		
+		teamService.makeTeams(newSpadeGame);
+		
+		
+	}
+	
+	public void dealCards(SpadeGame newSpadeGame) {
+
+		int start = rand.nextInt(4) + 1;
+		newSpadeGame.setBidding(true);
+		newSpadeGame.setStartTurn(PlayerTable.getPlayer(start));
+		newSpadeGame.setStartHand(PlayerTable.getPlayer(start));
+		newSpadeGame.setCurrTurn(PlayerTable.getPlayer(start));
+		newSpadeGame.setHandCount(1);
+		cardService.distributeCards(newSpadeGame);
+		newSpadeGame.setStarting(false);
+		newSpadeGame.setTurnCount(1);
+		bidderService.cleanUpBid(newSpadeGame);
+	}
 
 	public void play(SpadeGame newSpadeGame) {
 

@@ -5,7 +5,10 @@ import java.util.Map;
 
 import com.craig.greggames.model.TeamTable;
 import com.craig.greggames.model.player.PlayerTable;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+//@JsonInclude(Include.NON_NULL)
 public class SpadeTeam {
 
 	private int totalBid;
@@ -64,8 +67,9 @@ public class SpadeTeam {
 		this.isOverBook = isOverBook;
 	}
 
+	
 	public Map<PlayerTable, SpadePlayer> getPlayers() {
-		if (players == null) {
+		if (players == null||players.size()==0) {
 
 			players = new EnumMap<PlayerTable, SpadePlayer>(PlayerTable.class);
 
@@ -122,6 +126,13 @@ public class SpadeTeam {
 		if (name != other.name)
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "SpadeTeam [totalBid=" + totalBid + ", totalCurrentScore=" + totalCurrentScore + ", totalScore="
+				+ totalScore + ", bags=" + bags + ", isOverBook=" + isOverBook + ", players=" + players + ", isWon="
+				+ isWon + ", isLost=" + isLost + ", name=" + name + "]";
 	}
 
 	

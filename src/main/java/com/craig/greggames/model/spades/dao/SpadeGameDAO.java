@@ -1,4 +1,4 @@
-package com.craig.greggames.model.mongo.spades;
+package com.craig.greggames.model.spades.dao;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -8,7 +8,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.craig.greggames.model.TeamTable;
 import com.craig.greggames.model.player.PlayerTable;
-import com.craig.greggames.model.spades.SpadeTeam;
 
 @Document(collection = "spadegame")
 public class SpadeGameDAO {
@@ -51,6 +50,7 @@ public class SpadeGameDAO {
 
 	private int numberOfTeams;
 
+	private Map<PlayerTable, Integer> playerCardCount;
 	private int pointsToLose;
 
 	private PlayerTable tempWinner;
@@ -143,6 +143,16 @@ public class SpadeGameDAO {
 
 	public void setTeams(Map<TeamTable, SpadeTeamDAO> teams) {
 		this.teams = teams;
+	}
+	
+
+	public Map<PlayerTable, Integer> getPlayerCardCount() {
+	
+		return playerCardCount;
+	}
+
+	public void setPlayerCardCount(Map<PlayerTable, Integer> playerCardCount) {
+		this.playerCardCount = playerCardCount;
 	}
 
 	public boolean isDealing() {

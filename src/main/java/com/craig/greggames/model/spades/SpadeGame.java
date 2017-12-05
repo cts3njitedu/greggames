@@ -7,8 +7,11 @@ import com.craig.greggames.model.Game;
 import com.craig.greggames.model.TeamTable;
 import com.craig.greggames.model.player.PlayerTable;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(Include.NON_NULL)
 public class SpadeGame extends Game {
 
 	private String gameId;
@@ -29,7 +32,7 @@ public class SpadeGame extends Game {
 
 	private int handCount;
 	private boolean isGameOver;
-	
+
 	private boolean isSpadePlayed;
 
 	private Map<TeamTable, SpadeTeam> teams;
@@ -51,6 +54,8 @@ public class SpadeGame extends Game {
 	private int pointsToLose;
 
 	private PlayerTable tempWinner;
+
+	private Map<PlayerTable, Integer> playerCardCount;
 
 	public String getGameId() {
 		return gameId;
@@ -124,8 +129,9 @@ public class SpadeGame extends Game {
 		this.isGameOver = isGameOver;
 	}
 
+
 	public Map<TeamTable, SpadeTeam> getTeams() {
-		if (teams == null) {
+		if (teams == null || teams.size()==0) {
 
 			teams = new EnumMap<TeamTable, SpadeTeam>(TeamTable.class);
 
@@ -140,6 +146,16 @@ public class SpadeGame extends Game {
 
 	public void setTeams(Map<TeamTable, SpadeTeam> teams) {
 		this.teams = teams;
+	}
+
+	@JsonInclude(Include.NON_EMPTY)
+	public Map<PlayerTable, Integer> getPlayerCardCount() {
+	
+		return playerCardCount;
+	}
+
+	public void setPlayerCardCount(Map<PlayerTable, Integer> playerCardCount) {
+		this.playerCardCount = playerCardCount;
 	}
 
 	public boolean isDealing() {
@@ -238,7 +254,6 @@ public class SpadeGame extends Game {
 		this.tempWinner = tempWinner;
 	}
 
-	
 	public boolean isSpadePlayed() {
 		return isSpadePlayed;
 	}
@@ -247,5 +262,18 @@ public class SpadeGame extends Game {
 		this.isSpadePlayed = isSpadePlayed;
 	}
 
+	@Override
+	public String toString() {
+		return "SpadeGame [gameId=" + gameId + ", isStarting=" + isStarting + ", isBidding=" + isBidding
+				+ ", pointsToWin=" + pointsToWin + ", startHand=" + startHand + ", startTurn=" + startTurn
+				+ ", currTurn=" + currTurn + ", trickCount=" + trickCount + ", turnCount=" + turnCount + ", handCount="
+				+ handCount + ", isGameOver=" + isGameOver + ", isSpadePlayed=" + isSpadePlayed + ", teams=" + teams
+				+ ", isDealing=" + isDealing + ", numberDeals=" + numberDeals + ", bags=" + bags + ", bagPoints="
+				+ bagPoints + ", bidNilPoints=" + bidNilPoints + ", bidNil=" + bidNil + ", numberOfPlayers="
+				+ numberOfPlayers + ", numberOfTeams=" + numberOfTeams + ", pointsToLose=" + pointsToLose
+				+ ", tempWinner=" + tempWinner + ", playerCardCount=" + playerCardCount + "]";
+	}
+	
+	
 
 }

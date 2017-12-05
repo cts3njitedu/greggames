@@ -1,8 +1,9 @@
-package com.craig.greggames.model.mongo.spades;
+package com.craig.greggames.model.spades.dao;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.craig.greggames.model.TeamTable;
 import com.craig.greggames.model.card.Card;
 import com.craig.greggames.model.player.PlayerTable;
 
@@ -15,6 +16,9 @@ public abstract class PlayerDAO {
 	private boolean isTurn;
 	private boolean isWon;
 	private List<Card> remainingCards;
+	private TeamTable team;
+
+	private boolean isBot;
 
 	public String getUserId() {
 		return userId;
@@ -23,8 +27,6 @@ public abstract class PlayerDAO {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-
-	
 
 	public PlayerTable getName() {
 		return name;
@@ -75,5 +77,21 @@ public abstract class PlayerDAO {
 
 	public void setRemainingCards(List<Card> remainingCards) {
 		this.remainingCards = remainingCards;
+	}
+
+	public TeamTable getTeam() {
+		return team;
+	}
+
+	public void setTeam(TeamTable team) {
+		this.team = team;
+	}
+
+	public boolean isBot() {
+		return isBot;
+	}
+
+	public void setBot(boolean isBot) {
+		this.isBot = isBot;
 	}
 }

@@ -1,4 +1,4 @@
-package com.craig.greggames.model.mongo.spades;
+package com.craig.greggames.model.spades.dao;
 
 import java.util.EnumMap;
 import java.util.Map;
