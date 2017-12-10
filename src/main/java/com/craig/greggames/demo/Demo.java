@@ -5,9 +5,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.craig.greggames.handler.cards.CardHandler;
-import com.craig.greggames.handler.cards.spades.SpadePlayerHandler;
-import com.craig.greggames.handler.cards.spades.SpadeTeamHandler;
+import com.craig.greggames.handler.game.cards.CardHandler;
+import com.craig.greggames.handler.game.cards.spades.SpadePlayerHandler;
+import com.craig.greggames.handler.game.cards.spades.SpadeTeamHandler;
 import com.craig.greggames.model.game.cards.Card;
 import com.craig.greggames.model.game.cards.CardSuit;
 import com.craig.greggames.model.game.cards.CardValue;

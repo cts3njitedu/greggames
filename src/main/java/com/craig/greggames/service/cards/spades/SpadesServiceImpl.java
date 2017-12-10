@@ -6,8 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.craig.greggames.handler.cards.spades.SpadeGameHandler;
-import com.craig.greggames.handler.cards.spades.SpadeTeamHandler;
+import com.craig.greggames.handler.game.cards.spades.SpadeGameHandler;
+import com.craig.greggames.handler.game.cards.spades.SpadeTeamHandler;
 import com.craig.greggames.model.game.cards.player.PlayerTable;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.craig.greggames.model.game.cards.spades.dao.SpadeGameDAO;

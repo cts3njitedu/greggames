@@ -1,4 +1,4 @@
-package com.craig.greggames.controller.spades;
+package com.craig.greggames.controller.game.cards.spades;
 
 import java.util.List;
 

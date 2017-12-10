@@ -1,14 +1,14 @@
-package com.craig.greggames.handler.cards.spades;
+package com.craig.greggames.handler.game.cards.spades;
 
-import static com.craig.greggames.constants.spades.SpadeGameConstants.MAX_TRICK_COUNT;
-import static com.craig.greggames.constants.spades.SpadeGameConstants.MAX_TURN_PER_TRICK;
+import static com.craig.greggames.constants.game.cards.spades.SpadeGameConstants.MAX_TRICK_COUNT;
+import static com.craig.greggames.constants.game.cards.spades.SpadeGameConstants.MAX_TURN_PER_TRICK;
 
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.craig.greggames.handler.cards.CardHandler;
+import com.craig.greggames.handler.game.cards.CardHandler;
 import com.craig.greggames.model.game.cards.player.PlayerTable;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;;
 @Service

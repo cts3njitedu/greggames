@@ -1,4 +1,4 @@
-package com.craig.greggames.controller.spades.socket;
+package com.craig.greggames.controller.game.cards.spades.socket;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;

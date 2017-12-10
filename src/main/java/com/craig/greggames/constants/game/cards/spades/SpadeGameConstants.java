@@ -1,4 +1,4 @@
-package com.craig.greggames.constants.spades;
+package com.craig.greggames.constants.game.cards.spades;
 
 public class SpadeGameConstants {
 

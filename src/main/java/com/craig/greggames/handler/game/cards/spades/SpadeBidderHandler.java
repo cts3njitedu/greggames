@@ -1,4 +1,4 @@
-package com.craig.greggames.handler.cards.spades;
+package com.craig.greggames.handler.game.cards.spades;
 
 import java.util.Map.Entry;
 

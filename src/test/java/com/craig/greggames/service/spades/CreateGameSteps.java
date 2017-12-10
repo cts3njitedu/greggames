@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.craig.cards.GameId;
 import com.craig.cards.World;
 import com.craig.greggames.CardGamesApplication;
-import com.craig.greggames.controller.spades.socket.SpadesSocketController;
+import com.craig.greggames.controller.game.cards.spades.socket.SpadesSocketController;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

@@ -12,8 +12,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.craig.cards.TempWinner;
 import com.craig.greggames.CardGamesApplication;
-import com.craig.greggames.handler.cards.spades.SpadePlayerHandler;
-import com.craig.greggames.handler.cards.spades.SpadeTeamHandler;
+import com.craig.greggames.handler.game.cards.spades.SpadePlayerHandler;
+import com.craig.greggames.handler.game.cards.spades.SpadeTeamHandler;
 import com.craig.greggames.model.game.cards.Card;
 import com.craig.greggames.model.game.cards.Deck;
 import com.craig.greggames.model.game.cards.player.PlayerTable;

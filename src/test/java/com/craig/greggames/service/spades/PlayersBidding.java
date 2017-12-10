@@ -2,10 +2,10 @@ package com.craig.greggames.service.spades;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.craig.greggames.controller.spades.SpadesController;
-import com.craig.greggames.controller.spades.socket.SpadesSocketController;
-import com.craig.greggames.handler.cards.spades.SpadeGameHandler;
-import com.craig.greggames.handler.cards.spades.SpadeTeamHandler;
+import com.craig.greggames.controller.game.cards.spades.SpadesController;
+import com.craig.greggames.controller.game.cards.spades.socket.SpadesSocketController;
+import com.craig.greggames.handler.game.cards.spades.SpadeGameHandler;
+import com.craig.greggames.handler.game.cards.spades.SpadeTeamHandler;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

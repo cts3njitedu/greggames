@@ -1,4 +1,6 @@
-package com.craig.greggames.handler.cards.spades;
+package com.craig.greggames.handler.game.cards.spades;
+
+import static com.craig.greggames.constants.game.cards.spades.SpadeGameConstants.POINTS_WON_PER_TRICK_BEFORE_OVERBID;
 
 import java.util.List;
 
@@ -7,8 +9,6 @@ import org.springframework.stereotype.Service;
 import com.craig.greggames.model.game.cards.Card;
 import com.craig.greggames.model.game.cards.CardValue;
 import com.craig.greggames.model.game.cards.spades.SpadePlayer;
-
-import static com.craig.greggames.constants.spades.SpadeGameConstants.POINTS_WON_PER_TRICK_BEFORE_OVERBID;
 
 @Service
 public class SpadeBotHandler {

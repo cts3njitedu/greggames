@@ -1,4 +1,6 @@
-package com.craig.greggames.handler.cards.spades;
+package com.craig.greggames.handler.game.cards.spades;
+
+import static com.craig.greggames.constants.game.cards.spades.SpadeGameConstants.POINTS_WON_PER_TRICK_BEFORE_OVERBID;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -6,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import static com.craig.greggames.constants.spades.SpadeGameConstants.POINTS_WON_PER_TRICK_BEFORE_OVERBID;
 
 import org.springframework.stereotype.Service;
 
