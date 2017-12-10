@@ -5,21 +5,21 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.craig.greggames.model.card.Card;
-import com.craig.greggames.model.card.CardSuit;
-import com.craig.greggames.model.card.CardValue;
-import com.craig.greggames.model.card.Deck;
-import com.craig.greggames.model.spades.SpadeGame;
-import com.craig.greggames.service.cards.CardService;
-import com.craig.greggames.service.spades.state.SpadePlayerService;
-import com.craig.greggames.service.spades.state.SpadeTeamService;
+import com.craig.greggames.handler.cards.CardHandler;
+import com.craig.greggames.handler.cards.spades.SpadePlayerHandler;
+import com.craig.greggames.handler.cards.spades.SpadeTeamHandler;
+import com.craig.greggames.model.game.cards.Card;
+import com.craig.greggames.model.game.cards.CardSuit;
+import com.craig.greggames.model.game.cards.CardValue;
+import com.craig.greggames.model.game.cards.Deck;
+import com.craig.greggames.model.game.cards.spades.SpadeGame;
 
 public class Demo {
 
 	@Autowired
-	private SpadeTeamService teamService;
+	private SpadeTeamHandler teamService;
 	@Autowired
-	private SpadePlayerService playerService;
+	private SpadePlayerHandler playerService;
 	
 	
 

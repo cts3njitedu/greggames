@@ -3,24 +3,24 @@ package com.craig.greggames.demo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.craig.greggames.model.player.PlayerTable;
-import com.craig.greggames.model.spades.SpadeGame;
-import com.craig.greggames.model.spades.SpadePlayer;
-import com.craig.greggames.model.team.TeamTable;
-import com.craig.greggames.service.spades.state.SpadeGameService;
-import com.craig.greggames.service.spades.state.SpadeTeamService;
+import com.craig.greggames.handler.cards.spades.SpadeGameHandler;
+import com.craig.greggames.handler.cards.spades.SpadeTeamHandler;
+import com.craig.greggames.model.game.cards.player.PlayerTable;
+import com.craig.greggames.model.game.cards.spades.SpadeGame;
+import com.craig.greggames.model.game.cards.spades.SpadePlayer;
+import com.craig.greggames.model.game.cards.team.TeamTable;
 
 @Service
 public class PlaySpades {
 
 	@Autowired
-	private SpadeGameService creator;
+	private SpadeGameHandler creator;
 	@Autowired
-	private SpadeTeamService teamService;
+	private SpadeTeamHandler teamService;
 
 	public PlaySpades() {
 
-		this.creator = new SpadeGameService();
+		this.creator = new SpadeGameHandler();
 	}
 
 	public void playGame(SpadeGame spadeGame) {

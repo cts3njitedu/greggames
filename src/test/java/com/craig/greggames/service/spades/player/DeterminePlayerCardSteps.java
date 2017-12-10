@@ -5,13 +5,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.craig.greggames.model.card.Card;
-import com.craig.greggames.model.card.Deck;
-import com.craig.greggames.model.player.PlayerTable;
-import com.craig.greggames.model.spades.SpadeGame;
-import com.craig.greggames.model.team.TeamTable;
-import com.craig.greggames.service.spades.state.SpadePlayerService;
-import com.craig.greggames.service.spades.state.SpadeTeamService;
+import com.craig.greggames.handler.cards.spades.SpadePlayerHandler;
+import com.craig.greggames.handler.cards.spades.SpadeTeamHandler;
+import com.craig.greggames.model.game.cards.Card;
+import com.craig.greggames.model.game.cards.Deck;
+import com.craig.greggames.model.game.cards.player.PlayerTable;
+import com.craig.greggames.model.game.cards.spades.SpadeGame;
+import com.craig.greggames.model.game.cards.team.TeamTable;
 
 import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
@@ -21,10 +21,10 @@ import cucumber.api.java.en.When;
 public class DeterminePlayerCardSteps {
 
 	@Autowired
-	private SpadeTeamService teamService;
+	private SpadeTeamHandler teamService;
 
 	@Autowired
-	private SpadePlayerService playerService;
+	private SpadePlayerHandler playerService;
 
 	private SpadeGame spadeGame;
 

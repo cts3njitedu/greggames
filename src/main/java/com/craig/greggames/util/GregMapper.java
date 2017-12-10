@@ -4,8 +4,8 @@ import java.io.IOException;
 
 import org.springframework.stereotype.Service;
 
-import com.craig.greggames.model.spades.SpadeGame;
-import com.craig.greggames.model.spades.dao.SpadeGameDAO;
+import com.craig.greggames.model.game.cards.spades.SpadeGame;
+import com.craig.greggames.model.game.cards.spades.dao.SpadeGameDAO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 @Service

@@ -12,14 +12,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.craig.cards.TempWinner;
 import com.craig.greggames.CardGamesApplication;
-import com.craig.greggames.model.card.Card;
-import com.craig.greggames.model.card.Deck;
-import com.craig.greggames.model.player.PlayerTable;
-import com.craig.greggames.model.spades.SpadeGame;
-import com.craig.greggames.model.spades.SpadePlayer;
-import com.craig.greggames.model.team.TeamTable;
-import com.craig.greggames.service.spades.state.SpadePlayerService;
-import com.craig.greggames.service.spades.state.SpadeTeamService;
+import com.craig.greggames.handler.cards.spades.SpadePlayerHandler;
+import com.craig.greggames.handler.cards.spades.SpadeTeamHandler;
+import com.craig.greggames.model.game.cards.Card;
+import com.craig.greggames.model.game.cards.Deck;
+import com.craig.greggames.model.game.cards.player.PlayerTable;
+import com.craig.greggames.model.game.cards.spades.SpadeGame;
+import com.craig.greggames.model.game.cards.spades.SpadePlayer;
+import com.craig.greggames.model.game.cards.team.TeamTable;
 
 import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
@@ -34,10 +34,10 @@ public class DeterminePlayerWinnerSteps {
 	List<SpadeGame> spadeGames = new ArrayList<SpadeGame>();
 
 	@Autowired
-	private SpadeTeamService teamService;
+	private SpadeTeamHandler teamService;
 
 	@Autowired
-	private SpadePlayerService playerService;
+	private SpadePlayerHandler playerService;
 
 	@Given("^a state of game, a temp winner and the current player and temp winner playing card$")
 	public void makeState(List<TempWinner> tempWinner) throws Throwable {

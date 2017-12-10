@@ -11,12 +11,12 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.craig.greggames.CardGamesApplication;
-import com.craig.greggames.model.player.PlayerTable;
-import com.craig.greggames.model.spades.SpadeGame;
-import com.craig.greggames.model.spades.SpadePlayer;
-import com.craig.greggames.model.spades.SpadeTeam;
-import com.craig.greggames.model.team.TeamTable;
-import com.craig.greggames.service.spades.state.SpadeTeamService;
+import com.craig.greggames.handler.cards.spades.SpadeTeamHandler;
+import com.craig.greggames.model.game.cards.player.PlayerTable;
+import com.craig.greggames.model.game.cards.spades.SpadeGame;
+import com.craig.greggames.model.game.cards.spades.SpadePlayer;
+import com.craig.greggames.model.game.cards.spades.SpadeTeam;
+import com.craig.greggames.model.game.cards.team.TeamTable;
 
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -28,7 +28,7 @@ import cucumber.api.java.en.When;
 public class DetermineGameWinnerSteps {
 
 	@Autowired
-	private SpadeTeamService teamService;
+	private SpadeTeamHandler teamService;
 
 	private List<SpadeGame> games = new ArrayList<SpadeGame>();
 

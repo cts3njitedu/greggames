@@ -2,11 +2,11 @@ package com.craig.greggames.service.spades;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.craig.greggames.controller.message.MessageController;
 import com.craig.greggames.controller.spades.SpadesController;
-import com.craig.greggames.model.spades.SpadeGame;
-import com.craig.greggames.service.spades.state.SpadeGameService;
-import com.craig.greggames.service.spades.state.SpadeTeamService;
+import com.craig.greggames.controller.spades.socket.SpadesSocketController;
+import com.craig.greggames.handler.cards.spades.SpadeGameHandler;
+import com.craig.greggames.handler.cards.spades.SpadeTeamHandler;
+import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import cucumber.api.PendingException;
@@ -21,10 +21,10 @@ public class PlayersBidding {
 	private SpadesController spadeController;
 
 	@Autowired
-	private MessageController messageController;
+	private SpadesSocketController messageController;
 
 	@Autowired
-	private SpadeTeamService teamService;
+	private SpadeTeamHandler teamService;
 
 	@Given("^a game and players ready to bid$")
 	public void a_game_and_players_ready_to_bid() throws Throwable {

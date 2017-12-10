@@ -1,7 +1,7 @@
 package com.craig.greggames.util;
 
-import com.craig.greggames.model.Game;
-import com.craig.greggames.model.spades.SpadeGame;
+import com.craig.greggames.model.game.Game;
+import com.craig.greggames.model.game.cards.spades.SpadeGame;
 
 public class GameStateCreator {
 

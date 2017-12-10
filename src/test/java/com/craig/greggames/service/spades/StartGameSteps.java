@@ -9,7 +9,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.craig.greggames.CardGamesApplication;
 import com.craig.greggames.controller.spades.SpadesController;
-import com.craig.greggames.model.spades.SpadeGame;
+import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import cucumber.api.PendingException;

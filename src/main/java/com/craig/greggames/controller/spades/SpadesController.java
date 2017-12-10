@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.craig.greggames.exception.GreggamesException;
-import com.craig.greggames.model.spades.SpadeGame;
-import com.craig.greggames.service.spades.SpadeService;
+import com.craig.greggames.model.game.cards.spades.SpadeGame;
+import com.craig.greggames.service.cards.spades.SpadeService;
 
 @RestController
 @RequestMapping("/cards/spades")
