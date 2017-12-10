@@ -2,41 +2,31 @@ package com.craig.greggames.model.card;
 
 public class Card {
 
+	private String name;
 	private CardValue value;
 	private CardSuit suit;
-	
-	
 
 	public Card() {
 		
 	}
 
-	public Card(CardValue value, CardSuit suit) {
+	public Card(String name, CardValue value, CardSuit suit) {
 
+		this.name = name;
 		this.value = value;
 		this.suit = suit;
 	}
 
-	public Card(CardSuit suit, CardValue value) {
-
-		this.value = value;
-		this.suit = suit;
+	public String getName() {
+		return name;
 	}
 
 	public CardValue getValue() {
 		return value;
 	}
 
-	public void setValue(CardValue value) {
-		this.value = value;
-	}
-
 	public CardSuit getSuit() {
 		return suit;
-	}
-
-	public void setSuit(CardSuit suit) {
-		this.suit = suit;
 	}
 
 	@Override
@@ -69,5 +59,4 @@ public class Card {
 		return "Card [value=" + value + ", suit=" + suit + "]";
 	}
 
-	
 }

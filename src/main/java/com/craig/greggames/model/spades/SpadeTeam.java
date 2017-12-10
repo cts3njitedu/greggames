@@ -3,8 +3,8 @@ package com.craig.greggames.model.spades;
 import java.util.EnumMap;
 import java.util.Map;
 
-import com.craig.greggames.model.TeamTable;
 import com.craig.greggames.model.player.PlayerTable;
+import com.craig.greggames.model.team.TeamTable;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 

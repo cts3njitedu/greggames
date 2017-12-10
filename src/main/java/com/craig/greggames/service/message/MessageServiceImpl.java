@@ -22,10 +22,10 @@ public class MessageServiceImpl implements MessageService {
 	private GregMapper mapper;
 	
 	@Override
-	public SpadeGame addGame(SpadeGame spadeGame) {
+	public SpadeGame createGame(SpadeGame spadeGame) {
 		// TODO Auto-generated method stub
 		System.out.println(spadeGame.toString());
-		return spadeService.addGame(spadeGame);
+		return spadeService.createGame(spadeGame);
 		
 		
 		
@@ -41,9 +41,9 @@ public class MessageServiceImpl implements MessageService {
 	public SpadeGame modifyGameState(String gameType, String gameId, SpadeGame spadeGame) {
 		// TODO Auto-generated method stub
 		spadeGameService.play(spadeGame);
-		SpadeGameDAO spadeGameDAO = mapper.spadeGameToDAO(spadeGame);
 		
-		return null;
+		return spadeService.saveGame(spadeGame);
+	
 	}
 
 	

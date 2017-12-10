@@ -3,21 +3,25 @@ package com.craig.greggames.service.spades.state;
 import java.util.List;
 import java.util.Map.Entry;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.craig.greggames.model.TeamTable;
 import com.craig.greggames.model.card.Card;
+import com.craig.greggames.model.player.PlayerTable;
 import com.craig.greggames.model.spades.SpadeGame;
 import com.craig.greggames.model.spades.SpadePlayer;
 import com.craig.greggames.model.spades.SpadeTeam;
+import com.craig.greggames.model.team.TeamTable;
 
 @Service
 public class SpadeBidderService {
 
+	@Autowired
+	private SpadeTeamService teamService;
 	public void determineBid(SpadeGame newSpadeGame) {
 
 		SpadeTeam team = newSpadeGame.getTeams()
-				.get(TeamTable.getTeamByPlayer(newSpadeGame.getCurrTurn().getCode(), newSpadeGame.getNumberOfTeams()));
+				.get(teamService.getTeamByPlayer(newSpadeGame.getCurrTurn(), newSpadeGame.getNumberOfTeams()));
 
 		SpadePlayer player = team.getPlayers().get(newSpadeGame.getCurrTurn());
 		int spades = 0;
@@ -76,7 +80,12 @@ public class SpadeBidderService {
 
 		for (Entry<TeamTable, SpadeTeam> team : newSpadeGame.getTeams().entrySet()) {
 
+			
 			team.getValue().setTotalBid(0);
+			for(Entry<PlayerTable,SpadePlayer> player: team.getValue().getPlayers().entrySet()) {
+				
+				player.getValue().setPlayerBid(0);
+			}
 		}
 	}
 }

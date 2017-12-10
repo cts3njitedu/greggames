@@ -11,11 +11,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.craig.greggames.CardGamesApplication;
-import com.craig.greggames.model.TeamTable;
 import com.craig.greggames.model.player.PlayerTable;
 import com.craig.greggames.model.spades.SpadeGame;
 import com.craig.greggames.model.spades.SpadePlayer;
 import com.craig.greggames.model.spades.SpadeTeam;
+import com.craig.greggames.model.team.TeamTable;
 import com.craig.greggames.service.spades.state.SpadeTeamService;
 
 import cucumber.api.java.en.Given;

@@ -12,11 +12,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.craig.cards.TempWinner;
 import com.craig.greggames.CardGamesApplication;
-import com.craig.greggames.model.TeamTable;
 import com.craig.greggames.model.card.Card;
+import com.craig.greggames.model.card.Deck;
 import com.craig.greggames.model.player.PlayerTable;
 import com.craig.greggames.model.spades.SpadeGame;
 import com.craig.greggames.model.spades.SpadePlayer;
+import com.craig.greggames.model.team.TeamTable;
 import com.craig.greggames.service.spades.state.SpadePlayerService;
 import com.craig.greggames.service.spades.state.SpadeTeamService;
 
@@ -57,14 +58,15 @@ public class DeterminePlayerWinnerSteps {
 			spadeGame.setNumberOfTeams(2);
 			spadeGame.setBidNilPoints(100);
 			spadeGame.setPointsToLose(-500);
-			spadeGame.setTrickCount(temp.getTrickCount());
+			spadeGame.setTurnCount(temp.getTrickCount());
 
 			spadeGame.setCurrTurn(PlayerTable.PLAYER2);
 			spadeGame.setTempWinner(PlayerTable.PLAYER1);
 			teamService.makeTeams(spadeGame);
-			Card tempWinnerCard = new Card(temp.getTempWinnerCardValue(), temp.getTempWinnerSuit());
+			Card tempWinnerCard = Deck.getCardByName(temp.getTempWinnerCard());
+			
 
-			Card currPlayerCard = new Card(temp.getCurrPlayerCardValue(), temp.getCurrPlayerSuit());
+			Card currPlayerCard = Deck.getCardByName(temp.getCurrPlayerCard());
 
 			SpadePlayer tempPlayer = spadeGame.getTeams().get(TeamTable.TEAM1).getPlayers().get(PlayerTable.PLAYER1);
 

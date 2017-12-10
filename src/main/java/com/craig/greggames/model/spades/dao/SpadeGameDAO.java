@@ -6,8 +6,8 @@ import java.util.Map;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.craig.greggames.model.TeamTable;
 import com.craig.greggames.model.player.PlayerTable;
+import com.craig.greggames.model.team.TeamTable;
 
 @Document(collection = "spadegame")
 public class SpadeGameDAO {
@@ -33,6 +33,8 @@ public class SpadeGameDAO {
 	private boolean isGameOver;
 
 	private boolean isSpadePlayed;
+	
+	private int activePlayers;
 
 	private Map<TeamTable, SpadeTeamDAO> teams;
 
@@ -134,7 +136,7 @@ public class SpadeGameDAO {
 
 			for (int code = 1; code <= numberOfTeams; code++) {
 
-				teams.put(TeamTable.getTeamByName(code), new SpadeTeamDAO());
+				teams.put(TeamTable.getTeam(code), new SpadeTeamDAO());
 			}
 
 		}
@@ -258,5 +260,15 @@ public class SpadeGameDAO {
 	public void setSpadePlayed(boolean isSpadePlayed) {
 		this.isSpadePlayed = isSpadePlayed;
 	}
+
+	public int getActivePlayers() {
+		return activePlayers;
+	}
+
+	public void setActivePlayers(int activePlayers) {
+		this.activePlayers = activePlayers;
+	}
+	
+	
 
 }

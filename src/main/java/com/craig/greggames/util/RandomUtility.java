@@ -27,7 +27,7 @@ public class RandomUtility {
 		
 		for(Integer cardId:cardIds) {
 			
-			cards.add(Deck.getCard(cardId));
+			cards.add(Deck.getCardByCode(cardId));
 		}
 		return cards;
 		

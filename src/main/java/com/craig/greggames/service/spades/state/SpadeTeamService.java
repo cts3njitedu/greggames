@@ -6,14 +6,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import static com.craig.greggames.constants.spades.SpadeGameConstants.POINTS_WON_PER_TRICK_BEFORE_OVERBID;
 
 import org.springframework.stereotype.Service;
 
-import com.craig.greggames.model.TeamTable;
 import com.craig.greggames.model.player.PlayerTable;
 import com.craig.greggames.model.spades.SpadeGame;
 import com.craig.greggames.model.spades.SpadePlayer;
 import com.craig.greggames.model.spades.SpadeTeam;
+import com.craig.greggames.model.team.TeamTable;
 
 @Service
 public class SpadeTeamService {
@@ -22,7 +23,7 @@ public class SpadeTeamService {
 
 		for (PlayerTable player : PlayerTable.values()) {
 
-			TeamTable team = TeamTable.getTeamByPlayer(player.getCode(), newSpadeGame.getNumberOfTeams());
+			TeamTable team = getTeamByPlayer(player, newSpadeGame.getNumberOfTeams());
 
 			SpadePlayer spadePlayer = new SpadePlayer();
 			spadePlayer.setTeam(team);
@@ -35,6 +36,22 @@ public class SpadeTeamService {
 
 	}
 
+	public TeamTable getTeamByPlayer(PlayerTable player, int numberOfTeams) {
+		
+		if(numberOfTeams==2) {
+			if(player.getCode()%2==0) {
+				return TeamTable.TEAM2;
+			}
+			else {
+				return TeamTable.TEAM1;
+			}
+		}
+		else{
+			
+			return TeamTable.getTeam(player.getCode());
+		}
+		
+	}
 	public void determineTeamPoints(SpadeGame newSpadeGame) {
 
 		for (Entry<TeamTable, SpadeTeam> entry : newSpadeGame.getTeams().entrySet()) {
@@ -86,7 +103,7 @@ public class SpadeTeamService {
 
 			else if (teamScore > entry.getValue().getTotalBid()) {
 
-				teamTotalScore = entry.getValue().getTotalBid() + (teamScore - entry.getValue().getTotalBid()) / 10;
+				teamTotalScore = entry.getValue().getTotalBid() + (teamScore - entry.getValue().getTotalBid()) / POINTS_WON_PER_TRICK_BEFORE_OVERBID;
 
 				if (teamTotalBags >= newSpadeGame.getBags()) {
 					teamTotalScore -= newSpadeGame.getBagPoints();
@@ -117,6 +134,8 @@ public class SpadeTeamService {
 
 		SpadeTeam maxScoreTeam = newSpadeGame.getTeams().values().stream()
 				.max(Comparator.comparing(SpadeTeam::getTotalScore)).get();
+		SpadeTeam minScoreTeam = newSpadeGame.getTeams().values().stream()
+				.min(Comparator.comparing(SpadeTeam::getTotalScore)).get();
 
 		List<SpadeTeam> winnerTeams = new ArrayList<SpadeTeam>();
 		for (SpadeTeam team : newSpadeGame.getTeams().values()) {
@@ -127,10 +146,25 @@ public class SpadeTeamService {
 			}
 		}
 
-		if (winnerTeams.size() == 1) {
+		if (maxScoreTeam.getTotalScore() >= newSpadeGame.getPointsToWin()) {
 
-			if (maxScoreTeam.getTotalScore() >= newSpadeGame.getPointsToWin()) {
+			for (Entry<TeamTable, SpadeTeam> entry : newSpadeGame.getTeams().entrySet()) {
 
+				if (entry.getValue().getTotalScore() == maxScoreTeam.getTotalScore()) {
+
+					entry.getValue().setWon(true);
+				} else {
+					entry.getValue().setWon(false);
+				}
+			}
+			newSpadeGame.setGameOver(true);
+
+		}
+
+		else {
+			
+			if(minScoreTeam.getTotalScore()<=newSpadeGame.getPointsToLose()) {
+				
 				for (Entry<TeamTable, SpadeTeam> entry : newSpadeGame.getTeams().entrySet()) {
 
 					if (entry.getValue().getTotalScore() == maxScoreTeam.getTotalScore()) {
@@ -141,8 +175,8 @@ public class SpadeTeamService {
 					}
 				}
 				newSpadeGame.setGameOver(true);
-
 			}
+			
 
 		}
 
@@ -153,7 +187,7 @@ public class SpadeTeamService {
 		for (PlayerTable player : PlayerTable.values()) {
 
 			SpadePlayer spadePlayer = newSpadeGame.getTeams()
-					.get(TeamTable.getTeamByPlayer(player.getCode(), newSpadeGame.getNumberOfTeams())).getPlayers()
+					.get(getTeamByPlayer(player, newSpadeGame.getNumberOfTeams())).getPlayers()
 					.get(player);
 
 			spadePlayer.setPlayerCurrentScore(0);

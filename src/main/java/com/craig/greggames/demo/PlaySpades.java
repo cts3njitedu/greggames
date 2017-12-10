@@ -3,17 +3,20 @@ package com.craig.greggames.demo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.craig.greggames.model.TeamTable;
 import com.craig.greggames.model.player.PlayerTable;
 import com.craig.greggames.model.spades.SpadeGame;
 import com.craig.greggames.model.spades.SpadePlayer;
+import com.craig.greggames.model.team.TeamTable;
 import com.craig.greggames.service.spades.state.SpadeGameService;
+import com.craig.greggames.service.spades.state.SpadeTeamService;
 
 @Service
 public class PlaySpades {
 
 	@Autowired
 	private SpadeGameService creator;
+	@Autowired
+	private SpadeTeamService teamService;
 
 	public PlaySpades() {
 
@@ -22,26 +25,28 @@ public class PlaySpades {
 
 	public void playGame(SpadeGame spadeGame) {
 
+		creator.createGame(spadeGame);
+		creator.startGame(spadeGame);
 		creator.play(spadeGame);
 		while (!spadeGame.isGameOver()) {
 			spadeGame.getTeams()
-					.get(TeamTable.getTeamByPlayer(spadeGame.getCurrTurn().getCode(), spadeGame.getNumberOfTeams()))
+					.get(teamService.getTeamByPlayer(spadeGame.getCurrTurn(), spadeGame.getNumberOfTeams()))
 					.getPlayers().get(spadeGame.getCurrTurn()).setBot(true);
 
 			creator.play(spadeGame);
 
 			spadeGame.getTeams()
-					.get(TeamTable.getTeamByPlayer(spadeGame.getCurrTurn().getCode(), spadeGame.getNumberOfTeams()))
+					.get(teamService.getTeamByPlayer(spadeGame.getCurrTurn(), spadeGame.getNumberOfTeams()))
 					.getPlayers().get(spadeGame.getCurrTurn()).setBot(true);
 			creator.play(spadeGame);
 
 			spadeGame.getTeams()
-					.get(TeamTable.getTeamByPlayer(spadeGame.getCurrTurn().getCode(), spadeGame.getNumberOfTeams()))
+					.get(teamService.getTeamByPlayer(spadeGame.getCurrTurn(), spadeGame.getNumberOfTeams()))
 					.getPlayers().get(spadeGame.getCurrTurn()).setBot(true);
 			creator.play(spadeGame);
 
 			spadeGame.getTeams()
-					.get(TeamTable.getTeamByPlayer(spadeGame.getCurrTurn().getCode(), spadeGame.getNumberOfTeams()))
+					.get(teamService.getTeamByPlayer(spadeGame.getCurrTurn(), spadeGame.getNumberOfTeams()))
 					.getPlayers().get(spadeGame.getCurrTurn()).setBot(true);
 			creator.play(spadeGame);
 
@@ -80,7 +85,7 @@ public class PlaySpades {
 
 			PlayerTable player = spadeGame.getCurrTurn();
 
-			TeamTable team = TeamTable.getTeamByPlayer(player.getCode(), spadeGame.getNumberOfTeams());
+			TeamTable team = teamService.getTeamByPlayer(player, spadeGame.getNumberOfTeams());
 			spadePlayer1 = spadeGame.getTeams().get(team).getPlayers().get(player);
 			spadeGame.getTeams().get(team).getPlayers().get(player)
 					.setPlayingCard(spadePlayer1.getRemainingCards().get(0));
@@ -88,7 +93,7 @@ public class PlaySpades {
 
 			player = spadeGame.getCurrTurn();
 
-			team = TeamTable.getTeamByPlayer(player.getCode(), spadeGame.getNumberOfTeams());
+			team = teamService.getTeamByPlayer(player, spadeGame.getNumberOfTeams());
 			spadePlayer2 = spadeGame.getTeams().get(team).getPlayers().get(player);
 			spadeGame.getTeams().get(team).getPlayers().get(player)
 					.setPlayingCard(spadePlayer2.getRemainingCards().get(0));
@@ -96,7 +101,7 @@ public class PlaySpades {
 			creator.play(spadeGame);
 
 			player = spadeGame.getCurrTurn();
-			team = TeamTable.getTeamByPlayer(player.getCode(), spadeGame.getNumberOfTeams());
+			team = teamService.getTeamByPlayer(player, spadeGame.getNumberOfTeams());
 			spadePlayer3 = spadeGame.getTeams().get(team).getPlayers().get(player);
 			spadeGame.getTeams().get(team).getPlayers().get(player)
 					.setPlayingCard(spadePlayer3.getRemainingCards().get(0));
@@ -104,7 +109,7 @@ public class PlaySpades {
 			creator.play(spadeGame);
 
 			player = spadeGame.getCurrTurn();
-			team = TeamTable.getTeamByPlayer(player.getCode(), spadeGame.getNumberOfTeams());
+			team = teamService.getTeamByPlayer(player, spadeGame.getNumberOfTeams());
 			spadePlayer4 = spadeGame.getTeams().get(team).getPlayers().get(player);
 			spadeGame.getTeams().get(team).getPlayers().get(player)
 					.setPlayingCard(spadePlayer4.getRemainingCards().get(0));

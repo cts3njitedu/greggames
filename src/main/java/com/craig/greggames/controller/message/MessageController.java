@@ -27,10 +27,10 @@ public class MessageController {
 
 	@MessageMapping("/greggames/{ggType}")
     @SendTo("/topic/{ggType}")
-    public SpadeGame addGame(@DestinationVariable String ggType, @RequestBody SpadeGame spadeGame) throws Exception {
+    public SpadeGame createGame(@DestinationVariable String ggType, @RequestBody SpadeGame spadeGame) throws Exception {
         //Thread.sleep(1000); // simulated delay
 		//System.out.println(spadeGame.toString());
-         return messageService.addGame(spadeGame);
+         return messageService.createGame(spadeGame);
     }
 	
 	

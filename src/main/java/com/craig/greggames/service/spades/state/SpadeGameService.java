@@ -1,5 +1,8 @@
 package com.craig.greggames.service.spades.state;
 
+import static com.craig.greggames.constants.spades.SpadeGameConstants.MAX_TRICK_COUNT;
+import static com.craig.greggames.constants.spades.SpadeGameConstants.MAX_TURN_PER_TRICK;
+
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,8 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.craig.greggames.model.player.PlayerTable;
 import com.craig.greggames.model.spades.SpadeGame;
-import com.craig.greggames.service.cards.CardService;
-
+import com.craig.greggames.service.cards.CardService;;
 @Service
 public class SpadeGameService {
 
@@ -26,18 +28,21 @@ public class SpadeGameService {
 	@Autowired
 	private SpadePlayerService playerService;
 	
-	public void startGame(SpadeGame newSpadeGame) {
+	public void createGame(SpadeGame newSpadeGame) {
 		
 		
-		
+		newSpadeGame.setSpadePlayed(false);
+		newSpadeGame.setActivePlayers(newSpadeGame.getActivePlayers());
+		newSpadeGame.setNumberOfPlayers(MAX_TURN_PER_TRICK);
+		newSpadeGame.setStarting(true);
 		teamService.makeTeams(newSpadeGame);
 		
 		
 	}
 	
-	public void dealCards(SpadeGame newSpadeGame) {
+	public void startGame(SpadeGame newSpadeGame) {
 
-		int start = rand.nextInt(4) + 1;
+		int start = rand.nextInt(MAX_TURN_PER_TRICK) + 1;
 		newSpadeGame.setBidding(true);
 		newSpadeGame.setStartTurn(PlayerTable.getPlayer(start));
 		newSpadeGame.setStartHand(PlayerTable.getPlayer(start));
@@ -49,12 +54,16 @@ public class SpadeGameService {
 		bidderService.cleanUpBid(newSpadeGame);
 	}
 
+	public void joinGame(SpadeGame newSpadeGame) {
+		
+		
+	}
 	public void play(SpadeGame newSpadeGame) {
 
 		if (newSpadeGame.isStarting()) {
 
 			teamService.makeTeams(newSpadeGame);
-			int start = rand.nextInt(4) + 1;
+			int start = rand.nextInt(MAX_TURN_PER_TRICK) + 1;
 			newSpadeGame.setBidding(true);
 			newSpadeGame.setStartTurn(PlayerTable.getPlayer(start));
 			newSpadeGame.setStartHand(PlayerTable.getPlayer(start));
@@ -70,9 +79,8 @@ public class SpadeGameService {
 		else if (newSpadeGame.isBidding()) {
 
 			// check the turn count. if 4 set bidding to false;
-
 			bidderService.determineBid(newSpadeGame);
-			if (newSpadeGame.getTurnCount() == 4) {
+			if (newSpadeGame.getTurnCount() == MAX_TURN_PER_TRICK) {
 
 				newSpadeGame.setCurrTurn(newSpadeGame.getStartTurn());
 				newSpadeGame.setBidding(false);
@@ -83,8 +91,8 @@ public class SpadeGameService {
 
 				int currTurnCode = newSpadeGame.getCurrTurn().getCode() + 1;
 
-				if (currTurnCode > 4) {
-					currTurnCode = currTurnCode - 4;
+				if (currTurnCode > MAX_TURN_PER_TRICK) {
+					currTurnCode = currTurnCode - MAX_TURN_PER_TRICK;
 				}
 				newSpadeGame.setCurrTurn(PlayerTable.getPlayer(currTurnCode));
 				newSpadeGame.setTurnCount(newSpadeGame.getTurnCount() + 1);
@@ -92,7 +100,7 @@ public class SpadeGameService {
 
 		} else {
 
-			if (newSpadeGame.getTurnCount() == 4) {
+			if (newSpadeGame.getTurnCount() == MAX_TURN_PER_TRICK) {
 
 				// determine who won the trick
 				playerService.determinePlayerWinner(newSpadeGame);
@@ -103,15 +111,15 @@ public class SpadeGameService {
 				PlayerTable temWinnerPlayer = newSpadeGame.getTempWinner();
 				newSpadeGame.setTempWinner(null);
 
-				if (newSpadeGame.getTrickCount() == 13) {
+				if (newSpadeGame.getTrickCount() == MAX_TRICK_COUNT) {
 
 					// determine the total team score;
 					teamService.determineTeamPoints(newSpadeGame);
 					// determine if someone won the game;
 					teamService.determineGameWinner(newSpadeGame);
 					int start = newSpadeGame.getStartHand().getCode() + 1;
-					if (start > 4) {
-						start = start - 4;
+					if (start > MAX_TURN_PER_TRICK) {
+						start = start - MAX_TURN_PER_TRICK;
 					}
 					newSpadeGame.setBidding(true);
 					newSpadeGame.setStartHand(PlayerTable.getPlayer(start));
@@ -142,8 +150,8 @@ public class SpadeGameService {
 				cardService.reAdjustCards(newSpadeGame);
 				playerService.determinePlayerWinner(newSpadeGame);
 				int curr = newSpadeGame.getCurrTurn().getCode() + 1;
-				if (curr > 4) {
-					curr = curr - 4;
+				if (curr > MAX_TURN_PER_TRICK) {
+					curr = curr - MAX_TURN_PER_TRICK;
 				}
 				newSpadeGame.setCurrTurn(PlayerTable.getPlayer(curr));
 				newSpadeGame.setTurnCount(newSpadeGame.getTurnCount() + 1);

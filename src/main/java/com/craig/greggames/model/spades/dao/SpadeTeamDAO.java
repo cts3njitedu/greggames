@@ -3,8 +3,8 @@ package com.craig.greggames.model.spades.dao;
 import java.util.EnumMap;
 import java.util.Map;
 
-import com.craig.greggames.model.TeamTable;
 import com.craig.greggames.model.player.PlayerTable;
+import com.craig.greggames.model.team.TeamTable;
 
 public class SpadeTeamDAO {
 	private int totalBid;

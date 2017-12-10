@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.craig.greggames.exception.GreggamesException;
 import com.craig.greggames.model.spades.SpadeGame;
 import com.craig.greggames.service.spades.SpadeService;
 
@@ -43,6 +44,12 @@ public class SpadesController {
 		return spadeService.startGame(gameId);
 	}
 	
+	@RequestMapping(method = RequestMethod.GET, path = { "/games/error" })
+	public @ResponseBody SpadeGame testException() throws GreggamesException {
+
+		throw new GreggamesException("This is a test");
+		//return null;
+	}
 	//
 	// @RequestMapping(path= {"/hand"}, method=RequestMethod.POST)
 	// public @ResponseBody Hand getHand(@RequestBody Game game) {

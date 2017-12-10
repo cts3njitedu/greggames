@@ -3,9 +3,9 @@ package com.craig.greggames.model.spades.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.craig.greggames.model.TeamTable;
 import com.craig.greggames.model.card.Card;
 import com.craig.greggames.model.player.PlayerTable;
+import com.craig.greggames.model.team.TeamTable;
 
 public abstract class PlayerDAO {
 
