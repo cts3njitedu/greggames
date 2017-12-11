@@ -9,6 +9,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.craig.greggames.CardGamesApplication;
 import com.craig.greggames.controller.game.cards.spades.SpadesController;
+import com.craig.greggames.controller.game.cards.spades.socket.SpadesSocketController;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -25,8 +26,11 @@ public class StartGameSteps {
 	
 	@Autowired
 	private SpadesController spadeService;
+	
+	@Autowired
+	private SpadesSocketController gameService;
 
-	private String gameId;
+
 	
 	private SpadeGame spadeGame;
 
@@ -34,7 +38,17 @@ public class StartGameSteps {
 	@Given("^a created game$")
 	public void a_created_game() throws Throwable {
 	    // Write code here that turns the phrase above into concrete actions
-		gameId = "5a2c9a784ac63b078508ec94";
+		spadeGame = new SpadeGame();
+
+		spadeGame.setActivePlayers(0);
+		spadeGame.setBagPoints(100);
+		spadeGame.setBags(50);
+		spadeGame.setBidNilPoints(100);
+		spadeGame.setStarting(true);
+		spadeGame.setPointsToWin(150);
+		spadeGame.setPointsToLose(-100);
+		spadeGame.setNumberOfTeams(2);
+		spadeGame = gameService.createGame("", spadeGame);
 
 	    //throw new PendingException();
 	}
@@ -42,7 +56,7 @@ public class StartGameSteps {
 	@When("^I attempt to start the game$")
 	public void i_attempt_to_start_the_game() throws Throwable {
 	    // Write code here that turns the phrase above into concrete actions
-		spadeGame = spadeService.startGame(gameId);
+		spadeGame = spadeService.startGame(spadeGame.getGameId());
 	
 	
 	}

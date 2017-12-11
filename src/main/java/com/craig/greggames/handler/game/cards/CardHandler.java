@@ -1,6 +1,8 @@
 package com.craig.greggames.handler.game.cards;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,11 +33,10 @@ public class CardHandler {
 			newSpadeGame.getTeams()
 					.get(teamService.getTeamByPlayer(PlayerTable.getPlayer(dealCode), newSpadeGame.getNumberOfTeams()))
 					.getPlayers().get(PlayerTable.getPlayer(dealCode)).setRemainingCards(null);
-					
-					
+
 			newSpadeGame.getTeams()
-			.get(teamService.getTeamByPlayer(PlayerTable.getPlayer(dealCode), newSpadeGame.getNumberOfTeams()))
-			.getPlayers().get(PlayerTable.getPlayer(dealCode)).getRemainingCards()		
+					.get(teamService.getTeamByPlayer(PlayerTable.getPlayer(dealCode), newSpadeGame.getNumberOfTeams()))
+					.getPlayers().get(PlayerTable.getPlayer(dealCode)).getRemainingCards()
 					.addAll(cards.subList(i, i + 13));
 			dealCode++;
 			if (dealCode > 4) {
@@ -47,71 +48,62 @@ public class CardHandler {
 	}
 
 	public Card smallestCard(Card a, Card b) {
-		if(a==null){
+		if (a == null) {
 			return b;
 		}
-		if(b==null) {
-			
+		if (b == null) {
+
 			return a;
 		}
-		return (a.getValue().getValue()<=b.getValue().getValue())? a : b;
+		return (a.getValue().getValue() <= b.getValue().getValue()) ? a : b;
 	}
-	
-	public Card cardToUse(List<Card>cards, List<Card>spades,Card winnerCard) {
-		
-		Card playingCard = cardToUse(cards, winnerCard);
-		if (playingCard != null) {
 
-			return playingCard;
-
-		}
-
-		else {
-			playingCard = cardToUse(spades, null);
-			if (playingCard != null) {
-
-
-				return playingCard;
-
-			}
-
-		}
-		
-		return null;
-		
-	}
-	
-	
-	//when winnerCard is null find the smallest card
-	public Card cardToUse(List<Card> cards, Card winnerCard) {
+	public Card findSmallestCard(Set<Card> cards) {
 
 		Card minCardValue = null;
 		for (Card card : cards) {
 
-			if (winnerCard != null) {
-				if (card.getValue().getValue() > winnerCard.getValue().getValue()) {
-
-					return card;
-				}
-
-			}
-
 			if (minCardValue == null) {
-
 				minCardValue = card;
 			} else {
-
 				if (card.getValue().getValue() < minCardValue.getValue().getValue()) {
 
 					minCardValue = card;
 				}
 			}
 		}
+
 		return minCardValue;
+	}
+
+	// when winnerCard is null find the smallest card
+	public Card findCardToBeatWinnerCard(Set<Card> cards, Card winnerCard, boolean isUseLargestCard) {
+
+		Card maxCardValue = null;
+		for (Card card : cards) {
+
+			if (card.getValue().getValue() > winnerCard.getValue().getValue()) {
+
+				if (!isUseLargestCard) {
+
+					return card;
+				}
+				if (maxCardValue == null) {
+					maxCardValue = card;
+				} else {
+
+					if (maxCardValue.getValue().getValue() < card.getValue().getValue()) {
+
+						maxCardValue = card;
+					}
+				}
+			}
+
+		}
+
+		return maxCardValue;
 
 	}
-	
-	
 
 	public void reAdjustCards(SpadeGame newSpadeGame) {
 
@@ -122,7 +114,7 @@ public class CardHandler {
 
 				.get(player).getPlayingCard();
 
-		List<Card> cardsLeft = newSpadeGame.getTeams()
+		Set<Card> cardsLeft = newSpadeGame.getTeams()
 				.get(teamService.getTeamByPlayer(player, newSpadeGame.getNumberOfTeams())).getPlayers().get(player)
 				.getRemainingCards();
 
@@ -140,11 +132,11 @@ public class CardHandler {
 		}
 	}
 
-	public void sortCards(List<Card> cards) {
+	public Set<Card> sortCards(Set<Card> cards) {
 
-		cards.sort((Card c1, Card c2) -> c1.getValue().getValue() - c2.getValue().getValue());
+		return cards.stream().sorted((Card c1, Card c2) -> c1.getValue().getValue() - c2.getValue().getValue())
+				.collect(Collectors.toSet());
 
 	}
-	
-	
+
 }

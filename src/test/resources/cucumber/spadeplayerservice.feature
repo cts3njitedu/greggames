@@ -17,3 +17,5 @@ Feature: Make sure spade player methods are working
     Given a currplayer and tempwinner
     When I determine player card
     Then I should be correct in determining player card
+    
+

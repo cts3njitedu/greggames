@@ -63,7 +63,7 @@ public class DeterminePlayerCardSteps {
 	@When("^I determine player card$")
 	public void i_determine_player_card() throws Throwable {
 		// Write code here that turns the phrase above into concrete actions
-		playerService.determinePlayerCard(spadeGame);
+		//playerService.determinePlayerCard(spadeGame);
 	}
 
 	@Then("^I should be correct in determining player card$")

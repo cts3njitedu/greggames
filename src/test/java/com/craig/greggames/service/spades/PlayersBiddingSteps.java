@@ -14,7 +14,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
-public class PlayersBidding {
+public class PlayersBiddingSteps {
 
 	private SpadeGame spadeGame;
 	@Autowired

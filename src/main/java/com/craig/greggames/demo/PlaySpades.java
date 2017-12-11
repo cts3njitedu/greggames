@@ -1,10 +1,13 @@
 package com.craig.greggames.demo;
 
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.craig.greggames.handler.game.cards.spades.SpadeGameHandler;
 import com.craig.greggames.handler.game.cards.spades.SpadeTeamHandler;
+import com.craig.greggames.model.game.cards.Card;
 import com.craig.greggames.model.game.cards.player.PlayerTable;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.craig.greggames.model.game.cards.spades.SpadePlayer;
@@ -81,38 +84,63 @@ public class PlaySpades {
 		System.out.println("Remaining Cards: " + spadePlayer4.getRemainingCards());
 		System.out.println("Bid: " + spadePlayer4.getPlayerBid());
 
+		Card card = null;
+		Set<Card> cards = null;
 		for (int i = 1; i <= 13; i++) {
 
 			PlayerTable player = spadeGame.getCurrTurn();
 
 			TeamTable team = teamService.getTeamByPlayer(player, spadeGame.getNumberOfTeams());
 			spadePlayer1 = spadeGame.getTeams().get(team).getPlayers().get(player);
-			spadeGame.getTeams().get(team).getPlayers().get(player)
-					.setPlayingCard(spadePlayer1.getRemainingCards().get(0));
+			cards = spadeGame.getTeams().get(team).getPlayers().get(player).getRemainingCards();
+			for(Card c: cards) {
+				
+				card = c;
+				break;
+			}
+			
+			spadeGame.getTeams().get(team).getPlayers().get(player).setPlayingCard(card);
 			creator.play(spadeGame);
 
 			player = spadeGame.getCurrTurn();
 
 			team = teamService.getTeamByPlayer(player, spadeGame.getNumberOfTeams());
 			spadePlayer2 = spadeGame.getTeams().get(team).getPlayers().get(player);
-			spadeGame.getTeams().get(team).getPlayers().get(player)
-					.setPlayingCard(spadePlayer2.getRemainingCards().get(0));
+			cards = spadeGame.getTeams().get(team).getPlayers().get(player).getRemainingCards();
+			for(Card c: cards) {
+				
+				card = c;
+				break;
+			}
+			
+			spadeGame.getTeams().get(team).getPlayers().get(player).setPlayingCard(card);
 
 			creator.play(spadeGame);
 
 			player = spadeGame.getCurrTurn();
 			team = teamService.getTeamByPlayer(player, spadeGame.getNumberOfTeams());
 			spadePlayer3 = spadeGame.getTeams().get(team).getPlayers().get(player);
-			spadeGame.getTeams().get(team).getPlayers().get(player)
-					.setPlayingCard(spadePlayer3.getRemainingCards().get(0));
-
+			cards = spadeGame.getTeams().get(team).getPlayers().get(player).getRemainingCards();
+			for(Card c: cards) {
+				
+				card = c;
+				break;
+			}
+			
+			spadeGame.getTeams().get(team).getPlayers().get(player).setPlayingCard(card);
 			creator.play(spadeGame);
 
 			player = spadeGame.getCurrTurn();
 			team = teamService.getTeamByPlayer(player, spadeGame.getNumberOfTeams());
 			spadePlayer4 = spadeGame.getTeams().get(team).getPlayers().get(player);
-			spadeGame.getTeams().get(team).getPlayers().get(player)
-					.setPlayingCard(spadePlayer4.getRemainingCards().get(0));
+			cards = spadeGame.getTeams().get(team).getPlayers().get(player).getRemainingCards();
+			for(Card c: cards) {
+				
+				card = c;
+				break;
+			}
+			
+			spadeGame.getTeams().get(team).getPlayers().get(player).setPlayingCard(card);
 
 			System.out.println("Player 1");
 			SpadePlayer spadePlayer1a = spadeGame.getTeams().get(TeamTable.TEAM1).getPlayers().get(PlayerTable.PLAYER1);

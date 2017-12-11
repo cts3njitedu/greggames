@@ -1,6 +1,7 @@
 package com.craig.greggames.handler.game.cards.spades;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +37,9 @@ public class SpadeValidationHandler {
 				return false;
 			}
 		}
-		List<Card>cards = player.getRemainingCards();
+		Set<Card>cards = player.getRemainingCards();
 		
-		List<Card>cardsToMatch = cardsToMatchSuit(startCard.getSuit(), cards);
+		Set<Card>cardsToMatch = cardsToMatchSuit(startCard.getSuit(), cards);
 		
 		if(cardsToMatch.size()>0) {
 			
@@ -55,25 +56,25 @@ public class SpadeValidationHandler {
 		
 	}
 
-	public List<Card> cardsToMatchSuit(CardSuit cardSuit, List<Card> cards) {
+	public Set<Card> cardsToMatchSuit(CardSuit cardSuit, Set<Card> cards) {
 
 		switch (cardSuit) {
 
 		case SPADES:
 
-			return cards.stream().filter(c -> c.getSuit() == CardSuit.SPADES).collect(Collectors.toList());
+			return cards.stream().filter(c -> c.getSuit() == CardSuit.SPADES).collect(Collectors.toSet());
 
 		case HEARTS:
 
-			return cards.stream().filter(c -> c.getSuit() == CardSuit.HEARTS).collect(Collectors.toList());
+			return cards.stream().filter(c -> c.getSuit() == CardSuit.HEARTS).collect(Collectors.toSet());
 
 		case DIAMONDS:
 
-			return cards.stream().filter(c -> c.getSuit() == CardSuit.DIAMONDS).collect(Collectors.toList());
+			return cards.stream().filter(c -> c.getSuit() == CardSuit.DIAMONDS).collect(Collectors.toSet());
 
 		case CLUBS:
 
-			return cards.stream().filter(c -> c.getSuit() == CardSuit.CLUBS).collect(Collectors.toList());
+			return cards.stream().filter(c -> c.getSuit() == CardSuit.CLUBS).collect(Collectors.toSet());
 
 		default:
 			break;

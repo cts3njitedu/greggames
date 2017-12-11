@@ -1,7 +1,8 @@
 package com.craig.greggames.model.game.cards.spades.dao;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.craig.greggames.model.game.cards.Card;
 import com.craig.greggames.model.game.cards.player.PlayerTable;
@@ -15,7 +16,7 @@ public abstract class PlayerDAO {
 	private Card playingCard;
 	private boolean isTurn;
 	private boolean isWon;
-	private List<Card> remainingCards;
+	private Set<Card> remainingCards;
 	private TeamTable team;
 
 	private boolean isBot;
@@ -68,14 +69,14 @@ public abstract class PlayerDAO {
 		this.isWon = isWon;
 	}
 
-	public List<Card> getRemainingCards() {
+	public Set<Card> getRemainingCards() {
 		if (remainingCards == null) {
-			remainingCards = new ArrayList<Card>();
+			remainingCards = new HashSet<Card>();
 		}
 		return remainingCards;
 	}
 
-	public void setRemainingCards(List<Card> remainingCards) {
+	public void setRemainingCards(Set<Card> remainingCards) {
 		this.remainingCards = remainingCards;
 	}
 
