@@ -2,7 +2,9 @@ package com.craig.greggames.handler.game.cards.spades;
 
 import static com.craig.greggames.constants.game.cards.spades.SpadeGameConstants.POINTS_WON_PER_TRICK_BEFORE_OVERBID;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import com.craig.greggames.handler.game.cards.CardHandler;
 import com.craig.greggames.model.game.cards.Card;
 import com.craig.greggames.model.game.cards.CardSuit;
 import com.craig.greggames.model.game.cards.CardValue;
+import com.craig.greggames.model.game.cards.player.PlayerTable;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.craig.greggames.model.game.cards.spades.SpadePlayer;
 
@@ -23,7 +26,7 @@ public class SpadeBotHandler {
 
 	@Autowired
 	private SpadeValidationHandler validationService;
-	
+
 	@Autowired
 	private CardHandler cardService;
 
@@ -70,7 +73,7 @@ public class SpadeBotHandler {
 
 	}
 
-	public Card getPlayerCard(SpadeGame newSpadeGame) {
+	public Card getBotCard(SpadeGame newSpadeGame) {
 
 		SpadePlayer leadPlayer = newSpadeGame.getTeams()
 				.get(teamService.getTeamByPlayer(newSpadeGame.getStartTurn(), newSpadeGame.getNumberOfTeams()))
@@ -83,50 +86,140 @@ public class SpadeBotHandler {
 		SpadePlayer currWinner = newSpadeGame.getTeams()
 				.get(teamService.getTeamByPlayer(newSpadeGame.getTempWinner(), newSpadeGame.getNumberOfTeams()))
 				.getPlayers().get(newSpadeGame.getTempWinner());
-		
-		//SpadePlayer teamPlayer = newSpadeGame.getTeams().get(currPlayer.getTeam()).getPlayers()
 
-		Card leadPlayerCard = leadPlayer.getPlayingCard();
-		
-		Card currWinnerCard = currWinner.getPlayingCard();
+		Map<PlayerTable, SpadePlayer> playersOnTeam = newSpadeGame.getTeams().get(currPlayer.getTeam()).getPlayers();
 
 		Set<Card> currPlayerCards = currPlayer.getRemainingCards();
 
 		currPlayerCards = cardService.sortCards(currPlayerCards);
-		Set<Card> currPlayerCardsSameSuit = validationService.cardsToMatchSuit(leadPlayerCard.getSuit(),
-				currPlayerCards);
-		
-		Card playingCard = null;
-		if(currPlayerCardsSameSuit.size()>0) {
-			
-			if(currWinnerCard.getSuit()==CardSuit.SPADES) {
-				
-				playingCard = cardService.findSmallestCard(currPlayerCardsSameSuit);
-				currPlayer.setPlayingCard(playingCard);
-			}
-			
-			if(currWinner.getTeam()!=currPlayer.getTeam()) {
-				
-			
-				playingCard = cardService.findCardToBeatWinnerCard(currPlayerCardsSameSuit, currWinnerCard,true);
-				if(playingCard!=null) {
-					
-					currPlayer.setPlayingCard(playingCard);
-				}
-				else {
-					
-					playingCard = cardService.findSmallestCard(currPlayerCardsSameSuit);
-					currPlayer.setPlayingCard(playingCard);
-				}
-				
-			}
-			
-			
-		}
 
+		Map<CardSuit, Set<Card>> distributedCardsBySuit = cardService.distributeCardsAccordingToSuit(currPlayerCards);
+		if (currPlayer.getName() == newSpadeGame.getStartTurn()) {
+
+			return retrieveCardWhenLeadPlayer(distributedCardsBySuit, newSpadeGame.isSpadePlayed());
+		}
+		SpadePlayer teamPlayer = cardService.findTeamMate(playersOnTeam, currPlayer);
+		Card leadPlayerCard = leadPlayer.getPlayingCard();
+
+		Set<Card> sameSuitCards = distributedCardsBySuit.get(leadPlayerCard.getSuit());
+		if (sameSuitCards.size() > 0) {
+			return retrieveCardSameWhenSameSuit(sameSuitCards, teamPlayer, leadPlayer, currWinner, currPlayer,
+					newSpadeGame.isSpadePlayed());
+		} else {
+
+			distributedCardsBySuit.remove(leadPlayerCard.getSuit());
+
+		}
 		return null;
 
 	}
+
+	public Card retrieveCardWhenLeadPlayer(Map<CardSuit, Set<Card>> distributedCards, boolean isSpadePlayed) {
+
+		if (isSpadePlayed) {
+
+			return cardService.findLargestCard(distributedCards.get(CardSuit.SPADES));
+		} else {
+
+			Set<Card> hearts = distributedCards.get(CardSuit.HEARTS);
+			Set<Card> diamonds = distributedCards.get(CardSuit.DIAMONDS);
+			Set<Card> clubs = distributedCards.get(CardSuit.CLUBS);
+
+			Card heartCard = cardService.findLargestCard(hearts);
+			Card diamondCard = cardService.findLargestCard(diamonds);
+			Card clubCard = cardService.findLargestCard(clubs);
+			Set<Card> suitCards = new HashSet<Card>();
+			suitCards.add(diamondCard);
+			suitCards.add(heartCard);
+			suitCards.add(clubCard);
+			return cardService.findLargestCard(suitCards);
+		}
+
+	}
+
+	public Card retrieveCardSameWhenSameSuit(Set<Card> sameSuitCards, SpadePlayer teamPlayer, SpadePlayer leadPlayer,
+			SpadePlayer currWinner, SpadePlayer currPlayer, boolean isSpadePlayed) {
+		Card playingCard = null;
+		if (teamPlayer.getName() == currWinner.getName()) {
+			if (teamPlayer.isBidNil()) {
+
+				if (teamPlayer.getPlayingCard().getSuit() == leadPlayer.getPlayingCard().getSuit()) {
+
+					return retrieveCardWhenTeamMateBidsNil(sameSuitCards, teamPlayer.getPlayingCard(), false);
+				}
+				return cardService.findSmallestCard(sameSuitCards);
+			} else {
+
+				if (teamPlayer.getPlayingCard().getValue().getValue() >= CardValue.QUEEN.getValue()) {
+					return cardService.findSmallestCard(sameSuitCards);
+				} else {
+					return cardService.findLargestCard(sameSuitCards);
+				}
+			}
+
+		} else {
+			if (currWinner.getPlayingCard().getValue().getValue() >= CardValue.QUEEN.getValue()) {
+
+				return cardService.findSmallestCard(sameSuitCards);
+			} else {
+
+				if (teamPlayer.isBidNil()) {
+					if (currWinner.getName() == leadPlayer.getName()) {
+
+						return retrieveCardWhenTeamMateBidsNil(sameSuitCards, currWinner.getPlayingCard(), true);
+					} else {
+
+						return cardService.findSmallestCard(sameSuitCards);
+					}
+
+				} else {
+
+					playingCard = cardService.findLargestCard(sameSuitCards);
+					if (playingCard.getValue().getValue() >= CardValue.KING.getValue()) {
+
+						return playingCard;
+					} else {
+						return cardService.findSmallestCard(sameSuitCards);
+					}
+				}
+			}
+
+		}
+
+	}
+
+	public Card retrieveCardWhenNotSameSuit(Map<CardSuit, Set<Card>> distributedCards, SpadePlayer teamPlayer,
+			SpadePlayer leadPlayer, SpadePlayer currWinner, SpadePlayer currPlayer, boolean isSpadePlayed) {
+
+		if (teamPlayer.getName() == currWinner.getName()) {
+
+			if (teamPlayer.isBidNil()) {
+
+				return retrieveCardWhenTeamMateBidsNil(distributedCards.get(teamPlayer.getPlayingCard().getSuit()),
+						teamPlayer.getPlayingCard(), false);
+			} else {
+
+				if (teamPlayer.getPlayingCard().getValue().getValue() >= CardValue.QUEEN.getValue()) {
+					return cardService.findSmallestCard(distributedCards.get(teamPlayer.getPlayingCard().getSuit()));
+				} else {
+					return cardService.findLargestCard(distributedCards.get(teamPlayer.getPlayingCard().getSuit()));
+				}
+			}
+
+		}
 	
-	
+
+		return null;
+	}
+
+	public Card retrieveCardWhenTeamMateBidsNil(Set<Card> cards, Card cardToCompare, boolean isUseLargestCard) {
+
+		Card playingCard = null;
+		playingCard = cardService.findCardToMatchSpecifiedCard(cards, cardToCompare, isUseLargestCard);
+
+		if (playingCard == null) {
+			return cardService.findSmallestCard(cards);
+		}
+		return playingCard;
+	}
 }

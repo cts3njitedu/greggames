@@ -14,7 +14,8 @@ public class SpadePlayer extends Player {
 	private boolean isOverBook;
 	private int playerBags;
 	private boolean isBidding;
-
+	private boolean isBidNil;
+	
 	public int getPlayerBid() {
 		return playerBid;
 	}
@@ -71,4 +72,13 @@ public class SpadePlayer extends Player {
 		this.isOverBook = isOverBook;
 	}
 
+	public boolean isBidNil() {
+		return isBidNil;
+	}
+
+	public void setBidNil(boolean isBidNil) {
+		this.isBidNil = isBidNil;
+	}
+
+	
 }

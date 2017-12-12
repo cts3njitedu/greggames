@@ -1,17 +1,21 @@
 package com.craig.greggames.demo;
 
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.craig.greggames.handler.game.cards.CardHandler;
 import com.craig.greggames.handler.game.cards.spades.SpadeGameHandler;
 import com.craig.greggames.handler.game.cards.spades.SpadeTeamHandler;
 import com.craig.greggames.model.game.cards.Card;
+import com.craig.greggames.model.game.cards.CardSuit;
 import com.craig.greggames.model.game.cards.player.PlayerTable;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.craig.greggames.model.game.cards.spades.SpadePlayer;
 import com.craig.greggames.model.game.cards.team.TeamTable;
+import com.craig.greggames.util.DealUtility;
 
 @Service
 public class PlaySpades {
@@ -20,10 +24,14 @@ public class PlaySpades {
 	private SpadeGameHandler creator;
 	@Autowired
 	private SpadeTeamHandler teamService;
+	
+	@Autowired
+	private CardHandler cardService;
 
 	public PlaySpades() {
 
 		this.creator = new SpadeGameHandler();
+		this.cardService = new CardHandler();
 	}
 
 	public void playGame(SpadeGame spadeGame) {
@@ -179,5 +187,18 @@ public class PlaySpades {
 
 		}
 
+	}
+	
+	
+	public void test() {
+		
+		Set<Card> cards = DealUtility.getSpadeHand();
+		
+		Map<CardSuit, Set<Card>> cardMap = cardService.distributeCardsAccordingToSuit(cards);
+		for(CardSuit suit: CardSuit.values()) {
+			
+			System.out.println(suit + ":" + cardMap.get(suit).toString());
+			
+		}
 	}
 }

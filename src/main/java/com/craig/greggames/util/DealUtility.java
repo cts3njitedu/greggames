@@ -1,15 +1,15 @@
 package com.craig.greggames.util;
 
-import java.util.List;
+import java.util.Set;
 
 import com.craig.greggames.model.game.cards.Card;
 
 public class DealUtility {
 	
 	
-	public static List<Card> getSpadeHand() {
+	public static Set<Card> getSpadeHand() {
 		
-		List<Card>cards = RandomUtility.shuffle();
+		Set<Card>cards = RandomUtility.shuffle();
 		
 		
 		

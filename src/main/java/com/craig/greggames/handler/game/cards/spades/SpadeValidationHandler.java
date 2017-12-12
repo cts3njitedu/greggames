@@ -1,6 +1,7 @@
 package com.craig.greggames.handler.game.cards.spades;
 
-import java.util.List;
+import java.util.EnumMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -19,41 +20,74 @@ public class SpadeValidationHandler {
 	private SpadeTeamHandler teamService;
 
 	public boolean validatePlayerCard(SpadeGame spadeGame) {
-		
-		SpadePlayer player = spadeGame.getTeams().get(teamService
-				.getTeamByPlayer(spadeGame.getCurrTurn(), spadeGame.getNumberOfTeams())).
-				getPlayers().get(spadeGame.getCurrTurn());
-		
-		SpadePlayer leadPlayer = spadeGame.getTeams().get(teamService
-				.getTeamByPlayer(spadeGame.getStartTurn(), spadeGame.getNumberOfTeams())).
-				getPlayers().get(spadeGame.getStartTurn());
-	
+
+		SpadePlayer player = spadeGame.getTeams()
+				.get(teamService.getTeamByPlayer(spadeGame.getCurrTurn(), spadeGame.getNumberOfTeams())).getPlayers()
+				.get(spadeGame.getCurrTurn());
+
+		SpadePlayer leadPlayer = spadeGame.getTeams()
+				.get(teamService.getTeamByPlayer(spadeGame.getStartTurn(), spadeGame.getNumberOfTeams())).getPlayers()
+				.get(spadeGame.getStartTurn());
+
 		Card card = player.getPlayingCard();
 		Card startCard = leadPlayer.getPlayingCard();
-		if(card.getSuit()==CardSuit.SPADES) {
-			
-			if(!spadeGame.isSpadePlayed()) {
-				
+
+		Set<Card> cards = player.getRemainingCards();
+
+		Map<CardSuit, Set<Card>> cardsForEachSuit = new EnumMap<>(CardSuit.class);
+		for (CardSuit suit : CardSuit.values()) {
+
+			cardsForEachSuit.put(suit, cardsToMatchSuit(suit, cards));
+		}
+		Set<Card> cardsToMatch = cardsForEachSuit.get(startCard.getSuit());
+
+		if (cardsToMatch.size() > 0) {
+
+			if (card.getSuit() != startCard.getSuit()) {
+
 				return false;
 			}
-		}
-		Set<Card>cards = player.getRemainingCards();
-		
-		Set<Card>cardsToMatch = cardsToMatchSuit(startCard.getSuit(), cards);
-		
-		if(cardsToMatch.size()>0) {
-			
-			if(card.getSuit()!=startCard.getSuit()) {
+
+		} else {
+			if (card.getSuit() == CardSuit.SPADES) {
+
+				boolean playSpade = isSpadePlayable(cardsForEachSuit, startCard, card,spadeGame.isSpadePlayed());
 				
-				return false;
-			}
+				spadeGame.setSpadePlayed(playSpade);
+				
+				return playSpade;
 			
+
+			}
+
 		}
-		
-		
+
 		return true;
-		
-		
+
+	}
+
+	public boolean isSpadePlayable(Map<CardSuit, Set<Card>> cardsForEachSuit, Card startCard, Card card,
+			boolean isSpadePlayed) {
+
+		if (startCard != card) {
+			return true;
+		} else {
+			if (!isSpadePlayed) {
+
+				if (cardsForEachSuit.get(CardSuit.CLUBS).size() == 0
+						&& cardsForEachSuit.get(CardSuit.HEARTS).size() == 0
+						&& cardsForEachSuit.get(CardSuit.DIAMONDS).size() == 0) {
+
+					return true;
+
+				} else {
+					return false;
+				}
+
+			}
+
+		}
+		return true;
 	}
 
 	public Set<Card> cardsToMatchSuit(CardSuit cardSuit, Set<Card> cards) {

@@ -1,7 +1,10 @@
 package com.craig.greggames.handler.game.cards;
 
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +12,10 @@ import org.springframework.stereotype.Service;
 
 import com.craig.greggames.handler.game.cards.spades.SpadeTeamHandler;
 import com.craig.greggames.model.game.cards.Card;
+import com.craig.greggames.model.game.cards.CardSuit;
 import com.craig.greggames.model.game.cards.player.PlayerTable;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
+import com.craig.greggames.model.game.cards.spades.SpadePlayer;
 import com.craig.greggames.util.DealUtility;
 
 @Service
@@ -18,10 +23,13 @@ public class CardHandler {
 
 	@Autowired
 	private SpadeTeamHandler teamService;
+	
+	
 
 	public void distributeCards(SpadeGame newSpadeGame) {
 
-		List<Card> cards = DealUtility.getSpadeHand();
+		Set<Card> cardSet = DealUtility.getSpadeHand();
+		List<Card> cards = cardSet.stream().collect(Collectors.toList());
 		int i = 0;
 		int dealCode = newSpadeGame.getCurrTurn().getCode() + 1;
 		if (dealCode > 4) {
@@ -75,14 +83,32 @@ public class CardHandler {
 
 		return minCardValue;
 	}
-
-	// when winnerCard is null find the smallest card
-	public Card findCardToBeatWinnerCard(Set<Card> cards, Card winnerCard, boolean isUseLargestCard) {
+	
+	public Card findLargestCard(Set<Card> cards) {
 
 		Card maxCardValue = null;
 		for (Card card : cards) {
 
-			if (card.getValue().getValue() > winnerCard.getValue().getValue()) {
+			if (maxCardValue == null) {
+				maxCardValue = card;
+			} else {
+				if (card.getValue().getValue() > maxCardValue.getValue().getValue()) {
+
+					maxCardValue = card;
+				}
+			}
+		}
+
+		return maxCardValue;
+	}
+
+	
+	public Card findCardToMatchSpecifiedCard(Set<Card> cards, Card cardToCompare, boolean isUseLargestCard) {
+
+		Card maxCardValue = null;
+		for (Card card : cards) {
+
+			if (card.getValue().getValue() > cardToCompare.getValue().getValue()) {
 
 				if (!isUseLargestCard) {
 
@@ -137,6 +163,35 @@ public class CardHandler {
 		return cards.stream().sorted((Card c1, Card c2) -> c1.getValue().getValue() - c2.getValue().getValue())
 				.collect(Collectors.toSet());
 
+	}
+	
+	public SpadePlayer findTeamMate(Map<PlayerTable, SpadePlayer> playersOnTeam, SpadePlayer currPlayer) {
+		
+	
+		for (Entry<PlayerTable, SpadePlayer> entry : playersOnTeam.entrySet()) {
+
+			if (entry.getKey() != currPlayer.getName()) {
+
+				return entry.getValue();
+			}
+		}
+		
+		return null;
+	}
+	
+	
+	public Map<CardSuit,Set<Card>> distributeCardsAccordingToSuit(Set<Card>cards){
+		
+		Map<CardSuit, Set<Card>> cardsForEachSuit = new EnumMap<>(CardSuit.class);
+		for (CardSuit suit : CardSuit.values()) {
+
+				
+			Set<Card> d = cards.stream().filter(c -> c.getSuit() == suit).collect(Collectors.toSet());
+			
+		
+			cardsForEachSuit.put(suit, d);
+		}
+		return cardsForEachSuit;
 	}
 
 }

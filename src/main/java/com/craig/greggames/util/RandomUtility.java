@@ -2,7 +2,9 @@ package com.craig.greggames.util;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.craig.greggames.model.game.cards.Card;
 import com.craig.greggames.model.game.cards.Deck;
@@ -12,7 +14,7 @@ public class RandomUtility {
 	private final static int STANDARDDECKSIZE=52;
 	
 	
-	public static List<Card> shuffle(){
+	public static Set<Card> shuffle(){
 		
 		List<Integer> cardIds = new ArrayList<Integer>();
 		
@@ -23,7 +25,7 @@ public class RandomUtility {
 		
 		Collections.shuffle(cardIds);
 		
-		List<Card>cards = new ArrayList<Card>();
+		Set<Card>cards = new HashSet<Card>();
 		
 		for(Integer cardId:cardIds) {
 			

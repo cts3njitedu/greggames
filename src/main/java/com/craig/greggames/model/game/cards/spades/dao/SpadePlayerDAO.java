@@ -9,6 +9,7 @@ public class SpadePlayerDAO extends PlayerDAO{
 	private boolean isOverBook;
 	private int playerBags;
 	private boolean isBidding;
+	private boolean isBidNil;
 
 	public int getPlayerBid() {
 		return playerBid;
@@ -65,6 +66,16 @@ public class SpadePlayerDAO extends PlayerDAO{
 	public void setOverBook(boolean isOverBook) {
 		this.isOverBook = isOverBook;
 	}
+
+	public boolean isBidNil() {
+		return isBidNil;
+	}
+
+	public void setBidNil(boolean isBidNil) {
+		this.isBidNil = isBidNil;
+	}
+	
+	
 
 
 }
