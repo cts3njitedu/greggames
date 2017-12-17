@@ -1,0 +1,389 @@
+{
+  "pointsToWin": 150,
+  "startHand": "PLAYER3",
+  "startTurn": "PLAYER3",
+  "currTurn": "PLAYER3",
+  "trickCount": 0,
+  "turnCount": 1,
+  "handCount": 1,
+  "activePlayers": 0,
+  "teams": {
+    "TEAM1": {
+      "totalBid": 0,
+      "totalCurrentScore": 0,
+      "totalScore": 0,
+      "bags": 0,
+      "players": {
+        "PLAYER1": {
+          "userId": null,
+          "name": "PLAYER1",
+          "rank": 0,
+          "playingCard": null,
+          "remainingCards": [
+            {
+              "name": "SEVEN_CLUBS",
+              "value": "SEVEN",
+              "suit": "CLUBS"
+            },
+            {
+              "name": "NINE_CLUBS",
+              "value": "NINE",
+              "suit": "CLUBS"
+            },
+            {
+              "name": "SIX_SPADES",
+              "value": "SIX",
+              "suit": "SPADES"
+            },
+            {
+              "name": "QUEEN_DIAMONDS",
+              "value": "QUEEN",
+              "suit": "DIAMONDS"
+            },
+            {
+              "name": "SIX_DIAMONDS",
+              "value": "SIX",
+              "suit": "DIAMONDS"
+            },
+            {
+              "name": "FIVE_DIAMONDS",
+              "value": "FIVE",
+              "suit": "DIAMONDS"
+            },
+            {
+              "name": "JACK_SPADES",
+              "value": "JACK",
+              "suit": "SPADES"
+            },
+            {
+              "name": "JACK_CLUBS",
+              "value": "JACK",
+              "suit": "CLUBS"
+            },
+            {
+              "name": "KING_DIAMONDS",
+              "value": "KING",
+              "suit": "DIAMONDS"
+            },
+            {
+              "name": "TWO_CLUBS",
+              "value": "TWO",
+              "suit": "CLUBS"
+            },
+            {
+              "name": "THREE_CLUBS",
+              "value": "THREE",
+              "suit": "CLUBS"
+            },
+            {
+              "name": "NINE_SPADES",
+              "value": "NINE",
+              "suit": "SPADES"
+            },
+            {
+              "name": "KING_SPADES",
+              "value": "KING",
+              "suit": "SPADES"
+            }
+          ],
+          "team": "TEAM1",
+          "playerBid": 0,
+          "playerCurrentScore": 0,
+          "playerFinalScore": 0,
+          "playerBags": 0,
+          "bidding": true,
+          "bidNil": false,
+          "overBook": false,
+          "failBid": false,
+          "won": false,
+          "turn": false,
+          "bot": false
+        },
+        "PLAYER3": {
+          "userId": null,
+          "name": "PLAYER3",
+          "rank": 0,
+          "playingCard": null,
+          "remainingCards": [
+            {
+              "name": "KING_HEARTS",
+              "value": "KING",
+              "suit": "HEARTS"
+            },
+            {
+              "name": "FIVE_SPADES",
+              "value": "FIVE",
+              "suit": "SPADES"
+            },
+            {
+              "name": "QUEEN_SPADES",
+              "value": "QUEEN",
+              "suit": "SPADES"
+            },
+            {
+              "name": "KING_CLUBS",
+              "value": "KING",
+              "suit": "CLUBS"
+            },
+            {
+              "name": "FIVE_CLUBS",
+              "value": "FIVE",
+              "suit": "CLUBS"
+            },
+            {
+              "name": "EIGHT_HEARTS",
+              "value": "EIGHT",
+              "suit": "HEARTS"
+            },
+            {
+              "name": "SIX_HEARTS",
+              "value": "SIX",
+              "suit": "HEARTS"
+            },
+            {
+              "name": "SEVEN_SPADES",
+              "value": "SEVEN",
+              "suit": "SPADES"
+            },
+            {
+              "name": "TEN_HEARTS",
+              "value": "TEN",
+              "suit": "HEARTS"
+            },
+            {
+              "name": "TWO_DIAMONDS",
+              "value": "TWO",
+              "suit": "DIAMONDS"
+            },
+            {
+              "name": "QUEEN_HEARTS",
+              "value": "QUEEN",
+              "suit": "HEARTS"
+            },
+            {
+              "name": "ACE_HEARTS",
+              "value": "ACE",
+              "suit": "HEARTS"
+            },
+            {
+              "name": "EIGHT_CLUBS",
+              "value": "EIGHT",
+              "suit": "CLUBS"
+            }
+          ],
+          "team": "TEAM1",
+          "playerBid": 0,
+          "playerCurrentScore": 0,
+          "playerFinalScore": 0,
+          "playerBags": 0,
+          "bidding": true,
+          "bidNil": false,
+          "overBook": false,
+          "failBid": false,
+          "won": false,
+          "turn": false,
+          "bot": false
+        }
+      },
+      "name": "TEAM1",
+      "lost": false,
+      "won": false,
+      "overBook": false
+    },
+    "TEAM2": {
+      "totalBid": 0,
+      "totalCurrentScore": 0,
+      "totalScore": 0,
+      "bags": 0,
+      "players": {
+        "PLAYER2": {
+          "userId": null,
+          "name": "PLAYER2",
+          "rank": 0,
+          "playingCard": null,
+          "remainingCards": [
+            {
+              "name": "ACE_CLUBS",
+              "value": "ACE",
+              "suit": "CLUBS"
+            },
+            {
+              "name": "TEN_SPADES",
+              "value": "TEN",
+              "suit": "SPADES"
+            },
+            {
+              "name": "THREE_HEARTS",
+              "value": "THREE",
+              "suit": "HEARTS"
+            },
+            {
+              "name": "NINE_HEARTS",
+              "value": "NINE",
+              "suit": "HEARTS"
+            },
+            {
+              "name": "FOUR_SPADES",
+              "value": "FOUR",
+              "suit": "SPADES"
+            },
+            {
+              "name": "FOUR_DIAMONDS",
+              "value": "FOUR",
+              "suit": "DIAMONDS"
+            },
+            {
+              "name": "TEN_DIAMONDS",
+              "value": "TEN",
+              "suit": "DIAMONDS"
+            },
+            {
+              "name": "JACK_HEARTS",
+              "value": "JACK",
+              "suit": "HEARTS"
+            },
+            {
+              "name": "THREE_SPADES",
+              "value": "THREE",
+              "suit": "SPADES"
+            },
+            {
+              "name": "NINE_DIAMONDS",
+              "value": "NINE",
+              "suit": "DIAMONDS"
+            },
+            {
+              "name": "SIX_CLUBS",
+              "value": "SIX",
+              "suit": "CLUBS"
+            },
+            {
+              "name": "TWO_SPADES",
+              "value": "TWO",
+              "suit": "SPADES"
+            },
+            {
+              "name": "SEVEN_DIAMONDS",
+              "value": "SEVEN",
+              "suit": "DIAMONDS"
+            }
+          ],
+          "team": "TEAM2",
+          "playerBid": 0,
+          "playerCurrentScore": 0,
+          "playerFinalScore": 0,
+          "playerBags": 0,
+          "bidding": true,
+          "bidNil": false,
+          "overBook": false,
+          "failBid": false,
+          "won": false,
+          "turn": false,
+          "bot": false
+        },
+        "PLAYER4": {
+          "userId": null,
+          "name": "PLAYER4",
+          "rank": 0,
+          "playingCard": null,
+          "remainingCards": [
+            {
+              "name": "TWO_HEARTS",
+              "value": "TWO",
+              "suit": "HEARTS"
+            },
+            {
+              "name": "FOUR_CLUBS",
+              "value": "FOUR",
+              "suit": "CLUBS"
+            },
+            {
+              "name": "ACE_SPADES",
+              "value": "ACE",
+              "suit": "SPADES"
+            },
+            {
+              "name": "EIGHT_DIAMONDS",
+              "value": "EIGHT",
+              "suit": "DIAMONDS"
+            },
+            {
+              "name": "TEN_CLUBS",
+              "value": "TEN",
+              "suit": "CLUBS"
+            },
+            {
+              "name": "EIGHT_SPADES",
+              "value": "EIGHT",
+              "suit": "SPADES"
+            },
+            {
+              "name": "ACE_DIAMONDS",
+              "value": "ACE",
+              "suit": "DIAMONDS"
+            },
+            {
+              "name": "SEVEN_HEARTS",
+              "value": "SEVEN",
+              "suit": "HEARTS"
+            },
+            {
+              "name": "JACK_DIAMONDS",
+              "value": "JACK",
+              "suit": "DIAMONDS"
+            },
+            {
+              "name": "QUEEN_CLUBS",
+              "value": "QUEEN",
+              "suit": "CLUBS"
+            },
+            {
+              "name": "FOUR_HEARTS",
+              "value": "FOUR",
+              "suit": "HEARTS"
+            },
+            {
+              "name": "FIVE_HEARTS",
+              "value": "FIVE",
+              "suit": "HEARTS"
+            },
+            {
+              "name": "THREE_DIAMONDS",
+              "value": "THREE",
+              "suit": "DIAMONDS"
+            }
+          ],
+          "team": "TEAM2",
+          "playerBid": 0,
+          "playerCurrentScore": 0,
+          "playerFinalScore": 0,
+          "playerBags": 0,
+          "bidding": true,
+          "bidNil": false,
+          "overBook": false,
+          "failBid": false,
+          "won": false,
+          "turn": false,
+          "bot": false
+        }
+      },
+      "name": "TEAM2",
+      "lost": false,
+      "won": false,
+      "overBook": false
+    }
+  },
+  "numberDeals": 0,
+  "bags": 50,
+  "bagPoints": 100,
+  "bidNilPoints": 100,
+  "bidNil": 0,
+  "numberOfPlayers": 4,
+  "numberOfTeams": 2,
+  "pointsToLose": -100,
+  "spadePlayed": false,
+  "starting": false,
+  "bidding": true,
+  "gameOver": false,
+  "dealing": false
+}

@@ -16,7 +16,7 @@ import com.craig.greggames.model.game.cards.team.TeamTable;
 import com.craig.greggames.util.GregMapper;
 
 @Service
-public class SpadesServiceImpl implements SpadeService {
+public class SpadeServiceImpl implements SpadeService {
 
 	@Autowired
 	private SpadeGameRepository repository;

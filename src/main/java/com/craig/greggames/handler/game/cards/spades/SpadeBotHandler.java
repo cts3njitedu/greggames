@@ -82,16 +82,17 @@ public class SpadeBotHandler {
 		SpadePlayer currPlayer = newSpadeGame.getTeams()
 				.get(teamService.getTeamByPlayer(newSpadeGame.getCurrTurn(), newSpadeGame.getNumberOfTeams()))
 				.getPlayers().get(newSpadeGame.getCurrTurn());
+		SpadePlayer currWinner = null;
+		if (newSpadeGame.getTempWinner() != null) {
+			currWinner = newSpadeGame.getTeams()
+					.get(teamService.getTeamByPlayer(newSpadeGame.getTempWinner(), newSpadeGame.getNumberOfTeams()))
+					.getPlayers().get(newSpadeGame.getTempWinner());
 
-		SpadePlayer currWinner = newSpadeGame.getTeams()
-				.get(teamService.getTeamByPlayer(newSpadeGame.getTempWinner(), newSpadeGame.getNumberOfTeams()))
-				.getPlayers().get(newSpadeGame.getTempWinner());
+		}
 
 		Map<PlayerTable, SpadePlayer> playersOnTeam = newSpadeGame.getTeams().get(currPlayer.getTeam()).getPlayers();
 
 		Set<Card> currPlayerCards = currPlayer.getRemainingCards();
-
-		currPlayerCards = cardService.sortCards(currPlayerCards);
 
 		Map<CardSuit, Set<Card>> distributedCardsBySuit = cardService.distributeCardsAccordingToSuit(currPlayerCards);
 		if (currPlayer.getName() == newSpadeGame.getStartTurn()) {
@@ -145,32 +146,35 @@ public class SpadeBotHandler {
 
 				if (teamPlayer.getPlayingCard().getSuit() == leadPlayer.getPlayingCard().getSuit()) {
 
-					return retrieveCardWhenTeamMateBidsNil(sameSuitCards, teamPlayer.getPlayingCard(), false);
+					return retrieveCardWhenTeamMateBidsNil(sameSuitCards, teamPlayer, currWinner.getPlayingCard(),false);
 				}
 				return cardService.findSmallestCard(sameSuitCards);
 			} else {
 
-				if (teamPlayer.getPlayingCard().getValue().getValue() >= CardValue.QUEEN.getValue()) {
+				if (teamPlayer.getPlayingCard().getValue().getValue() >= CardValue.KING.getValue()) {
 					return cardService.findSmallestCard(sameSuitCards);
 				} else {
-					return cardService.findLargestCard(sameSuitCards);
+					playingCard = cardService.findLargestCard(sameSuitCards);
+					if (playingCard.getValue().getValue() >= CardValue.KING.getValue()) {
+						return playingCard;
+					}
+
+					return cardService.findSmallestCard(sameSuitCards);
 				}
 			}
 
 		} else {
-			if (currWinner.getPlayingCard().getValue().getValue() >= CardValue.QUEEN.getValue()) {
+			if (currWinner.getPlayingCard().getValue().getValue() == CardValue.ACE.getValue()) {
 
 				return cardService.findSmallestCard(sameSuitCards);
 			} else {
 
 				if (teamPlayer.isBidNil()) {
-					if (currWinner.getName() == leadPlayer.getName()) {
 
-						return retrieveCardWhenTeamMateBidsNil(sameSuitCards, currWinner.getPlayingCard(), true);
-					} else {
-
+					if (currWinner.getPlayingCard().getValue().getValue() >= CardValue.KING.getValue()) {
 						return cardService.findSmallestCard(sameSuitCards);
 					}
+					return cardService.findLargestCard(sameSuitCards);
 
 				} else {
 
@@ -179,7 +183,14 @@ public class SpadeBotHandler {
 
 						return playingCard;
 					} else {
+						playingCard = cardService.findCardToMatchSpecifiedCard(sameSuitCards,
+								currWinner.getPlayingCard(), false);
+						if (playingCard != null) {
+
+							return playingCard;
+						}
 						return cardService.findSmallestCard(sameSuitCards);
+
 					}
 				}
 			}
@@ -196,7 +207,7 @@ public class SpadeBotHandler {
 			if (teamPlayer.isBidNil()) {
 
 				return retrieveCardWhenTeamMateBidsNil(distributedCards.get(teamPlayer.getPlayingCard().getSuit()),
-						teamPlayer.getPlayingCard(), false);
+						teamPlayer, currWinner.getPlayingCard(),false);
 			} else {
 
 				if (teamPlayer.getPlayingCard().getValue().getValue() >= CardValue.QUEEN.getValue()) {
@@ -207,15 +218,21 @@ public class SpadeBotHandler {
 			}
 
 		}
-	
 
 		return null;
 	}
 
-	public Card retrieveCardWhenTeamMateBidsNil(Set<Card> cards, Card cardToCompare, boolean isUseLargestCard) {
+	public Card retrieveCardWhenTeamMateBidsNil(Set<Card> cards, SpadePlayer playerToCompare, Card winningCard, boolean isUseLargestCard) {
 
+		
+		
+		if(playerToCompare.getPlayingCard()==null) {
+			
+			return cardService.findLargestCard(cards);
+			
+		}
 		Card playingCard = null;
-		playingCard = cardService.findCardToMatchSpecifiedCard(cards, cardToCompare, isUseLargestCard);
+		playingCard = cardService.findCardToMatchSpecifiedCard(cards, playerToCompare.getPlayingCard(), isUseLargestCard);
 
 		if (playingCard == null) {
 			return cardService.findSmallestCard(cards);

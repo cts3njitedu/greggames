@@ -6,7 +6,8 @@ import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
 
 @RunWith(Cucumber.class)
-@CucumberOptions(features = "src/test/resources/cucumber/spadegamehandler.feature",tags= {"@playingTrick"})
+@CucumberOptions(features = "src/test/resources/cucumber/spadegamehandler.feature",tags= {"@startinggame"})
 public class SpadeGameHandlerTest {
 
+	
 }

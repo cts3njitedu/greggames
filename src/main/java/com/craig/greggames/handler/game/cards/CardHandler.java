@@ -103,9 +103,12 @@ public class CardHandler {
 	}
 
 	
-	public Card findCardToMatchSpecifiedCard(Set<Card> cards, Card cardToCompare, boolean isUseLargestCard) {
+	public Card findCardToMatchSpecifiedCard(Set<Card> cardSet, Card cardToCompare, boolean isUseLargestCard) {
 
 		Card maxCardValue = null;
+		
+		List<Card> cards = cardSet.stream().collect(Collectors.toList());
+		cards.sort((Card c1, Card c2) -> c1.getValue().getValue() - c2.getValue().getValue());
 		for (Card card : cards) {
 
 			if (card.getValue().getValue() > cardToCompare.getValue().getValue()) {
@@ -158,10 +161,11 @@ public class CardHandler {
 		}
 	}
 
-	public Set<Card> sortCards(Set<Card> cards) {
+	public List<Card> sortCards(Set<Card> cardSet) {
 
-		return cards.stream().sorted((Card c1, Card c2) -> c1.getValue().getValue() - c2.getValue().getValue())
-				.collect(Collectors.toSet());
+		List<Card> cards = cardSet.stream().collect(Collectors.toList());
+		cards.sort((Card c1, Card c2) -> c1.getValue().getValue() - c2.getValue().getValue());
+		return cards;
 
 	}
 	

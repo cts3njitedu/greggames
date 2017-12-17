@@ -1,0 +1,13 @@
+{
+
+
+  
+    "pointsToWin" : 150,
+	"numberOfTeams":2,
+    "activePlayers" : 0,
+    "bagPoints": 100,
+    "bags" : 50,
+    "bidNilPoints":100,
+    "pointsToLose":-100
+    
+}
