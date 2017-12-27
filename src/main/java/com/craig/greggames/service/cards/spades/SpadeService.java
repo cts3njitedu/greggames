@@ -19,4 +19,6 @@ public interface SpadeService {
 	public SpadeGame saveGame(SpadeGame spadeGame);
 	
 	public SpadeGame modifyGameState(String gameType, String gameId, SpadeGame spadeGame);
+	
+	
 }

@@ -19,7 +19,7 @@ public abstract class PlayerDAO {
 	private Set<Card> remainingCards;
 	private TeamTable team;
 
-	private boolean isBot;
+
 
 	public String getUserId() {
 		return userId;
@@ -88,11 +88,5 @@ public abstract class PlayerDAO {
 		this.team = team;
 	}
 
-	public boolean isBot() {
-		return isBot;
-	}
-
-	public void setBot(boolean isBot) {
-		this.isBot = isBot;
-	}
+	
 }

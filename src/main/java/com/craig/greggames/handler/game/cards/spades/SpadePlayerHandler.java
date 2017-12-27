@@ -101,6 +101,14 @@ public class SpadePlayerHandler {
 		newSpadeGame.setStartTurn(spadePlayer.getName());
 
 	}
+	
+	public SpadePlayer retrievePlayer(PlayerTable player, SpadeGame newSpadeGame) {
+		
+		return newSpadeGame.getTeams()
+				.get(teamService.getTeamByPlayer(player, newSpadeGame.getNumberOfTeams()))
+				.getPlayers().get(player);
+		
+	}
 
 	
 }

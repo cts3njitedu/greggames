@@ -11,6 +11,7 @@ public class SpadePlayerDAO extends PlayerDAO{
 	private boolean isBidding;
 	private boolean isBidNil;
 
+	private boolean isBot;
 	public int getPlayerBid() {
 		return playerBid;
 	}
@@ -74,6 +75,15 @@ public class SpadePlayerDAO extends PlayerDAO{
 	public void setBidNil(boolean isBidNil) {
 		this.isBidNil = isBidNil;
 	}
+
+	public boolean isBot() {
+		return isBot;
+	}
+
+	public void setBot(boolean isBot) {
+		this.isBot = isBot;
+	}
+	
 	
 	
 

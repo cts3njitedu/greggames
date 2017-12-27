@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.craig.greggames.handler.game.cards.spades.SpadeBotHandler;
 import com.craig.greggames.handler.game.cards.spades.SpadeGameHandler;
 import com.craig.greggames.handler.game.cards.spades.SpadeTeamHandler;
 import com.craig.greggames.model.game.cards.player.PlayerTable;
@@ -29,6 +30,9 @@ public class SpadeServiceImpl implements SpadeService {
 
 	@Autowired
 	private SpadeTeamHandler spadeTeamService;
+	
+	@Autowired
+	private SpadeBotHandler botService;
 
 	@Override
 	public List<SpadeGame> getGames() {
@@ -97,9 +101,20 @@ public class SpadeServiceImpl implements SpadeService {
 	@Override
 	public SpadeGame modifyGameState(String gameType, String gameId, SpadeGame spadeGame) {
 		// TODO Auto-generated method stub
-		spadeGameService.play(spadeGame);
-
+		
+		if(!spadeGame.isNewPlayer()) {
+			spadeGameService.play(spadeGame);
+		}
+	
+		else {
+			
+			botService.determineBots(spadeGame);
+			spadeGame.setNewPlayer(false);
+		}
+		
 		return saveGame(spadeGame);
 	}
+
+	
 
 }

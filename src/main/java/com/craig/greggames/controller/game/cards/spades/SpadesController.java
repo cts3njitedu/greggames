@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -48,6 +49,21 @@ public class SpadesController {
 	public @ResponseBody SpadeGame testException() throws GreggamesException {
 
 		throw new GreggamesException("This is a test");
+		//return null;
+	}
+	
+	
+	@RequestMapping(method = RequestMethod.PUT, path = { "/games/{gameId}" })
+	public @ResponseBody SpadeGame modifyGameState(@PathVariable String gameId, @RequestBody SpadeGame spadeGame) throws GreggamesException {
+
+		return spadeService.modifyGameState(null, gameId, spadeGame);
+		//return null;
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, path = { "/games/{gameId}/players" })
+	public @ResponseBody SpadeGame addPlayer(@PathVariable String gameId, @RequestBody SpadeGame spadeGame) throws GreggamesException {
+
+		return spadeService.saveGame(spadeGame);
 		//return null;
 	}
 	//

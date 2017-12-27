@@ -15,7 +15,7 @@ public class SpadePlayer extends Player {
 	private int playerBags;
 	private boolean isBidding;
 	private boolean isBidNil;
-	
+	private boolean isBot;
 	public int getPlayerBid() {
 		return playerBid;
 	}
@@ -79,6 +79,16 @@ public class SpadePlayer extends Player {
 	public void setBidNil(boolean isBidNil) {
 		this.isBidNil = isBidNil;
 	}
+
+	public boolean isBot() {
+		return (getUserId()==null||getUserId().length()==0)?true:false;
+	}
+
+	public void setBot(boolean isBot) {
+		this.isBot = isBot;
+	}
+	
+	
 
 	
 }

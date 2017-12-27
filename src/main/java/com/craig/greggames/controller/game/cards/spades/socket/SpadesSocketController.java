@@ -31,4 +31,6 @@ public class SpadesSocketController {
        
          return spadeService.modifyGameState(ggType, gameId, spadeGame);
     }
+	
+	
 }

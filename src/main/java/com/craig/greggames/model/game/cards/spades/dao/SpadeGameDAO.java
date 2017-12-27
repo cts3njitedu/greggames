@@ -19,6 +19,7 @@ public class SpadeGameDAO {
 
 	private boolean isBidding;
 
+	private boolean isNewPlayer;
 	private int pointsToWin;
 
 	private PlayerTable startHand;
@@ -268,6 +269,15 @@ public class SpadeGameDAO {
 	public void setActivePlayers(int activePlayers) {
 		this.activePlayers = activePlayers;
 	}
+
+	public boolean isNewPlayer() {
+		return isNewPlayer;
+	}
+
+	public void setNewPlayer(boolean isNewPlayer) {
+		this.isNewPlayer = isNewPlayer;
+	}
+	
 	
 	
 

@@ -26,6 +26,9 @@ public class SpadeBotHandler {
 
 	@Autowired
 	private SpadeValidationHandler validationService;
+	
+	@Autowired
+	private SpadePlayerHandler playerService;
 
 	@Autowired
 	private CardHandler cardService;
@@ -238,5 +241,24 @@ public class SpadeBotHandler {
 			return cardService.findSmallestCard(cards);
 		}
 		return playingCard;
+	}
+	
+	public void determineBots(SpadeGame newSpadeGame) {
+		
+		for(PlayerTable player: PlayerTable.values()) {
+			
+			SpadePlayer spadePlayer = newSpadeGame.getTeams()
+					.get(teamService.getTeamByPlayer(player, newSpadeGame.getNumberOfTeams()))
+					.getPlayers().get(player);
+			if(spadePlayer.getUserId()!=null) {
+				
+				spadePlayer.setBot(false);
+			}
+			else {
+				
+				spadePlayer.setBot(true);
+			}
+		}
+		
 	}
 }
