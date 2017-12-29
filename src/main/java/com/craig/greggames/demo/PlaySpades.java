@@ -6,6 +6,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.craig.greggames.exception.GreggamesException;
 import com.craig.greggames.handler.game.cards.CardHandler;
 import com.craig.greggames.handler.game.cards.spades.SpadeGameHandler;
 import com.craig.greggames.handler.game.cards.spades.SpadeTeamHandler;
@@ -34,7 +35,7 @@ public class PlaySpades {
 		this.cardService = new CardHandler();
 	}
 
-	public void playGame(SpadeGame spadeGame) {
+	public void playGame(SpadeGame spadeGame) throws GreggamesException {
 
 		creator.createGame(spadeGame);
 		creator.startGame(spadeGame);
@@ -67,7 +68,7 @@ public class PlaySpades {
 
 	}
 
-	private void playRound(SpadeGame spadeGame) {
+	private void playRound(SpadeGame spadeGame) throws GreggamesException {
 
 		System.out.println("Hand");
 		System.out.println("Start Hand: " + spadeGame.getStartHand());

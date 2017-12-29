@@ -1,11 +1,13 @@
 package com.craig.greggames.model.game.cards.spades.dao;
 
+import java.util.EnumMap;
 import java.util.HashSet;
-import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.craig.greggames.model.game.cards.Card;
 import com.craig.greggames.model.game.cards.player.PlayerTable;
+import com.craig.greggames.model.game.cards.spades.SpadeErrors;
 import com.craig.greggames.model.game.cards.team.TeamTable;
 
 public abstract class PlayerDAO {
@@ -19,7 +21,9 @@ public abstract class PlayerDAO {
 	private Set<Card> remainingCards;
 	private TeamTable team;
 
-
+	private boolean hasPlayed;
+	private boolean error;
+	private Map<SpadeErrors,String> errorMessages;
 
 	public String getUserId() {
 		return userId;
@@ -88,5 +92,34 @@ public abstract class PlayerDAO {
 		this.team = team;
 	}
 
+	public boolean isError() {
+		return error;
+	}
+
+	public void setError(boolean error) {
+		this.error = error;
+	}
+
+	public Map<SpadeErrors, String> getErrorMessages() {
+		if(errorMessages==null) {
+			
+			errorMessages = new EnumMap<SpadeErrors, String>(SpadeErrors.class);
+		}
+		return errorMessages;
+	}
+
+	public void setErrorMessages(Map<SpadeErrors, String> errorMessages) {
+		this.errorMessages = errorMessages;
+	}
+
+	public boolean isHasPlayed() {
+		return hasPlayed;
+	}
+
+	public void setHasPlayed(boolean hasPlayed) {
+		this.hasPlayed = hasPlayed;
+	}
+
+	
 	
 }

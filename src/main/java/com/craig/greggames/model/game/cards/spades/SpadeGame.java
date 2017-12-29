@@ -20,6 +20,8 @@ public class SpadeGame extends Game {
 
 	private boolean isBidding;
 	
+	private boolean isPlaying;
+	
 	private boolean isNewPlayer;
 	private int pointsToWin;
 
@@ -27,6 +29,8 @@ public class SpadeGame extends Game {
 	private PlayerTable startTurn;
 
 	private PlayerTable currTurn;
+	
+	private PlayerTable gameModifier;
 	private int trickCount;
 
 	private int turnCount;
@@ -281,6 +285,24 @@ public class SpadeGame extends Game {
 
 	public void setNewPlayer(boolean isNewPlayer) {
 		this.isNewPlayer = isNewPlayer;
+	}
+
+	
+	public PlayerTable getGameModifier() {
+		return gameModifier;
+	}
+
+	public void setGameModifier(PlayerTable gameModifier) {
+		this.gameModifier = gameModifier;
+	}
+
+	
+	public boolean isPlaying() {
+		return isPlaying;
+	}
+
+	public void setPlaying(boolean isPlaying) {
+		this.isPlaying = isPlaying;
 	}
 
 	@Override

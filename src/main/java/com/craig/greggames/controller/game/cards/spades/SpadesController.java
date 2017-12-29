@@ -66,13 +66,13 @@ public class SpadesController {
 		return spadeService.saveGame(spadeGame);
 		//return null;
 	}
-	//
-	// @RequestMapping(path= {"/hand"}, method=RequestMethod.POST)
-	// public @ResponseBody Hand getHand(@RequestBody Game game) {
-	//
-	// return spadeService.getHand(game);
-	// }
-	//
+	
+	@RequestMapping(method = RequestMethod.POST, path = { "/games/{gameId}/players/{playerId}/validator" })
+	public @ResponseBody SpadeGame playerValidator(@PathVariable String gameId, @RequestBody SpadeGame spadeGame) throws GreggamesException {
+
+		return spadeService.saveGame(spadeGame);
+		//return null;
+	}
 	
 	
 

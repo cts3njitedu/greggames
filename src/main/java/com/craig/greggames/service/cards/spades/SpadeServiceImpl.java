@@ -6,9 +6,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.craig.greggames.exception.GreggamesException;
 import com.craig.greggames.handler.game.cards.spades.SpadeBotHandler;
 import com.craig.greggames.handler.game.cards.spades.SpadeGameHandler;
+import com.craig.greggames.handler.game.cards.spades.SpadePlayerHandler;
 import com.craig.greggames.handler.game.cards.spades.SpadeTeamHandler;
+import com.craig.greggames.handler.game.cards.spades.SpadeValidationHandler;
 import com.craig.greggames.model.game.cards.player.PlayerTable;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.craig.greggames.model.game.cards.spades.dao.SpadeGameDAO;
@@ -33,6 +36,12 @@ public class SpadeServiceImpl implements SpadeService {
 	
 	@Autowired
 	private SpadeBotHandler botService;
+	
+	@Autowired
+	private SpadeValidationHandler validationService;
+	
+	@Autowired
+	private SpadePlayerHandler playerService;
 
 	@Override
 	public List<SpadeGame> getGames() {
@@ -99,10 +108,29 @@ public class SpadeServiceImpl implements SpadeService {
 	}
 
 	@Override
-	public SpadeGame modifyGameState(String gameType, String gameId, SpadeGame spadeGame) {
+	public SpadeGame modifyGameState(String gameType, String gameId, SpadeGame spadeGame) throws GreggamesException {
 		// TODO Auto-generated method stub
 		
 		if(!spadeGame.isNewPlayer()) {
+			if(spadeGame.isBidding()) {
+				
+				boolean isValidBid = validationService.validateBid(spadeGame);
+				if(!isValidBid) {
+					return saveGame(spadeGame);
+				}
+			}
+			else if(spadeGame.isPlaying()) {
+				System.out.println("Playing......");
+				boolean isValidTurn = validationService.validateTurn(spadeGame);
+				if(!isValidTurn) {
+					return saveGame(spadeGame);
+				}
+				boolean isValidCard = validationService.validatePlayerCard(spadeGame);
+				System.out.println(isValidCard);
+				if(!isValidCard) {
+					return saveGame(spadeGame);
+				}
+			}
 			spadeGameService.play(spadeGame);
 		}
 	

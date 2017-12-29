@@ -2,6 +2,7 @@ package com.craig.greggames.service.cards.spades;
 
 import java.util.List;
 
+import com.craig.greggames.exception.GreggamesException;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
 
 public interface SpadeService {
@@ -18,7 +19,7 @@ public interface SpadeService {
 	
 	public SpadeGame saveGame(SpadeGame spadeGame);
 	
-	public SpadeGame modifyGameState(String gameType, String gameId, SpadeGame spadeGame);
+	public SpadeGame modifyGameState(String gameType, String gameId, SpadeGame spadeGame) throws GreggamesException;
 	
 	
 }

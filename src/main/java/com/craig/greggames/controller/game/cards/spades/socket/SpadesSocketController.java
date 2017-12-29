@@ -7,6 +7,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.craig.greggames.exception.GreggamesException;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.craig.greggames.service.cards.spades.SpadeService;
 //@CrossOrigin(origins = "http://localhost:4200")
@@ -27,7 +28,7 @@ public class SpadesSocketController {
 	
 	@MessageMapping("/greggames/{ggType}/{gameId}")
     @SendTo("/topic/{ggType}/{gameId}")
-    public SpadeGame modifyGameState(@DestinationVariable String ggType, @DestinationVariable String gameId, SpadeGame spadeGame) throws Exception {
+    public SpadeGame modifyGameState(@DestinationVariable String ggType, @DestinationVariable String gameId, SpadeGame spadeGame) throws Exception, GreggamesException {
        
          return spadeService.modifyGameState(ggType, gameId, spadeGame);
     }

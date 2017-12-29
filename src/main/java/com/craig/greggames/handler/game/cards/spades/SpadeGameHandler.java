@@ -8,6 +8,7 @@ import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.craig.greggames.exception.GreggamesException;
 import com.craig.greggames.handler.game.cards.CardHandler;
 import com.craig.greggames.model.game.cards.player.PlayerTable;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;;
@@ -58,7 +59,8 @@ public class SpadeGameHandler {
 	}
 
 
-	public void play(SpadeGame newSpadeGame) {
+	public void play(SpadeGame newSpadeGame) throws GreggamesException {
+
 
 		if (newSpadeGame.isStarting()) {
 
@@ -71,19 +73,24 @@ public class SpadeGameHandler {
 			newSpadeGame.setHandCount(1);
 			cardService.distributeCards(newSpadeGame);
 			newSpadeGame.setStarting(false);
+			newSpadeGame.setPlaying(false);
 			newSpadeGame.setTurnCount(1);
 			bidderService.cleanUpBid(newSpadeGame);
+			playerService.determineTurn(newSpadeGame);
 
 		}
 
 		else if (newSpadeGame.isBidding()) {
 
 			// check the turn count. if 4 set bidding to false;
+
+			
 			bidderService.determineBid(newSpadeGame);
 			if (newSpadeGame.getTurnCount() == MAX_TURN_PER_TRICK) {
 
 				newSpadeGame.setCurrTurn(newSpadeGame.getStartTurn());
 				newSpadeGame.setBidding(false);
+				newSpadeGame.setPlaying(true);
 
 				newSpadeGame.setTurnCount(1);
 				newSpadeGame.setTrickCount(1);
@@ -97,10 +104,10 @@ public class SpadeGameHandler {
 				newSpadeGame.setCurrTurn(PlayerTable.getPlayer(currTurnCode));
 				newSpadeGame.setTurnCount(newSpadeGame.getTurnCount() + 1);
 			}
+			playerService.determineTurn(newSpadeGame);
 
 		} else {
 
-			validationHandler.validatePlayerCard(newSpadeGame);
 			if (newSpadeGame.getTurnCount() == MAX_TURN_PER_TRICK) {
 
 				// determine who won the trick
@@ -123,6 +130,7 @@ public class SpadeGameHandler {
 						start = start - MAX_TURN_PER_TRICK;
 					}
 					newSpadeGame.setBidding(true);
+					newSpadeGame.setPlaying(false);
 					newSpadeGame.setStartHand(PlayerTable.getPlayer(start));
 					newSpadeGame.setStartTurn(newSpadeGame.getStartHand());
 					newSpadeGame.setCurrTurn(newSpadeGame.getStartHand());

@@ -189,13 +189,35 @@ public class CardHandler {
 		Map<CardSuit, Set<Card>> cardsForEachSuit = new EnumMap<>(CardSuit.class);
 		for (CardSuit suit : CardSuit.values()) {
 
-				
-			Set<Card> d = cards.stream().filter(c -> c.getSuit() == suit).collect(Collectors.toSet());
-			
-		
-			cardsForEachSuit.put(suit, d);
+			cardsForEachSuit.put(suit, cardsToMatchSuit(suit, cards));
 		}
 		return cardsForEachSuit;
+	}
+	
+	public Set<Card> cardsToMatchSuit(CardSuit cardSuit, Set<Card> cards) {
+
+		switch (cardSuit) {
+
+		case SPADES:
+
+			return cards.stream().filter(c -> c.getSuit() == CardSuit.SPADES).collect(Collectors.toSet());
+
+		case HEARTS:
+
+			return cards.stream().filter(c -> c.getSuit() == CardSuit.HEARTS).collect(Collectors.toSet());
+
+		case DIAMONDS:
+
+			return cards.stream().filter(c -> c.getSuit() == CardSuit.DIAMONDS).collect(Collectors.toSet());
+
+		case CLUBS:
+			System.out.println(cards.toString());
+			return cards.stream().filter(c -> c.getSuit() == CardSuit.CLUBS).collect(Collectors.toSet());
+
+		default:
+			break;
+		}
+		return null;
 	}
 
 }
