@@ -13,6 +13,7 @@ public class SpadePlayer extends Player {
 	private boolean isFailBid;
 	private boolean isOverBook;
 	private int playerBags;
+	private SpadeNotifications notification;
 	private boolean isBidding;
 	private boolean isBidNil;
 	private boolean isBot;
@@ -87,6 +88,15 @@ public class SpadePlayer extends Player {
 	public void setBot(boolean isBot) {
 		this.isBot = isBot;
 	}
+
+	public SpadeNotifications getNotification() {
+		return notification;
+	}
+
+	public void setNotification(SpadeNotifications notification) {
+		this.notification = notification;
+	}
+	
 	
 	
 

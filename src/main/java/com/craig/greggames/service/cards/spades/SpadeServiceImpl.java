@@ -13,7 +13,9 @@ import com.craig.greggames.handler.game.cards.spades.SpadePlayerHandler;
 import com.craig.greggames.handler.game.cards.spades.SpadeTeamHandler;
 import com.craig.greggames.handler.game.cards.spades.SpadeValidationHandler;
 import com.craig.greggames.model.game.cards.player.PlayerTable;
+import com.craig.greggames.model.game.cards.spades.SpadeErrors;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
+import com.craig.greggames.model.game.cards.spades.SpadeNotifications;
 import com.craig.greggames.model.game.cards.spades.dao.SpadeGameDAO;
 import com.craig.greggames.model.game.cards.spades.dao.repo.SpadeGameRepository;
 import com.craig.greggames.model.game.cards.team.TeamTable;
@@ -33,13 +35,13 @@ public class SpadeServiceImpl implements SpadeService {
 
 	@Autowired
 	private SpadeTeamHandler spadeTeamService;
-	
+
 	@Autowired
 	private SpadeBotHandler botService;
-	
+
 	@Autowired
 	private SpadeValidationHandler validationService;
-	
+
 	@Autowired
 	private SpadePlayerHandler playerService;
 
@@ -72,7 +74,6 @@ public class SpadeServiceImpl implements SpadeService {
 		// TODO Auto-generated method stub
 		SpadeGameDAO spadeGameDAO = repository.findOne(gameId);
 		SpadeGame spadeGame = mapper.spadeDAOToGame(spadeGameDAO);
-		// spadeGame.setPlayerCardCount(null);
 
 		return spadeGame;
 	}
@@ -110,39 +111,106 @@ public class SpadeServiceImpl implements SpadeService {
 	@Override
 	public SpadeGame modifyGameState(String gameType, String gameId, SpadeGame spadeGame) throws GreggamesException {
 		// TODO Auto-generated method stub
+		//
+		// if (!spadeGame.isNewPlayer()) {
+		// if (spadeGame.isBidding()) {
+		//
+		// boolean isValidBid = validationService.validateBid(spadeGame);
+		// if (!isValidBid) {
+		// return saveGame(spadeGame);
+		// }
+		// } else if (spadeGame.isPlaying()) {
+		// System.out.println("Playing......");
+		// SpadeGame prevSpadeGame = findGame(spadeGame.getGameId());
+		// boolean isValidTurn = validationService.validateTurn(spadeGame,
+		// prevSpadeGame);
+		// if (!isValidTurn) {
+		// return saveGame(spadeGame);
+		// }
+		// boolean isValidCard = validationService.validatePlayerCard(spadeGame);
+		// System.out.println(isValidCard);
+		// if (!isValidCard) {
+		// return saveGame(spadeGame);
+		// }
+		// }
+		//
+		// }
+
+		SpadeGame oldSpadeGame = findGame(spadeGame.getGameId());
+		spadeGame.setPreviousHand(null);
+		spadeGame.setPreviousTrick(null);
 		
-		if(!spadeGame.isNewPlayer()) {
-			if(spadeGame.isBidding()) {
-				
+		switch (spadeGame.getGameNotification()) {
+		
+		case BID:
+			switch (spadeGame.getPlayerNotification()) {
+
+			case RECEIVED_ERROR:
+				playerService.cleanUpError(spadeGame);
+				break;
+			case NEW_PLAYER:
+				System.out.println("New Player");
+				botService.determineBots(spadeGame);
+				spadeGame.setNewPlayer(false);
+				break;
+			case BID:
+				System.out.println("Bidding");
 				boolean isValidBid = validationService.validateBid(spadeGame);
-				if(!isValidBid) {
+				if (!isValidBid) {
 					return saveGame(spadeGame);
 				}
+				spadeGameService.play(spadeGame);
+				break;
+			default:
+				playerService.addError(spadeGame,SpadeErrors.CURRENTLY_BIDDING,oldSpadeGame);
+				break;
+
 			}
-			else if(spadeGame.isPlaying()) {
-				System.out.println("Playing......");
-				boolean isValidTurn = validationService.validateTurn(spadeGame);
-				if(!isValidTurn) {
+			break;
+
+		case PLAY:
+			switch (spadeGame.getPlayerNotification()) {
+
+			case RECEIVED_ERROR:
+				System.out.println("Recieved Error");
+				playerService.cleanUpError(spadeGame);
+				break;
+			case NEW_PLAYER:
+
+				botService.determineBots(spadeGame);
+				spadeGame.setNewPlayer(false);
+				break;
+			case PLAY:
+				SpadeGame prevSpadeGame = findGame(spadeGame.getGameId());
+				boolean isValidTurn = validationService.validateTurn(spadeGame, prevSpadeGame);
+				if (!isValidTurn) {
 					return saveGame(spadeGame);
 				}
 				boolean isValidCard = validationService.validatePlayerCard(spadeGame);
 				System.out.println(isValidCard);
-				if(!isValidCard) {
+				if (!isValidCard) {
 					return saveGame(spadeGame);
 				}
+				spadeGameService.play(spadeGame);
+				break;
+			default:
+				
+				playerService.addError(spadeGame,SpadeErrors.CURRENTLY_PLAYING,oldSpadeGame);
+				break;
+
 			}
-			spadeGameService.play(spadeGame);
+			break;
+
+		case START:
+			spadeGameService.startGame(spadeGame);
+			break;
+
+		default:
+			playerService.addError(spadeGame,SpadeErrors.WRONG_MOVE,oldSpadeGame);
+			break;
 		}
-	
-		else {
-			
-			botService.determineBots(spadeGame);
-			spadeGame.setNewPlayer(false);
-		}
-		
+
 		return saveGame(spadeGame);
 	}
-
-	
 
 }

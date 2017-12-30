@@ -13,6 +13,8 @@ import com.craig.greggames.model.game.cards.CardSuit;
 import com.craig.greggames.model.game.cards.spades.SpadeErrors;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.craig.greggames.model.game.cards.spades.SpadePlayer;
+import com.craig.greggames.util.GregMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class SpadeValidationHandler {
@@ -22,6 +24,7 @@ public class SpadeValidationHandler {
 
 	@Autowired
 	private CardHandler cardService;
+
 	public boolean validateBid(SpadeGame spadeGame) {
 
 		if (spadeGame.getGameModifier() == null) {
@@ -32,6 +35,7 @@ public class SpadeValidationHandler {
 		SpadePlayer player = spadeGame.getTeams()
 				.get(teamService.getTeamByPlayer(spadeGame.getGameModifier(), spadeGame.getNumberOfTeams()))
 				.getPlayers().get(spadeGame.getGameModifier());
+
 		player.setError(false);
 		player.getErrorMessages().clear();
 		if (spadeGame.getGameModifier() != spadeGame.getCurrTurn()) {
@@ -39,7 +43,9 @@ public class SpadeValidationHandler {
 
 			player.getErrorMessages().put(SpadeErrors.NOT_YOUR_TURN, SpadeErrors.NOT_YOUR_TURN.getError());
 
-			player.getRemainingCards().add(player.getPlayingCard());
+			if (player.getPlayingCard() != null) {
+				player.getRemainingCards().add(player.getPlayingCard());
+			}
 			player.setPlayingCard(null);
 			return false;
 
@@ -51,7 +57,9 @@ public class SpadeValidationHandler {
 
 			player.getErrorMessages().put(SpadeErrors.NOT_YOUR_TURN, SpadeErrors.NOT_YOUR_TURN.getError());
 
-			player.getRemainingCards().add(player.getPlayingCard());
+			if (player.getPlayingCard() != null) {
+				player.getRemainingCards().add(player.getPlayingCard());
+			}
 			player.setPlayingCard(null);
 			return false;
 		} else {
@@ -59,9 +67,12 @@ public class SpadeValidationHandler {
 			if (player.getPlayingCard() != null) {
 
 				player.setError(true);
-				player.getRemainingCards().add(player.getPlayingCard());
+				if (player.getPlayingCard() != null) {
+					player.getRemainingCards().add(player.getPlayingCard());
+				}
+
 				player.setPlayingCard(null);
-				player.getErrorMessages().put(SpadeErrors.INVALID_PLAY, SpadeErrors.INVALID_PLAY.getError());
+				player.getErrorMessages().put(SpadeErrors.CURRENTLY_BIDDING, SpadeErrors.CURRENTLY_BIDDING.getError());
 
 				return false;
 			}
@@ -70,47 +81,61 @@ public class SpadeValidationHandler {
 		return true;
 	}
 
-	public boolean validateTurn(SpadeGame spadeGame) {
+	public boolean validateTurn(SpadeGame spadeGame, SpadeGame prevSpadeGame) {
 
 		SpadePlayer player = spadeGame.getTeams()
 				.get(teamService.getTeamByPlayer(spadeGame.getGameModifier(), spadeGame.getNumberOfTeams()))
 				.getPlayers().get(spadeGame.getGameModifier());
+
+		SpadePlayer prevPlayer = prevSpadeGame.getTeams()
+				.get(teamService.getTeamByPlayer(prevSpadeGame.getGameModifier(), prevSpadeGame.getNumberOfTeams()))
+				.getPlayers().get(prevSpadeGame.getGameModifier());
 		player.setError(false);
 		player.getErrorMessages().clear();
 		if (spadeGame.getGameModifier() != spadeGame.getCurrTurn()) {
 			player.setError(true);
 
 			player.getErrorMessages().put(SpadeErrors.NOT_YOUR_TURN, SpadeErrors.NOT_YOUR_TURN.getError());
-		
-			player.getRemainingCards().add(player.getPlayingCard());
-			player.setPlayingCard(null);
+
+			if (prevPlayer.getPlayingCard() != null) {
+
+				player.getRemainingCards().add(player.getPlayingCard());
+				player.setPlayingCard(prevPlayer.getPlayingCard());
+
+			} else {
+
+				player.getRemainingCards().add(player.getPlayingCard());
+				player.setPlayingCard(null);
+			}
+
 			return false;
 
 		}
-//
-//		for (Entry<TeamTable, SpadeTeam> entry : spadeGame.getTeams().entrySet()) {
-//
-//			for (Entry<PlayerTable, SpadePlayer> entryPlayer : entry.getValue().getPlayers().entrySet()) {
-//
-//				if (entryPlayer.getValue().getPlayingCard() != null) {
-//
-//					if (!entryPlayer.getValue().isHasPlayed()) {
-//
-//						if (!entryPlayer.getValue().isTurn()) {
-//
-//							entryPlayer.getValue().setError(true);
-//							entryPlayer.getValue().getErrorMessages().put(SpadeErrors.NOT_YOUR_TURN,
-//									SpadeErrors.NOT_YOUR_TURN.getError());
-//							entryPlayer.getValue().getRemainingCards().add(entryPlayer.getValue().getPlayingCard());
-//							entryPlayer.getValue().setPlayingCard(null);
-//
-//							return false;
-//						}
-//					
-//					}
-//				}
-//			}
-//		}
+		//
+		// for (Entry<TeamTable, SpadeTeam> entry : spadeGame.getTeams().entrySet()) {
+		//
+		// for (Entry<PlayerTable, SpadePlayer> entryPlayer :
+		// entry.getValue().getPlayers().entrySet()) {
+		//
+		// if (entryPlayer.getValue().getPlayingCard() != null) {
+		//
+		// if (!entryPlayer.getValue().isHasPlayed()) {
+		//
+		// if (!entryPlayer.getValue().isTurn()) {
+		//
+		// entryPlayer.getValue().setError(true);
+		// entryPlayer.getValue().getErrorMessages().put(SpadeErrors.NOT_YOUR_TURN,
+		// SpadeErrors.NOT_YOUR_TURN.getError());
+		// entryPlayer.getValue().getRemainingCards().add(entryPlayer.getValue().getPlayingCard());
+		// entryPlayer.getValue().setPlayingCard(null);
+		//
+		// return false;
+		// }
+		//
+		// }
+		// }
+		// }
+		// }
 
 		return true;
 
@@ -118,7 +143,6 @@ public class SpadeValidationHandler {
 
 	public boolean validatePlayerCard(SpadeGame spadeGame) {
 
-		
 		if (spadeGame.getCurrTurn() == spadeGame.getStartTurn()) {
 
 			return isValidWhenStarting(spadeGame);
@@ -126,21 +150,20 @@ public class SpadeValidationHandler {
 		} else {
 
 			SpadePlayer player = spadeGame.getTeams()
-					.get(teamService.getTeamByPlayer(spadeGame.getCurrTurn(), spadeGame.getNumberOfTeams())).getPlayers()
-					.get(spadeGame.getCurrTurn());
+					.get(teamService.getTeamByPlayer(spadeGame.getCurrTurn(), spadeGame.getNumberOfTeams()))
+					.getPlayers().get(spadeGame.getCurrTurn());
 
 			SpadePlayer leadPlayer = spadeGame.getTeams()
-					.get(teamService.getTeamByPlayer(spadeGame.getStartTurn(), spadeGame.getNumberOfTeams())).getPlayers()
-					.get(spadeGame.getStartTurn());
+					.get(teamService.getTeamByPlayer(spadeGame.getStartTurn(), spadeGame.getNumberOfTeams()))
+					.getPlayers().get(spadeGame.getStartTurn());
 
 			Card card = player.getPlayingCard();
 			Card startCard = leadPlayer.getPlayingCard();
 
-		
 			Set<Card> cards = player.getRemainingCards();
 
 			Map<CardSuit, Set<Card>> cardsForEachSuit = cardService.distributeCardsAccordingToSuit(cards);
-			
+
 			Set<Card> cardsToMatch = cardsForEachSuit.get(startCard.getSuit());
 			if (cardsToMatch.size() > 0) {
 
@@ -148,65 +171,74 @@ public class SpadeValidationHandler {
 
 					player.setError(true);
 					player.getErrorMessages().put(SpadeErrors.INVALID_SUIT, SpadeErrors.INVALID_SUIT.getError());
-					player.getRemainingCards().add(player.getPlayingCard());
+					if (player.getPlayingCard() != null) {
+						player.getRemainingCards().add(player.getPlayingCard());
+					}
 					player.setPlayingCard(null);
 					player.setHasPlayed(false);
 					return false;
 				}
+				if (card.getSuit() == CardSuit.SPADES) {
+
+					spadeGame.setSpadePlayed(true);
+				}
 				return true;
 
 			} else {
+
+				if (card.getSuit() == CardSuit.SPADES) {
+
+					spadeGame.setSpadePlayed(true);
+				}
 				return true;
 
 			}
 		}
 
-
-
 	}
-	
+
 	public boolean isValidWhenStarting(SpadeGame spadeGame) {
 		SpadePlayer leadPlayer = spadeGame.getTeams()
 				.get(teamService.getTeamByPlayer(spadeGame.getCurrTurn(), spadeGame.getNumberOfTeams())).getPlayers()
 				.get(spadeGame.getCurrTurn());
 		leadPlayer.setError(false);
 		leadPlayer.getErrorMessages().clear();
-		
+
 		Card leadPlayerCard = leadPlayer.getPlayingCard();
 		Set<Card> cards = leadPlayer.getRemainingCards();
 
 		Map<CardSuit, Set<Card>> cardsForEachSuit = cardService.distributeCardsAccordingToSuit(cards);
-		
+
 		int numOfClubs = cardsForEachSuit.get(CardSuit.CLUBS).size();
 		int numOfHearts = cardsForEachSuit.get(CardSuit.HEARTS).size();
 		int numOfDiamonds = cardsForEachSuit.get(CardSuit.DIAMONDS).size();
-		System.out.println("clubs: " +numOfClubs + ", hearts: "+numOfHearts+", diamonds: "+numOfDiamonds);
-		
-		if(leadPlayerCard.getSuit()==CardSuit.SPADES) {
-			
-			if(!spadeGame.isSpadePlayed()) {
-				if(numOfClubs==0&&numOfHearts==0&&numOfDiamonds==0) {
-					
+		System.out.println("clubs: " + numOfClubs + ", hearts: " + numOfHearts + ", diamonds: " + numOfDiamonds);
+
+		if (leadPlayerCard.getSuit() == CardSuit.SPADES) {
+
+			if (!spadeGame.isSpadePlayed()) {
+				if (numOfClubs == 0 && numOfHearts == 0 && numOfDiamonds == 0) {
+
 					spadeGame.setSpadePlayed(true);
 					return true;
-				}
-				else {
+				} else {
 					leadPlayer.setError(true);
 					leadPlayer.getErrorMessages().put(SpadeErrors.INVALID_SPADE, SpadeErrors.INVALID_SPADE.getError());
-					leadPlayer.getRemainingCards().add(leadPlayer.getPlayingCard());
+					if (leadPlayer.getPlayingCard() != null) {
+						leadPlayer.getRemainingCards().add(leadPlayer.getPlayingCard());
+					}
 					leadPlayer.setPlayingCard(null);
-				
+
 					return false;
-			
+
 				}
 			}
 			return true;
 		}
-		
-		return true;
-		
-	}
 
+		return true;
+
+	}
 
 	public boolean isSpadePlayable(Map<CardSuit, Set<Card>> cardsForEachSuit, Card startCard, Card card,
 			boolean isSpadePlayed) {
@@ -232,5 +264,4 @@ public class SpadeValidationHandler {
 		return true;
 	}
 
-	
 }

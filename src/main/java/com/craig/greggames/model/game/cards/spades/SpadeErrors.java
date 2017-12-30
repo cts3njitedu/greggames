@@ -5,8 +5,11 @@ public enum SpadeErrors {
 	INVALID_SPADE("Spade Has Not Been Broken"),
 	NOT_YOUR_TURN("It Is Not Your Turn"),
 	INVALID_SUIT("Card Must Be Same Suit"),
-	INVALID_PLAY("Currently Bidding"),
-	NO_CARD_PLAYED("No Card Played");
+	CURRENTLY_BIDDING("Currently Bidding"),
+	NO_CARD_PLAYED("No Card Played"),
+	WRONG_MOVE("Wrong Move"),
+	CURRENTLY_PLAYING("Currently Playing");
+	
 	
 	private String error;
 	

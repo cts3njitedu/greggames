@@ -7,6 +7,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.craig.greggames.model.game.cards.player.PlayerTable;
+import com.craig.greggames.model.game.cards.spades.SpadeNotifications;
 import com.craig.greggames.model.game.cards.team.TeamTable;
 
 @Document(collection = "spadegame")
@@ -15,7 +16,11 @@ public class SpadeGameDAO {
 	@Id
 	private String gameId;
 
+	private SpadePreviousHandDAO previousHand;
+	private SpadePreviousTrickDAO previousTrick;
 	private boolean isStarting;
+
+	private SpadeNotifications notification;
 
 	private boolean isBidding;
 
@@ -58,6 +63,8 @@ public class SpadeGameDAO {
 	private Map<PlayerTable, Integer> playerCardCount;
 	private int pointsToLose;
 
+	private SpadeNotifications gameNotification;
+	private SpadeNotifications playerNotification;
 	private PlayerTable tempWinner;
 
 	public String getGameId() {
@@ -295,6 +302,52 @@ public class SpadeGameDAO {
 	public void setPlaying(boolean isPlaying) {
 		this.isPlaying = isPlaying;
 	}
+
+	public SpadePreviousHandDAO getPreviousHand() {
+		return previousHand;
+	}
+
+	public void setPreviousHand(SpadePreviousHandDAO previousHand) {
+		this.previousHand = previousHand;
+	}
+
+	public SpadePreviousTrickDAO getPreviousTrick() {
+		return previousTrick;
+	}
+
+	public void setPreviousTrick(SpadePreviousTrickDAO previousTrick) {
+		this.previousTrick = previousTrick;
+	}
+
+	public SpadeNotifications getNotification() {
+		return notification;
+	}
+
+	public void setNotification(SpadeNotifications notification) {
+		this.notification = notification;
+	}
+
+	public SpadeNotifications getGameNotification() {
+		return gameNotification;
+	}
+
+	public void setGameNotification(SpadeNotifications gameNotification) {
+		this.gameNotification = gameNotification;
+	}
+
+	public SpadeNotifications getPlayerNotification() {
+		return playerNotification;
+	}
+
+	public void setPlayerNotification(SpadeNotifications playerNotification) {
+		this.playerNotification = playerNotification;
+	}
+
+	
+	
+
+	
+	
 	
 	
 	

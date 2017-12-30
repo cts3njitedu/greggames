@@ -130,14 +130,60 @@ public class SpadePlayerHandler {
 
 	public void cleanUpErrors(SpadeGame newSpadeGame) {
 
-		
 		for (Entry<TeamTable, SpadeTeam> entry : newSpadeGame.getTeams().entrySet()) {
 
 			for (Entry<PlayerTable, SpadePlayer> entryPlayer : entry.getValue().getPlayers().entrySet()) {
 
 				entryPlayer.getValue().setError(false);
-				Map<SpadeErrors,String> messages= new EnumMap<SpadeErrors,String>(SpadeErrors.class);
+				Map<SpadeErrors, String> messages = new EnumMap<SpadeErrors, String>(SpadeErrors.class);
 				entryPlayer.getValue().setErrorMessages(messages);
+			}
+		}
+	}
+
+	public void cleanUpError(SpadeGame newSpadeGame) {
+
+		SpadePlayer player = newSpadeGame.getTeams()
+				.get(teamService.getTeamByPlayer(newSpadeGame.getGameModifier(), newSpadeGame.getNumberOfTeams()))
+				.getPlayers().get(newSpadeGame.getGameModifier());
+		player.setError(false);
+		player.getErrorMessages().clear();
+	}
+
+	public void addError(SpadeGame newSpadeGame, SpadeErrors spadeError, SpadeGame oldSpadeGame) {
+
+		SpadePlayer player = newSpadeGame.getTeams()
+				.get(teamService.getTeamByPlayer(newSpadeGame.getGameModifier(), newSpadeGame.getNumberOfTeams()))
+				.getPlayers().get(newSpadeGame.getGameModifier());
+
+		SpadePlayer oldPlayer = newSpadeGame.getTeams()
+				.get(teamService.getTeamByPlayer(newSpadeGame.getGameModifier(), newSpadeGame.getNumberOfTeams()))
+				.getPlayers().get(newSpadeGame.getGameModifier());
+		player.setError(true);
+
+		player.getErrorMessages().put(spadeError, spadeError.getError());
+
+		if (oldPlayer.isHasPlayed()) {
+
+			player.getRemainingCards().add(player.getPlayingCard());
+			player.setPlayingCard(oldPlayer.getPlayingCard());
+		} else {
+			if (player.getPlayingCard() != null) {
+				player.getRemainingCards().add(player.getPlayingCard());
+			}
+			player.setPlayingCard(null);
+
+		}
+
+	}
+	
+	public void cleanUpWhoHasPlayed(SpadeGame newSpadeGame) {
+		
+		for (Entry<TeamTable, SpadeTeam> entry : newSpadeGame.getTeams().entrySet()) {
+
+			for (Entry<PlayerTable, SpadePlayer> entryPlayer : entry.getValue().getPlayers().entrySet()) {
+
+				entryPlayer.getValue().setHasPlayed(false);
 			}
 		}
 	}

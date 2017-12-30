@@ -245,6 +245,7 @@ public class SpadeBotHandler {
 	
 	public void determineBots(SpadeGame newSpadeGame) {
 		
+		System.out.println("Determining Bots");
 		for(PlayerTable player: PlayerTable.values()) {
 			
 			SpadePlayer spadePlayer = newSpadeGame.getTeams()

@@ -16,6 +16,8 @@ public class SpadeGame extends Game {
 
 	private String gameId;
 
+	private SpadePreviousHand previousHand;
+	private SpadePreviousTrick previousTrick;
 	private boolean isStarting;
 
 	private boolean isBidding;
@@ -23,6 +25,8 @@ public class SpadeGame extends Game {
 	private boolean isPlaying;
 	
 	private boolean isNewPlayer;
+	
+
 	private int pointsToWin;
 
 	private PlayerTable startHand;
@@ -62,6 +66,9 @@ public class SpadeGame extends Game {
 	private PlayerTable tempWinner;
 
 	private Map<PlayerTable, Integer> playerCardCount;
+	
+	private SpadeNotifications gameNotification;
+	private SpadeNotifications playerNotification;
 
 	public String getGameId() {
 		return gameId;
@@ -303,6 +310,44 @@ public class SpadeGame extends Game {
 
 	public void setPlaying(boolean isPlaying) {
 		this.isPlaying = isPlaying;
+	}
+	
+
+	public SpadePreviousHand getPreviousHand() {
+		return previousHand;
+	}
+
+	public void setPreviousHand(SpadePreviousHand previousHand) {
+		this.previousHand = previousHand;
+	}
+	
+
+	public SpadePreviousTrick getPreviousTrick() {
+		return previousTrick;
+	}
+
+	public void setPreviousTrick(SpadePreviousTrick previousTrick) {
+		this.previousTrick = previousTrick;
+	}
+
+	
+
+	
+
+	public SpadeNotifications getGameNotification() {
+		return gameNotification;
+	}
+
+	public void setGameNotification(SpadeNotifications gameNotification) {
+		this.gameNotification = gameNotification;
+	}
+
+	public SpadeNotifications getPlayerNotification() {
+		return playerNotification;
+	}
+
+	public void setPlayerNotification(SpadeNotifications playerNotification) {
+		this.playerNotification = playerNotification;
 	}
 
 	@Override

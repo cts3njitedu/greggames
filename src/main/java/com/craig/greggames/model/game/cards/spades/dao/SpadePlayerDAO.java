@@ -1,11 +1,14 @@
 package com.craig.greggames.model.game.cards.spades.dao;
 
+import com.craig.greggames.model.game.cards.spades.SpadeNotifications;
+
 public class SpadePlayerDAO extends PlayerDAO{
 
 	private int playerBid;
 	private int playerCurrentScore;
 	private int playerFinalScore;
 	private boolean isFailBid;
+	private SpadeNotifications notification;
 	private boolean isOverBook;
 	private int playerBags;
 	private boolean isBidding;
@@ -82,6 +85,14 @@ public class SpadePlayerDAO extends PlayerDAO{
 
 	public void setBot(boolean isBot) {
 		this.isBot = isBot;
+	}
+
+	public SpadeNotifications getNotification() {
+		return notification;
+	}
+
+	public void setNotification(SpadeNotifications notification) {
+		this.notification = notification;
 	}
 	
 	
