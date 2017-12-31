@@ -9,11 +9,9 @@ import com.craig.greggames.model.game.cards.team.TeamTable;
 public class SpadeTeamDAO {
 	private int totalBid;
 
-	private int totalCurrentScore;
-
 	private int totalScore;
 
-	private int bags;
+	private int totalBags;
 
 	private boolean isOverBook;
 
@@ -23,6 +21,22 @@ public class SpadeTeamDAO {
 
 	private TeamTable name;
 
+	private int totalPreviousScore;
+
+	private int totalRoundScore;
+
+	private int totalPreviousBags;
+
+	private int totalTricks;
+
+	private int totalSuccessfulBids;
+	private int totalFailedBids;
+	private int totalBidNilScore;
+
+	private int totalOverBookScore;
+
+	private int totalRoundBags;
+
 	public int getTotalBid() {
 		return totalBid;
 	}
@@ -31,28 +45,12 @@ public class SpadeTeamDAO {
 		this.totalBid = totalBid;
 	}
 
-	public int getTotalCurrentScore() {
-		return totalCurrentScore;
-	}
-
-	public void setTotalCurrentScore(int totalCurrentScore) {
-		this.totalCurrentScore = totalCurrentScore;
-	}
-
 	public int getTotalScore() {
 		return totalScore;
 	}
 
 	public void setTotalScore(int totalScore) {
 		this.totalScore = totalScore;
-	}
-
-	public int getBags() {
-		return bags;
-	}
-
-	public void setBags(int bags) {
-		this.bags = bags;
 	}
 
 	public boolean isOverBook() {
@@ -99,5 +97,87 @@ public class SpadeTeamDAO {
 	public void setName(TeamTable name) {
 		this.name = name;
 	}
+
+	public int getTotalBags() {
+		return totalBags;
+	}
+
+	public void setTotalBags(int totalBags) {
+		this.totalBags = totalBags;
+	}
+
+	public int getTotalPreviousScore() {
+		return totalPreviousScore;
+	}
+
+	public void setTotalPreviousScore(int totalPreviousScore) {
+		this.totalPreviousScore = totalPreviousScore;
+	}
+
+	public int getTotalRoundScore() {
+		return totalRoundScore;
+	}
+
+	public void setTotalRoundScore(int totalRoundScore) {
+		this.totalRoundScore = totalRoundScore;
+	}
+
+	public int getTotalPreviousBags() {
+		return totalPreviousBags;
+	}
+
+	public void setTotalPreviousBags(int totalPreviousBags) {
+		this.totalPreviousBags = totalPreviousBags;
+	}
+
+	public int getTotalTricks() {
+		return totalTricks;
+	}
+
+	public void setTotalTricks(int totalTricks) {
+		this.totalTricks = totalTricks;
+	}
+
+	public int getTotalSuccessfulBids() {
+		return totalSuccessfulBids;
+	}
+
+	public void setTotalSuccessfulBids(int totalSuccessfulBids) {
+		this.totalSuccessfulBids = totalSuccessfulBids;
+	}
+
+	public int getTotalFailedBids() {
+		return totalFailedBids;
+	}
+
+	public void setTotalFailedBids(int totalFailedBids) {
+		this.totalFailedBids = totalFailedBids;
+	}
+
+	public int getTotalBidNilScore() {
+		return totalBidNilScore;
+	}
+
+	public void setTotalBidNilScore(int totalBidNilScore) {
+		this.totalBidNilScore = totalBidNilScore;
+	}
+
+	public int getTotalOverBookScore() {
+		return totalOverBookScore;
+	}
+
+	public void setTotalOverBookScore(int totalOverBookScore) {
+		this.totalOverBookScore = totalOverBookScore;
+	}
+
+	public int getTotalRoundBags() {
+		return totalRoundBags;
+	}
+
+	public void setTotalRoundBags(int totalRoundBags) {
+		this.totalRoundBags = totalRoundBags;
+	}
+	
+	
 
 }

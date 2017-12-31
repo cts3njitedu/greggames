@@ -12,12 +12,10 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 public class SpadeTeam {
 
 	private int totalBid;
-
-	private int totalCurrentScore;
-
+	
 	private int totalScore;
-
-	private int bags;
+	
+	private int totalBags;
 
 	private boolean isOverBook;
 
@@ -26,6 +24,23 @@ public class SpadeTeam {
 	private boolean isLost;
 
 	private TeamTable name;
+	
+	private int totalPreviousScore;
+	
+	private int totalRoundScore;
+	
+	private int totalPreviousBags;
+	
+	private int totalTricks;
+	
+	private int totalSuccessfulBids;
+	private int totalFailedBids;
+	private int totalBidNilScore;
+	
+	private int totalOverBookScore;
+	
+	private int totalRoundBags;
+	
 
 	public int getTotalBid() {
 		return totalBid;
@@ -33,14 +48,6 @@ public class SpadeTeam {
 
 	public void setTotalBid(int totalBid) {
 		this.totalBid = totalBid;
-	}
-
-	public int getTotalCurrentScore() {
-		return totalCurrentScore;
-	}
-
-	public void setTotalCurrentScore(int totalCurrentScore) {
-		this.totalCurrentScore = totalCurrentScore;
 	}
 
 	public int getTotalScore() {
@@ -51,13 +58,6 @@ public class SpadeTeam {
 		this.totalScore = totalScore;
 	}
 
-	public int getBags() {
-		return bags;
-	}
-
-	public void setBags(int bags) {
-		this.bags = bags;
-	}
 
 	public boolean isOverBook() {
 		return isOverBook;
@@ -104,8 +104,92 @@ public class SpadeTeam {
 	public void setName(TeamTable name) {
 		this.name = name;
 	}
+	
+	
 
 	
+	public int getTotalBags() {
+		return totalBags;
+	}
+
+	public void setTotalBags(int totalBags) {
+		this.totalBags = totalBags;
+	}
+	
+	
+
+	public int getTotalRoundBags() {
+		return totalRoundBags;
+	}
+
+	public void setTotalRoundBags(int totalRoundBags) {
+		this.totalRoundBags = totalRoundBags;
+	}
+
+	public int getTotalPreviousScore() {
+		return totalPreviousScore;
+	}
+
+	public void setTotalPreviousScore(int totalPreviousScore) {
+		this.totalPreviousScore = totalPreviousScore;
+	}
+
+	public int getTotalRoundScore() {
+		return totalRoundScore;
+	}
+
+	public void setTotalRoundScore(int totalRoundScore) {
+		this.totalRoundScore = totalRoundScore;
+	}
+
+	public int getTotalPreviousBags() {
+		return totalPreviousBags;
+	}
+
+	public void setTotalPreviousBags(int totalPreviousBags) {
+		this.totalPreviousBags = totalPreviousBags;
+	}
+
+	public int getTotalTricks() {
+		return totalTricks;
+	}
+
+	public void setTotalTricks(int totalTricks) {
+		this.totalTricks = totalTricks;
+	}
+
+	public int getTotalSuccessfulBids() {
+		return totalSuccessfulBids;
+	}
+
+	public void setTotalSuccessfulBids(int totalSuccessfulBids) {
+		this.totalSuccessfulBids = totalSuccessfulBids;
+	}
+
+	public int getTotalFailedBids() {
+		return totalFailedBids;
+	}
+
+	public void setTotalFailedBids(int totalFailedBids) {
+		this.totalFailedBids = totalFailedBids;
+	}
+
+	public int getTotalBidNilScore() {
+		return totalBidNilScore;
+	}
+
+	public void setTotalBidNilScore(int totalBidNilScore) {
+		this.totalBidNilScore = totalBidNilScore;
+	}
+
+	public int getTotalOverBookScore() {
+		return totalOverBookScore;
+	}
+
+	public void setTotalOverBookScore(int totalOverBookScore) {
+		this.totalOverBookScore = totalOverBookScore;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -113,6 +197,7 @@ public class SpadeTeam {
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
+	
 
 	@Override
 	public boolean equals(Object obj) {
@@ -128,12 +213,7 @@ public class SpadeTeam {
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		return "SpadeTeam [totalBid=" + totalBid + ", totalCurrentScore=" + totalCurrentScore + ", totalScore="
-				+ totalScore + ", bags=" + bags + ", isOverBook=" + isOverBook + ", players=" + players + ", isWon="
-				+ isWon + ", isLost=" + isLost + ", name=" + name + "]";
-	}
+	
 
 	
 

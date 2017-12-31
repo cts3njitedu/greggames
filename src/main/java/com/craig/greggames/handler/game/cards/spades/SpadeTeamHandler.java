@@ -56,75 +56,77 @@ public class SpadeTeamHandler {
 	public void determineTeamPoints(SpadeGame newSpadeGame) {
 
 		for (Entry<TeamTable, SpadeTeam> entry : newSpadeGame.getTeams().entrySet()) {
-			int teamScore = 0;
-			int teamTotalScore = 0;
-			int bidNilPoints = 0;
-			Map<PlayerTable, Boolean> isUnderBid = new HashMap<PlayerTable, Boolean>();
+			
+			int totalSuccessfulBid = 0;
+			int totalFailedBid = 0;
+			int totalOverBookScore = 0;
+			int totalBagScore = 0;
+			int totalBidNilScore = 0;
+			int totalRoundBagScore = 0;
+			int totalPreviousScore = entry.getValue().getTotalScore();
+			int totalPreviousBags = entry.getValue().getTotalBags();
+			int totalRoundScore = 0;
+		
 
+			int totalTricks = 0;
 			for (Entry<PlayerTable, SpadePlayer> entryPlayer : entry.getValue().getPlayers().entrySet()) {
-				int books = entryPlayer.getValue().getPlayerCurrentScore() - entryPlayer.getValue().getPlayerBid();
 				if (entryPlayer.getValue().getPlayerBid() == 0) {
 
 					if (entryPlayer.getValue().getPlayerCurrentScore() != 0) {
-						bidNilPoints -= newSpadeGame.getBidNilPoints();
+						totalBidNilScore -= newSpadeGame.getBidNilPoints();
 					} else {
 
-						bidNilPoints += newSpadeGame.getBidNilPoints();
-					}
-
-					isUnderBid.put(entryPlayer.getKey(), false);
-				} else {
-
-					if (books < 0) {
-
-						isUnderBid.put(entryPlayer.getKey(), true);
-					} else {
-
-						isUnderBid.put(entryPlayer.getKey(), false);
+						totalBidNilScore += newSpadeGame.getBidNilPoints();
 					}
 
 				}
-				teamScore += entryPlayer.getValue().getPlayerCurrentScore();
+				totalTricks += entryPlayer.getValue().getPlayerCurrentScore();
 
 			}
-
-			int teamTotalBags = (teamScore - entry.getValue().getTotalBid()) + entry.getValue().getBags();
-			if (teamScore < entry.getValue().getTotalBid()) {
-				for (Entry<PlayerTable, Boolean> playerTable : isUnderBid.entrySet()) {
-
-					if (playerTable.getValue()) {
-						teamTotalScore -= entry.getValue().getPlayers().get(playerTable.getKey()).getPlayerBid();
-					} else {
-
-						teamTotalScore += entry.getValue().getPlayers().get(playerTable.getKey()).getPlayerBid();
-					}
+			int totalRoundBags = totalTricks - entry.getValue().getTotalBid();
+			if(totalRoundBags==0) {
+				
+				totalSuccessfulBid = entry.getValue().getTotalBid();
+				
+				entry.getValue().setTotalRoundScore(totalSuccessfulBid);
+				
+				
+			}
+			else if(totalRoundBags>0) {
+				
+				totalSuccessfulBid = entry.getValue().getTotalBid();
+				totalRoundBagScore = totalRoundBags/POINTS_WON_PER_TRICK_BEFORE_OVERBID;
+				
+				totalBagScore = totalRoundBags + entry.getValue().getTotalBags();
+				
+				if(totalBagScore>=newSpadeGame.getBags()) {
+					
+					totalOverBookScore -= newSpadeGame.getBagPoints();
+					totalBagScore = totalBagScore-newSpadeGame.getBags();
 				}
-
+			}
+			else {
+				
+				totalFailedBid -= entry.getValue().getTotalBid();
+				
 			}
 
-			else if (teamScore > entry.getValue().getTotalBid()) {
-
-				teamTotalScore = entry.getValue().getTotalBid() + (teamScore - entry.getValue().getTotalBid()) / POINTS_WON_PER_TRICK_BEFORE_OVERBID;
-
-				if (teamTotalBags >= newSpadeGame.getBags()) {
-					teamTotalScore -= newSpadeGame.getBagPoints();
-					newSpadeGame.getTeams().get(entry.getKey()).setOverBook(true);
-					newSpadeGame.getTeams().get(entry.getKey()).setBags(teamTotalBags - newSpadeGame.getBags());
-
-				} else {
-					newSpadeGame.getTeams().get(entry.getKey()).setBags(teamTotalBags);
-
-				}
-			} else {
-
-				teamTotalScore += entry.getValue().getTotalBid();
-			}
-
-			teamTotalScore += bidNilPoints;
-
-			newSpadeGame.getTeams().get(entry.getKey())
-					.setTotalScore(newSpadeGame.getTeams().get(entry.getKey()).getTotalScore() + teamTotalScore);
-
+		
+			
+			totalRoundScore = totalSuccessfulBid + totalBidNilScore + totalFailedBid+totalRoundBagScore+totalOverBookScore;
+			
+			entry.getValue().setTotalBags(totalBagScore);
+			entry.getValue().setTotalPreviousBags(totalPreviousBags);
+			entry.getValue().setTotalBidNilScore(totalBidNilScore);
+			entry.getValue().setTotalFailedBids(totalFailedBid);
+			entry.getValue().setTotalSuccessfulBids(totalSuccessfulBid);
+			entry.getValue().setTotalRoundBags(totalRoundBags);
+			entry.getValue().setTotalPreviousScore(totalPreviousScore);
+			entry.getValue().setTotalOverBookScore(totalOverBookScore);
+			entry.getValue().setTotalRoundScore(totalRoundScore);
+			entry.getValue().setTotalTricks(totalTricks);
+			entry.getValue().setTotalScore(totalPreviousScore+totalRoundScore);
+			
 		}
 
 	}
