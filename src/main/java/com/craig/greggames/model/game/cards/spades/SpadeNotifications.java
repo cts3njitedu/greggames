@@ -4,7 +4,7 @@ public enum SpadeNotifications {
 
 	RECEIVED_ERROR,
 	
-	RECEIVED_GAME_END,
+	RECEIVED_GAME_OVER,
 	
 	NEW_PLAYER,
 	
@@ -14,5 +14,15 @@ public enum SpadeNotifications {
 	
 	START,
 	
-	CREATE
+	CREATE,
+	
+	TRICK_OVER,
+	
+	RECEIVED_TRICK_OVER,
+	
+	HAND_OVER,
+	
+	RECEIVED_HAND_OVER,
+	
+	GAME_OVER
 }

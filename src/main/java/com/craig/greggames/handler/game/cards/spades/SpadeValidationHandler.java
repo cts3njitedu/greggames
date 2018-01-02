@@ -4,6 +4,8 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.Set;
 
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +14,11 @@ import com.craig.greggames.model.game.cards.Card;
 import com.craig.greggames.model.game.cards.CardSuit;
 import com.craig.greggames.model.game.cards.spades.SpadeErrors;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
+import com.craig.greggames.model.game.cards.spades.SpadeNotifications;
 import com.craig.greggames.model.game.cards.spades.SpadePlayer;
 import com.craig.greggames.util.GregMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import static com.craig.greggames.constants.game.cards.spades.SpadeGameConstants.MAX_TURN_PER_TRICK;;
 @Service
 public class SpadeValidationHandler {
 
@@ -24,6 +27,7 @@ public class SpadeValidationHandler {
 
 	@Autowired
 	private CardHandler cardService;
+	
 
 	public boolean validateBid(SpadeGame spadeGame) {
 

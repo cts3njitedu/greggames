@@ -39,8 +39,11 @@ public class Demo {
 //		
 //		playSpades.playGame(spadeGame);
 		
-		PlaySpades playSpade = new PlaySpades();
-		playSpade.test();
+		Set<Card> cardSet = DealUtility.getSpadeHand();
+		
+		PlaySpades playSpades = new PlaySpades();
+		
+		playSpades.test();
 		
 
 	}

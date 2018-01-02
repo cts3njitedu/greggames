@@ -24,9 +24,8 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest
-@ContextConfiguration(loader = SpringBootContextLoader.class, classes = CardGamesApplication.class)
+
+@ContextConfiguration(classes = CardGamesApplication.class)
 public class DetermineTeamPointsSteps {
 
 	@Autowired

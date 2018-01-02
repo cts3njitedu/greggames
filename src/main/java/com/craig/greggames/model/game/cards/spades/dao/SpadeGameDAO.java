@@ -1,7 +1,9 @@
 package com.craig.greggames.model.game.cards.spades.dao;
 
 import java.util.EnumMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -66,6 +68,9 @@ public class SpadeGameDAO {
 	private SpadeNotifications gameNotification;
 	private SpadeNotifications playerNotification;
 	private PlayerTable tempWinner;
+	
+	private boolean isTrickOver;
+	private boolean isHandOver;
 
 	public String getGameId() {
 		return gameId;
@@ -343,9 +348,24 @@ public class SpadeGameDAO {
 		this.playerNotification = playerNotification;
 	}
 
-	
-	
+	public boolean isTrickOver() {
+		return isTrickOver;
+	}
 
+	public void setTrickOver(boolean isTrickOver) {
+		this.isTrickOver = isTrickOver;
+	}
+
+	public boolean isHandOver() {
+		return isHandOver;
+	}
+
+	public void setHandOver(boolean isHandOver) {
+		this.isHandOver = isHandOver;
+	}
+
+	
+	
 	
 	
 	

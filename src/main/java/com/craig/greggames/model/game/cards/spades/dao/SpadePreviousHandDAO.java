@@ -10,6 +10,7 @@ public class SpadePreviousHandDAO {
 	private Map<TeamTable, SpadeTeamDAO> teams;
 	
 	private int numberOfTeams;
+	private int handCount;
 	
 	
 	public Map<TeamTable, SpadeTeamDAO> getTeams() {
@@ -38,5 +39,14 @@ public class SpadePreviousHandDAO {
 		this.numberOfTeams = numberOfTeams;
 	}
 
+	public int getHandCount() {
+		return handCount;
+	}
+
+	public void setHandCount(int handCount) {
+		this.handCount = handCount;
+	}
+
+	
 	
 }

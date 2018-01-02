@@ -2,6 +2,7 @@ package com.craig.greggames.demo;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -195,11 +196,11 @@ public class PlaySpades {
 		
 		Set<Card> cards = DealUtility.getSpadeHand();
 		
-		Map<CardSuit, Set<Card>> cardMap = cardService.distributeCardsAccordingToSuit(cards);
-		for(CardSuit suit: CardSuit.values()) {
+		Set<Card> cardMap = cardService.sortCardsBySuit(cards.stream().collect(Collectors.toList()));
+		
+		for(Card card: cardMap) {
 			
-			System.out.println(suit + ":" + cardMap.get(suit).toString());
-			
+			System.out.println("Card: "+ card.getName());
 		}
 	}
 }

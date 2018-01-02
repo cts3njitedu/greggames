@@ -1,10 +1,11 @@
 package com.craig.greggames.handler.game.cards;
 
 import java.util.EnumMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,8 @@ import com.craig.greggames.model.game.cards.player.PlayerTable;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.craig.greggames.model.game.cards.spades.SpadePlayer;
 import com.craig.greggames.util.DealUtility;
-
+import static com.craig.greggames.constants.game.cards.spades.SpadeGameConstants.MAX_TRICK_COUNT;
+import static com.craig.greggames.constants.game.cards.spades.SpadeGameConstants.MAX_TURN_PER_TRICK;;
 @Service
 public class CardHandler {
 
@@ -32,11 +34,11 @@ public class CardHandler {
 		List<Card> cards = cardSet.stream().collect(Collectors.toList());
 		int i = 0;
 		int dealCode = newSpadeGame.getCurrTurn().getCode() + 1;
-		if (dealCode > 4) {
-			dealCode = dealCode - 4;
+		if (dealCode > MAX_TURN_PER_TRICK) {
+			dealCode = dealCode - MAX_TURN_PER_TRICK;
 		}
 
-		for (int turn = 1; turn <= 4; turn++) {
+		for (int turn = 1; turn <= MAX_TURN_PER_TRICK; turn++) {
 
 			newSpadeGame.getTeams()
 					.get(teamService.getTeamByPlayer(PlayerTable.getPlayer(dealCode), newSpadeGame.getNumberOfTeams()))
@@ -45,12 +47,12 @@ public class CardHandler {
 			newSpadeGame.getTeams()
 					.get(teamService.getTeamByPlayer(PlayerTable.getPlayer(dealCode), newSpadeGame.getNumberOfTeams()))
 					.getPlayers().get(PlayerTable.getPlayer(dealCode)).getRemainingCards()
-					.addAll(cards.subList(i, i + 13));
+					.addAll(cards.subList(i, i + MAX_TRICK_COUNT));
 			dealCode++;
-			if (dealCode > 4) {
-				dealCode = dealCode - 4;
+			if (dealCode > MAX_TURN_PER_TRICK) {
+				dealCode = dealCode - MAX_TURN_PER_TRICK;
 			}
-			i = i + 13;
+			i = i + MAX_TRICK_COUNT;
 		}
 
 	}
@@ -165,6 +167,8 @@ public class CardHandler {
 
 		List<Card> cards = cardSet.stream().collect(Collectors.toList());
 		cards.sort((Card c1, Card c2) -> c1.getValue().getValue() - c2.getValue().getValue());
+		
+
 		return cards;
 
 	}
@@ -183,7 +187,16 @@ public class CardHandler {
 		return null;
 	}
 	
-	
+	public Set<Card> sortCardsBySuit(List<Card>cards) {
+		Set<Card>cardSet = cards.stream().collect(Collectors.toSet());
+		Map<CardSuit, Set<Card>> distributeCards = distributeCardsAccordingToSuit(cardSet);
+		Set<Card>newCardSet = new LinkedHashSet<Card>();
+		for(Entry<CardSuit,Set<Card>> entry: distributeCards.entrySet()) {
+			
+			newCardSet.addAll(sortCards(entry.getValue()));
+		}
+		return newCardSet;
+	}
 	public Map<CardSuit,Set<Card>> distributeCardsAccordingToSuit(Set<Card>cards){
 		
 		Map<CardSuit, Set<Card>> cardsForEachSuit = new EnumMap<>(CardSuit.class);

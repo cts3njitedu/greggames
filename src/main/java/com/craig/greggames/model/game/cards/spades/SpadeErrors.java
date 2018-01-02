@@ -8,7 +8,8 @@ public enum SpadeErrors {
 	CURRENTLY_BIDDING("Currently Bidding"),
 	NO_CARD_PLAYED("No Card Played"),
 	WRONG_MOVE("Wrong Move"),
-	CURRENTLY_PLAYING("Currently Playing");
+	CURRENTLY_PLAYING("Currently Playing"),
+	WAITING_FOR_OTHER_PLAYERS("Waiting For Other Playings to Notify Receiving Notificaiton");
 	
 	
 	private String error;

@@ -1,7 +1,9 @@
 package com.craig.greggames.model.game.cards.spades;
 
 import java.util.EnumMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import com.craig.greggames.model.game.Game;
 import com.craig.greggames.model.game.cards.player.PlayerTable;
@@ -21,11 +23,10 @@ public class SpadeGame extends Game {
 	private boolean isStarting;
 
 	private boolean isBidding;
-	
+
 	private boolean isPlaying;
-	
+
 	private boolean isNewPlayer;
-	
 
 	private int pointsToWin;
 
@@ -33,7 +34,7 @@ public class SpadeGame extends Game {
 	private PlayerTable startTurn;
 
 	private PlayerTable currTurn;
-	
+
 	private PlayerTable gameModifier;
 	private int trickCount;
 
@@ -66,9 +67,14 @@ public class SpadeGame extends Game {
 	private PlayerTable tempWinner;
 
 	private Map<PlayerTable, Integer> playerCardCount;
-	
+
 	private SpadeNotifications gameNotification;
 	private SpadeNotifications playerNotification;
+	
+	private boolean isTrickOver;
+	private boolean isHandOver;
+
+
 
 	public String getGameId() {
 		return gameId;
@@ -142,9 +148,8 @@ public class SpadeGame extends Game {
 		this.isGameOver = isGameOver;
 	}
 
-
 	public Map<TeamTable, SpadeTeam> getTeams() {
-		if (teams == null || teams.size()==0) {
+		if (teams == null || teams.size() == 0) {
 
 			teams = new EnumMap<TeamTable, SpadeTeam>(TeamTable.class);
 
@@ -163,7 +168,7 @@ public class SpadeGame extends Game {
 
 	@JsonInclude(Include.NON_EMPTY)
 	public Map<PlayerTable, Integer> getPlayerCardCount() {
-	
+
 		return playerCardCount;
 	}
 
@@ -274,8 +279,6 @@ public class SpadeGame extends Game {
 	public void setSpadePlayed(boolean isSpadePlayed) {
 		this.isSpadePlayed = isSpadePlayed;
 	}
-	
-	
 
 	public int getActivePlayers() {
 		return activePlayers;
@@ -284,7 +287,6 @@ public class SpadeGame extends Game {
 	public void setActivePlayers(int activePlayers) {
 		this.activePlayers = activePlayers;
 	}
-	
 
 	public boolean isNewPlayer() {
 		return isNewPlayer;
@@ -294,7 +296,6 @@ public class SpadeGame extends Game {
 		this.isNewPlayer = isNewPlayer;
 	}
 
-	
 	public PlayerTable getGameModifier() {
 		return gameModifier;
 	}
@@ -303,7 +304,6 @@ public class SpadeGame extends Game {
 		this.gameModifier = gameModifier;
 	}
 
-	
 	public boolean isPlaying() {
 		return isPlaying;
 	}
@@ -311,7 +311,6 @@ public class SpadeGame extends Game {
 	public void setPlaying(boolean isPlaying) {
 		this.isPlaying = isPlaying;
 	}
-	
 
 	public SpadePreviousHand getPreviousHand() {
 		return previousHand;
@@ -320,7 +319,6 @@ public class SpadeGame extends Game {
 	public void setPreviousHand(SpadePreviousHand previousHand) {
 		this.previousHand = previousHand;
 	}
-	
 
 	public SpadePreviousTrick getPreviousTrick() {
 		return previousTrick;
@@ -329,10 +327,6 @@ public class SpadeGame extends Game {
 	public void setPreviousTrick(SpadePreviousTrick previousTrick) {
 		this.previousTrick = previousTrick;
 	}
-
-	
-
-	
 
 	public SpadeNotifications getGameNotification() {
 		return gameNotification;
@@ -350,6 +344,24 @@ public class SpadeGame extends Game {
 		this.playerNotification = playerNotification;
 	}
 
+	
+
+	public boolean isTrickOver() {
+		return isTrickOver;
+	}
+
+	public void setTrickOver(boolean isTrickOver) {
+		this.isTrickOver = isTrickOver;
+	}
+
+	public boolean isHandOver() {
+		return isHandOver;
+	}
+
+	public void setHandOver(boolean isHandOver) {
+		this.isHandOver = isHandOver;
+	}
+
 	@Override
 	public String toString() {
 		return "SpadeGame [gameId=" + gameId + ", isStarting=" + isStarting + ", isBidding=" + isBidding
@@ -361,7 +373,5 @@ public class SpadeGame extends Game {
 				+ numberOfPlayers + ", numberOfTeams=" + numberOfTeams + ", pointsToLose=" + pointsToLose
 				+ ", tempWinner=" + tempWinner + ", playerCardCount=" + playerCardCount + "]";
 	}
-	
-	
 
 }

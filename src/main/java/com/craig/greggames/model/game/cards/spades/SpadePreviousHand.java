@@ -11,6 +11,8 @@ public class SpadePreviousHand {
 	
 	private int numberOfTeams;
 	
+	private int handCount;
+	
 	
 	public Map<TeamTable, SpadeTeam> getTeams() {
 		if (teams == null || teams.size()==0) {
@@ -37,6 +39,16 @@ public class SpadePreviousHand {
 	public void setNumberOfTeams(int numberOfTeams) {
 		this.numberOfTeams = numberOfTeams;
 	}
+
+	public int getHandCount() {
+		return handCount;
+	}
+
+	public void setHandCount(int handCount) {
+		this.handCount = handCount;
+	}
+	
+	
 
 	
 }

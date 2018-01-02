@@ -17,7 +17,7 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 @ContextConfiguration(classes = CardGamesApplication.class)
-public class CreateGameTest {
+public class CreateGameSteps {
 
 	@Autowired
 	private SpadeGameHandler handler;

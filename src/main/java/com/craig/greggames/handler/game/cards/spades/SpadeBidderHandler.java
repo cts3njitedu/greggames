@@ -37,6 +37,9 @@ public class SpadeBidderHandler {
 			totalBid = player.getPlayerBid();
 		}
 		team.setTotalBid(team.getTotalBid() + totalBid);
+		if(totalBid==0) {
+			player.setBidNil(true);
+		}
 
 	}
 
@@ -48,6 +51,7 @@ public class SpadeBidderHandler {
 			for (Entry<PlayerTable, SpadePlayer> player : team.getValue().getPlayers().entrySet()) {
 
 				player.getValue().setPlayerBid(0);
+				player.getValue().setBidNil(false);
 			}
 		}
 	}

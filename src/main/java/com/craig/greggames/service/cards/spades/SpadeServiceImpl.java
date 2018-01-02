@@ -1,5 +1,7 @@
 package com.craig.greggames.service.cards.spades;
 
+import static com.craig.greggames.constants.game.cards.spades.SpadeGameConstants.MAX_TURN_PER_TRICK;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -137,12 +139,15 @@ public class SpadeServiceImpl implements SpadeService {
 		// }
 
 		SpadeGame oldSpadeGame = findGame(spadeGame.getGameId());
-		spadeGame.setPreviousHand(null);
-		spadeGame.setPreviousTrick(null);
+		
 		
 		switch (spadeGame.getGameNotification()) {
 		
 		case BID:
+			spadeGame.setPreviousHand(null);
+			spadeGame.setPreviousTrick(null);
+			spadeGame.setTrickOver(false);
+			spadeGame.setHandOver(false);
 			switch (spadeGame.getPlayerNotification()) {
 
 			case RECEIVED_ERROR:
@@ -169,6 +174,10 @@ public class SpadeServiceImpl implements SpadeService {
 			break;
 
 		case PLAY:
+			spadeGame.setPreviousHand(null);
+			spadeGame.setPreviousTrick(null);
+			spadeGame.setTrickOver(false);
+			spadeGame.setHandOver(false);
 			switch (spadeGame.getPlayerNotification()) {
 
 			case RECEIVED_ERROR:
@@ -202,10 +211,15 @@ public class SpadeServiceImpl implements SpadeService {
 			break;
 
 		case START:
+			spadeGame.setPreviousHand(null);
+			spadeGame.setPreviousTrick(null);
+			spadeGame.setTrickOver(false);
+			spadeGame.setHandOver(false);
 			spadeGameService.startGame(spadeGame);
 			break;
-
 		default:
+			spadeGame.setPreviousHand(null);
+			spadeGame.setPreviousTrick(null);
 			playerService.addError(spadeGame,SpadeErrors.WRONG_MOVE,oldSpadeGame);
 			break;
 		}

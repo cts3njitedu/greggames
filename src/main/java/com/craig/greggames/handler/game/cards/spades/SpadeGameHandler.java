@@ -96,6 +96,7 @@ public class SpadeGameHandler {
 				}
 				newSpadeGame.setCurrTurn(PlayerTable.getPlayer(currTurnCode));
 				newSpadeGame.setTurnCount(newSpadeGame.getTurnCount() + 1);
+				newSpadeGame.setGameNotification(SpadeNotifications.BID);
 			}
 			
 			playerService.determineTurn(newSpadeGame);
@@ -141,6 +142,8 @@ public class SpadeGameHandler {
 					newSpadeGame.setHandCount(newSpadeGame.getHandCount() + 1);
 					newSpadeGame.setTrickCount(0);
 					newSpadeGame.setTurnCount(1);
+					newSpadeGame.setTrickOver(true);
+					newSpadeGame.setHandOver(true);
 
 				} else {
 
@@ -148,10 +151,13 @@ public class SpadeGameHandler {
 					newSpadeGame.setStartTurn(temWinnerPlayer);
 					newSpadeGame.setTurnCount(1);
 					newSpadeGame.setTrickCount(newSpadeGame.getTrickCount() + 1);
+					newSpadeGame.setGameNotification(SpadeNotifications.PLAY);
+					newSpadeGame.setTrickOver(true);
 
 				}
-				cardService.removePlayingCard(newSpadeGame);
 				playerService.cleanUpWhoHasPlayed(newSpadeGame);
+				cardService.removePlayingCard(newSpadeGame);
+				
 				
 
 			
@@ -166,6 +172,7 @@ public class SpadeGameHandler {
 				}
 				newSpadeGame.setCurrTurn(PlayerTable.getPlayer(curr));
 				newSpadeGame.setTurnCount(newSpadeGame.getTurnCount() + 1);
+				newSpadeGame.setGameNotification(SpadeNotifications.PLAY);
 
 			}
 			playerService.determineTurn(newSpadeGame);
