@@ -1,11 +1,9 @@
 package com.craig.greggames.model.game.cards.spades;
 
 import java.util.EnumMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
-import com.craig.greggames.model.game.Game;
+import com.craig.greggames.model.game.cards.CardGame;
 import com.craig.greggames.model.game.cards.player.PlayerTable;
 import com.craig.greggames.model.game.cards.team.TeamTable;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -14,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(Include.NON_NULL)
-public class SpadeGame extends Game {
+public class SpadeGame extends CardGame {
 
 	private String gameId;
 

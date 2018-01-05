@@ -18,6 +18,8 @@ import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.craig.greggames.model.game.cards.spades.SpadePlayer;
 import com.craig.greggames.model.game.cards.team.TeamTable;
 import com.craig.greggames.util.DealUtility;
+import com.craig.greggames.validator.game.cards.spades.AbstractSpadeValidator;
+import com.craig.greggames.validator.game.cards.spades.SpadeValidatorEngine;
 
 @Service
 public class PlaySpades {
@@ -29,11 +31,14 @@ public class PlaySpades {
 	
 	@Autowired
 	private CardHandler cardService;
+	@Autowired
+	private SpadeValidatorEngine validatorFactory;
 
 	public PlaySpades() {
 
 		this.creator = new SpadeGameHandler();
 		this.cardService = new CardHandler();
+		this.validatorFactory=new SpadeValidatorEngine();
 	}
 
 	public void playGame(SpadeGame spadeGame) throws GreggamesException {
@@ -194,13 +199,7 @@ public class PlaySpades {
 	
 	public void test() {
 		
-		Set<Card> cards = DealUtility.getSpadeHand();
 		
-		Set<Card> cardMap = cardService.sortCardsBySuit(cards.stream().collect(Collectors.toList()));
-		
-		for(Card card: cardMap) {
-			
-			System.out.println("Card: "+ card.getName());
-		}
+		validatorFactory.validate(new SpadeGame());
 	}
 }

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.craig.greggames.model.GregGames;
+import com.craig.greggames.model.GregGameChildTypes;
 import com.craig.greggames.service.GregGamesService;
 
 @RestController
@@ -20,7 +20,7 @@ public class GregGamesController {
 	private GregGamesService service;
 
 	@RequestMapping(method = RequestMethod.GET, value = "/cards", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public @ResponseBody GregGames[] getGregGames() {
+	public @ResponseBody GregGameChildTypes[] getGregGames() {
 //		System.out.println("Sugar Honey Ice Tea");
 		return service.getGregGames();
 	}

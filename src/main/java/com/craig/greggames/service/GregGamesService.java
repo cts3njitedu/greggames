@@ -2,14 +2,14 @@ package com.craig.greggames.service;
 
 import org.springframework.stereotype.Service;
 
-import com.craig.greggames.model.GregGames;
+import com.craig.greggames.model.GregGameChildTypes;
 @Service
 public class GregGamesService {
 	
 	
-	public GregGames[] getGregGames(){
+	public GregGameChildTypes[] getGregGames(){
 		
-		return GregGames.values();
+		return GregGameChildTypes.values();
 	}
 
 }

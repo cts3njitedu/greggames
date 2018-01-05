@@ -1,6 +1,4 @@
-package com.craig.greggames.service.cards.spades;
-
-import static com.craig.greggames.constants.game.cards.spades.SpadeGameConstants.MAX_TURN_PER_TRICK;
+package com.craig.greggames.model.game.cards.spades.dal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,44 +7,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.craig.greggames.exception.GreggamesException;
-import com.craig.greggames.handler.game.cards.spades.SpadeBotHandler;
-import com.craig.greggames.handler.game.cards.spades.SpadeGameHandler;
-import com.craig.greggames.handler.game.cards.spades.SpadePlayerHandler;
-import com.craig.greggames.handler.game.cards.spades.SpadeTeamHandler;
-import com.craig.greggames.handler.game.cards.spades.SpadeValidationHandler;
-import com.craig.greggames.model.game.cards.player.PlayerTable;
-import com.craig.greggames.model.game.cards.spades.SpadeErrors;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
-import com.craig.greggames.model.game.cards.spades.SpadeNotifications;
 import com.craig.greggames.model.game.cards.spades.dao.SpadeGameDAO;
 import com.craig.greggames.model.game.cards.spades.dao.repo.SpadeGameRepository;
-import com.craig.greggames.model.game.cards.team.TeamTable;
 import com.craig.greggames.util.GregMapper;
 
 @Service
-public class SpadeServiceImpl implements SpadeService {
+public class SpadePersistenceDalImpl implements SpadePersistenceDal{
 
 	@Autowired
 	private SpadeGameRepository repository;
 
 	@Autowired
 	private GregMapper mapper;
-
-	@Autowired
-	private SpadeGameHandler spadeGameService;
-
-	@Autowired
-	private SpadeTeamHandler spadeTeamService;
-
-	@Autowired
-	private SpadeBotHandler botService;
-
-	@Autowired
-	private SpadeValidationHandler validationService;
-
-	@Autowired
-	private SpadePlayerHandler playerService;
-
 	@Override
 	public List<SpadeGame> getGames() {
 		// TODO Auto-generated method stub
@@ -63,12 +36,7 @@ public class SpadeServiceImpl implements SpadeService {
 	@Override
 	public SpadeGame createGame(SpadeGame spadeGame) {
 		// TODO Auto-generated method stub
-
-		spadeGameService.createGame(spadeGame);
-		SpadeGameDAO spadeGameDAO = mapper.spadeGameToDAO(spadeGame);
-
-		spadeGameDAO = repository.save(spadeGameDAO);
-		return findGame(spadeGameDAO.getGameId());
+		return null;
 	}
 
 	@Override
@@ -83,21 +51,13 @@ public class SpadeServiceImpl implements SpadeService {
 	@Override
 	public SpadeGame findGameHeaderInfo(String gameId) {
 		// TODO Auto-generated method stub
-		SpadeGameDAO spadeGameDAO = repository.findOne(gameId);
-		SpadeGame spadeGame = mapper.spadeDAOToGame(spadeGameDAO);
-		return spadeGame;
+		return null;
 	}
 
 	@Override
 	public SpadeGame startGame(String gameId) {
 		// TODO Auto-generated method stub
-		SpadeGame spadeGame = findGame(gameId);
-		// spadeGame.setNumberOfTeams(spadeGame.getNumberOfTeams()==0?2:spadeGame.getNumberOfTeams());
-		// spadeGame.setStarting(true);
-		spadeGameService.startGame(spadeGame);
-
-		return saveGame(spadeGame);
-
+		return null;
 	}
 
 	@Override
@@ -112,11 +72,8 @@ public class SpadeServiceImpl implements SpadeService {
 
 	@Override
 	public SpadeGame modifyGameState(String gameType, String gameId, SpadeGame spadeGame) throws GreggamesException {
-	
-
-		
-
-		return saveGame(spadeGame);
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
