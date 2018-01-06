@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
 import com.craig.greggames.handler.game.cards.spades.SpadeTeamHandler;
@@ -11,15 +12,17 @@ import com.craig.greggames.model.game.cards.spades.SpadeErrors;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.craig.greggames.model.game.cards.spades.SpadeNotifications;
 import com.craig.greggames.model.game.cards.spades.SpadePlayer;
+import com.craig.greggames.model.game.cards.spades.dal.SpadePersistenceDal;
 import com.craig.greggames.service.cards.spades.SpadeService;
 
 @Service
+@Order(2)
 public class SpadeDetermineTurnValidator implements AbstractSpadeValidator {
 
 	@Autowired
 	private SpadeTeamHandler teamService;
 	@Autowired
-	private SpadeService spadeService;
+	private SpadePersistenceDal spadePersistenceDal;
 	private final static Set<SpadeNotifications> notificationSet;
 	static {
 
@@ -33,14 +36,14 @@ public class SpadeDetermineTurnValidator implements AbstractSpadeValidator {
 	public boolean validate(SpadeGame spadeGame) {
 		// TODO Auto-generated method stub
 	
-		SpadeGame prevSpadeGame = spadeService.findGame(spadeGame.getGameId());
+		SpadeGame prevSpadeGame = spadePersistenceDal.findGame(spadeGame.getGameId());
 		SpadePlayer player = spadeGame.getTeams()
 				.get(teamService.getTeamByPlayer(spadeGame.getGameModifier(), spadeGame.getNumberOfTeams()))
 				.getPlayers().get(spadeGame.getGameModifier());
 
 		SpadePlayer prevPlayer = prevSpadeGame.getTeams()
-				.get(teamService.getTeamByPlayer(prevSpadeGame.getGameModifier(), prevSpadeGame.getNumberOfTeams()))
-				.getPlayers().get(prevSpadeGame.getGameModifier());
+				.get(teamService.getTeamByPlayer(spadeGame.getGameModifier(), spadeGame.getNumberOfTeams()))
+				.getPlayers().get(spadeGame.getGameModifier());
 		player.setError(false);
 		player.getErrorMessages().clear();
 		if (spadeGame.getGameModifier() != spadeGame.getCurrTurn()) {

@@ -4,4 +4,5 @@ import com.craig.greggames.model.AbstractGreggame;
 
 public abstract class CardGame extends AbstractGreggame{
 
+	
 }

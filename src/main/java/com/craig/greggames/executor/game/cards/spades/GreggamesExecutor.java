@@ -4,9 +4,8 @@ import com.craig.greggames.model.AbstractGreggame;
 
 public interface GreggamesExecutor <T extends AbstractGreggame>{
 
-	public void create(T greggame);
 	
-	public void execute(T greggame);
+	public T execute(T greggame);
 
 
 }

@@ -12,11 +12,11 @@ Feature: Make sure playing game works properly
     When I attempt to start the game
     Then I should be successful in starting the game
 
-  #@makingbid
-  #Scenario: Testing players bidding
-    #Given a game and players ready to bid
-    #When I attempt to bid
-    #Then I should be successful in bidding
+  @makingbid
+  Scenario: Testing players bidding
+    Given a game and players ready to bid
+    When I attempt to bid
+    Then I should be successful in bidding
 #
   #@playingTrick
   #Scenario: Testing trick of game

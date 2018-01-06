@@ -8,6 +8,6 @@
     "bagPoints": 100,
     "bags" : 50,
     "bidNilPoints":100,
-    "pointsToLose":-100
-    
+    "pointsToLose":-100,
+    "playerNotification":"CREATE"
 }

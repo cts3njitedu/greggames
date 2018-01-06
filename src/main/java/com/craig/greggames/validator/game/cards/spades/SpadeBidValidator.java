@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
 import com.craig.greggames.handler.game.cards.spades.SpadeTeamHandler;
@@ -12,6 +13,7 @@ import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.craig.greggames.model.game.cards.spades.SpadeNotifications;
 import com.craig.greggames.model.game.cards.spades.SpadePlayer;
 @Service
+@Order(3)
 public class SpadeBidValidator implements AbstractSpadeValidator {
 
 	@Autowired

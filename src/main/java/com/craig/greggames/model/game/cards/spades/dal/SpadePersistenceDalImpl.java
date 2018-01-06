@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.craig.greggames.exception.GreggamesException;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.craig.greggames.model.game.cards.spades.dao.SpadeGameDAO;
 import com.craig.greggames.model.game.cards.spades.dao.repo.SpadeGameRepository;
@@ -31,12 +30,6 @@ public class SpadePersistenceDalImpl implements SpadePersistenceDal{
 			spadeGames.add(spadeGame);
 		}
 		return spadeGames;
-	}
-
-	@Override
-	public SpadeGame createGame(SpadeGame spadeGame) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -67,13 +60,12 @@ public class SpadePersistenceDalImpl implements SpadePersistenceDal{
 
 		spadeGameDAO = repository.save(spadeGameDAO);
 
-		return findGame(spadeGameDAO.getGameId());
-	}
-
-	@Override
-	public SpadeGame modifyGameState(String gameType, String gameId, SpadeGame spadeGame) throws GreggamesException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		SpadeGame newSpadeGame =  findGame(spadeGameDAO.getGameId());
+		
+		spadeGame.setGameId(newSpadeGame.getGameId());
+		
+		return spadeGame;
 	}
 
 }

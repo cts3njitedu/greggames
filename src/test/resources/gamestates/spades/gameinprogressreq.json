@@ -10,9 +10,8 @@
   "teams": {
     "TEAM1": {
       "totalBid": 0,
-      "totalCurrentScore": 0,
       "totalScore": 0,
-      "bags": 0,
+      "totalBags": 0,
       "players": {
         "PLAYER1": {
           "userId": null,
@@ -192,9 +191,8 @@
     },
     "TEAM2": {
       "totalBid": 0,
-      "totalCurrentScore": 0,
       "totalScore": 0,
-      "bags": 0,
+      "totalBags": 0,
       "players": {
         "PLAYER2": {
           "userId": null,
@@ -385,5 +383,7 @@
   "starting": false,
   "bidding": true,
   "gameOver": false,
-  "dealing": false
+  "dealing": false,
+  "playerNotification":"BID",
+  "gameNotification":"BID"
 }

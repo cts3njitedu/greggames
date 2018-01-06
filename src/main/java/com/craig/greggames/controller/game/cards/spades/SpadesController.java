@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.craig.greggames.exception.GreggamesException;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
+import com.craig.greggames.model.game.cards.spades.dal.SpadePersistenceDal;
 import com.craig.greggames.service.cards.spades.SpadeService;
 
 @RestController
@@ -20,6 +21,9 @@ public class SpadesController {
 
 	@Autowired
 	private SpadeService spadeService;
+	
+	@Autowired
+	private SpadePersistenceDal spadePersistenceDal;
 
 	@RequestMapping(method = RequestMethod.GET, path = { "/games" })
 	public @ResponseBody List<SpadeGame> getGames() {
@@ -28,9 +32,9 @@ public class SpadesController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, path = { "/games" })
-	public @ResponseBody List<SpadeGame> addGame(SpadeGame spadeGame) {
+	public @ResponseBody SpadeGame addGame(SpadeGame spadeGame) {
 
-		return spadeService.getGames();
+		return spadePersistenceDal.saveGame(spadeGame);
 	}
 
 	@RequestMapping(method = RequestMethod.GET, path = { "/games/{gameId}" })
@@ -39,10 +43,10 @@ public class SpadesController {
 		return spadeService.findGame(gameId);
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, path = { "/games/{gameId}/start" })
-	public @ResponseBody SpadeGame startGame(@PathVariable String gameId) {
+	@RequestMapping(method = RequestMethod.POST, path = { "/games/{gameId}/start" })
+	public @ResponseBody SpadeGame startGame(SpadeGame spadeGame) {
 
-		return spadeService.startGame(gameId);
+		return spadeService.playGame(spadeGame);
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, path = { "/games/error" })
@@ -56,21 +60,21 @@ public class SpadesController {
 	@RequestMapping(method = RequestMethod.PUT, path = { "/games/{gameId}" })
 	public @ResponseBody SpadeGame modifyGameState(@PathVariable String gameId, @RequestBody SpadeGame spadeGame) throws GreggamesException {
 
-		return spadeService.modifyGameState(null, gameId, spadeGame);
+		return spadeService.playGame(spadeGame);
 		//return null;
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, path = { "/games/{gameId}/players" })
 	public @ResponseBody SpadeGame addPlayer(@PathVariable String gameId, @RequestBody SpadeGame spadeGame) throws GreggamesException {
 
-		return spadeService.saveGame(spadeGame);
+		return spadeService.playGame(spadeGame);
 		//return null;
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, path = { "/games/{gameId}/players/{playerId}/validator" })
 	public @ResponseBody SpadeGame playerValidator(@PathVariable String gameId, @RequestBody SpadeGame spadeGame) throws GreggamesException {
 
-		return spadeService.saveGame(spadeGame);
+		return spadeService.playGame(spadeGame);
 		//return null;
 	}
 	

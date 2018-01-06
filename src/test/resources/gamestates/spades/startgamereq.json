@@ -115,5 +115,7 @@
   "bidding": false,
   "gameOver": false,
   "dealing": false,
-"currTurn":"PLAYER1"
+"currTurn":"PLAYER1",
+"playerNotification":"START",
+"gameNotification":"START"
 }

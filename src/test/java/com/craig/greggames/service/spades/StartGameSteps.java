@@ -12,6 +12,7 @@ import com.craig.greggames.controller.game.cards.spades.SpadesController;
 import com.craig.greggames.controller.game.cards.spades.socket.SpadesSocketController;
 import com.craig.greggames.handler.game.cards.spades.SpadeGameHandler;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
+import com.craig.greggames.service.cards.spades.SpadeService;
 import com.craig.greggames.utility.JsonConverter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -26,7 +27,7 @@ import cucumber.api.java.en.When;
 public class StartGameSteps {
 	
 	@Autowired
-	private SpadeGameHandler handler;
+	private SpadeService spadeService;
 
 	private JsonConverter jsonConverter;
 
@@ -47,7 +48,7 @@ public class StartGameSteps {
 	@When("^I attempt to start the game$")
 	public void i_attempt_to_start_the_game() throws Throwable {
 	    // Write code here that turns the phrase above into concrete actions
-		handler.startGame(spadeGame);
+		spadeService.playGame(spadeGame);
 	
 	
 	}

@@ -3,6 +3,7 @@ package com.craig.greggames.model.game.cards.spades;
 import java.util.EnumMap;
 import java.util.Map;
 
+import com.craig.greggames.model.GregGameChildTypes;
 import com.craig.greggames.model.game.cards.CardGame;
 import com.craig.greggames.model.game.cards.player.PlayerTable;
 import com.craig.greggames.model.game.cards.team.TeamTable;
@@ -16,6 +17,8 @@ public class SpadeGame extends CardGame {
 
 	private String gameId;
 
+	private final GregGameChildTypes gameType = GregGameChildTypes.SPADES;
+	
 	private SpadePreviousHand previousHand;
 	private SpadePreviousTrick previousTrick;
 	private boolean isStarting;
@@ -327,18 +330,26 @@ public class SpadeGame extends CardGame {
 	}
 
 	public SpadeNotifications getGameNotification() {
+		if(gameNotification==null) {
+			gameNotification= SpadeNotifications.CREATE;
+		}
+		
 		return gameNotification;
 	}
 
 	public void setGameNotification(SpadeNotifications gameNotification) {
+
+
 		this.gameNotification = gameNotification;
 	}
 
 	public SpadeNotifications getPlayerNotification() {
+		
 		return playerNotification;
 	}
 
 	public void setPlayerNotification(SpadeNotifications playerNotification) {
+	
 		this.playerNotification = playerNotification;
 	}
 
@@ -358,6 +369,11 @@ public class SpadeGame extends CardGame {
 
 	public void setHandOver(boolean isHandOver) {
 		this.isHandOver = isHandOver;
+	}
+	
+	
+	public GregGameChildTypes getGameType() {
+		return gameType;
 	}
 
 	@Override

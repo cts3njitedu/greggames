@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
 import com.craig.greggames.handler.game.cards.CardHandler;
@@ -17,6 +18,7 @@ import com.craig.greggames.model.game.cards.spades.SpadeNotifications;
 import com.craig.greggames.model.game.cards.spades.SpadePlayer;
 
 @Service
+@Order(4)
 public class SpadeCardValidator implements AbstractSpadeValidator{
 
 	@Autowired

@@ -5,9 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 
 import com.craig.greggames.CardGamesApplication;
-import com.craig.greggames.config.TestCardApplicationConfig;
-import com.craig.greggames.handler.game.cards.spades.SpadeGameHandler;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
+import com.craig.greggames.service.cards.spades.SpadeService;
 import com.craig.greggames.utility.JsonConverter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -20,7 +19,7 @@ import cucumber.api.java.en.When;
 public class CreateGameSteps {
 
 	@Autowired
-	private SpadeGameHandler handler;
+	private SpadeService spadeService;
 	
 
 	private JsonConverter jsonConverter;
@@ -44,7 +43,7 @@ public class CreateGameSteps {
 	public void i_attempt_to_create_the_game() throws Throwable {
 		// Write code here that turns the phrase above into concrete actions
 		//spadeGame = spadeSocket.createGame("game", spadeGame);
-		handler.createGame(spadeGame);
+		spadeService.playGame(spadeGame);
 	}
 
 	@Then("^I should be successful in creating the game$")

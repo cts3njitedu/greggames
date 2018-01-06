@@ -1,23 +1,24 @@
 package com.craig.greggames.model.game.cards.spades.dao;
 
 import java.util.EnumMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.craig.greggames.model.GregGameChildTypes;
+import com.craig.greggames.model.game.cards.CardGame;
 import com.craig.greggames.model.game.cards.player.PlayerTable;
 import com.craig.greggames.model.game.cards.spades.SpadeNotifications;
 import com.craig.greggames.model.game.cards.team.TeamTable;
 
 @Document(collection = "spadegame")
-public class SpadeGameDAO {
+public class SpadeGameDAO extends CardGame{
 
 	@Id
 	private String gameId;
 
+	private final GregGameChildTypes gameType = GregGameChildTypes.SPADES;
 	private SpadePreviousHandDAO previousHand;
 	private SpadePreviousTrickDAO previousTrick;
 	private boolean isStarting;
@@ -337,10 +338,15 @@ public class SpadeGameDAO {
 	}
 
 	public void setGameNotification(SpadeNotifications gameNotification) {
+		if(gameNotification==null) {
+			gameNotification= SpadeNotifications.CREATE;
+		}
+		
 		this.gameNotification = gameNotification;
 	}
 
 	public SpadeNotifications getPlayerNotification() {
+	
 		return playerNotification;
 	}
 
@@ -362,6 +368,13 @@ public class SpadeGameDAO {
 
 	public void setHandOver(boolean isHandOver) {
 		this.isHandOver = isHandOver;
+	}
+
+
+	@Override
+	public GregGameChildTypes getGameType() {
+		// TODO Auto-generated method stub
+		return gameType;
 	}
 
 	

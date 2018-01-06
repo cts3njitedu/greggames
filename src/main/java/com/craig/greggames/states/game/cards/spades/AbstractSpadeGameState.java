@@ -8,7 +8,7 @@ public abstract class AbstractSpadeGameState{
 
 	protected final GregGameChildTypes gregGameChildTypes= GregGameChildTypes.SPADES;
 
-	abstract public void execute(SpadeGame spadeGame);
+	abstract public SpadeGame state(SpadeGame spadeGame);
 	
 	abstract public boolean validateState(SpadeNotifications spadeNotifications); 
 	

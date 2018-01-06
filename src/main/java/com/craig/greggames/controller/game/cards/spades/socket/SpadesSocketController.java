@@ -22,7 +22,7 @@ public class SpadesSocketController {
     @SendTo("/topic/{ggType}")
     public SpadeGame createGame(@DestinationVariable String ggType, @RequestBody SpadeGame spadeGame) throws Exception {
  
-         return spadeService.createGame(spadeGame);
+         return spadeService.playGame(spadeGame);
     }
 	
 	
@@ -30,7 +30,7 @@ public class SpadesSocketController {
     @SendTo("/topic/{ggType}/{gameId}")
     public SpadeGame modifyGameState(@DestinationVariable String ggType, @DestinationVariable String gameId, SpadeGame spadeGame) throws Exception, GreggamesException {
        
-         return spadeService.modifyGameState(ggType, gameId, spadeGame);
+         return spadeService.playGame(spadeGame);
     }
 	
 	
