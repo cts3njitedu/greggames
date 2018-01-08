@@ -246,6 +246,7 @@ public class SpadeBotHandler {
 	public void determineBots(SpadeGame newSpadeGame) {
 		
 		System.out.println("Determining Bots");
+		int numberOfActivePlayers = 0;
 		for(PlayerTable player: PlayerTable.values()) {
 			
 			SpadePlayer spadePlayer = newSpadeGame.getTeams()
@@ -254,12 +255,14 @@ public class SpadeBotHandler {
 			if(spadePlayer.getUserId()!=null) {
 				
 				spadePlayer.setBot(false);
+				numberOfActivePlayers++;
 			}
 			else {
 				
 				spadePlayer.setBot(true);
 			}
 		}
+		newSpadeGame.setActivePlayers(numberOfActivePlayers);
 		
 	}
 }

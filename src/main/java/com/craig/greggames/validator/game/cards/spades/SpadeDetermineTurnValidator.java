@@ -13,11 +13,10 @@ import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.craig.greggames.model.game.cards.spades.SpadeNotifications;
 import com.craig.greggames.model.game.cards.spades.SpadePlayer;
 import com.craig.greggames.model.game.cards.spades.dal.SpadePersistenceDal;
-import com.craig.greggames.service.cards.spades.SpadeService;
 
 @Service
 @Order(2)
-public class SpadeDetermineTurnValidator implements AbstractSpadeValidator {
+public class SpadeDetermineTurnValidator extends AbstractSpadeValidator {
 
 	@Autowired
 	private SpadeTeamHandler teamService;
@@ -58,7 +57,10 @@ public class SpadeDetermineTurnValidator implements AbstractSpadeValidator {
 
 			} else {
 
-				player.getRemainingCards().add(player.getPlayingCard());
+				if(player.getPlayingCard()!=null) {
+					player.getRemainingCards().add(player.getPlayingCard());
+				}
+				
 				player.setPlayingCard(null);
 			}
 

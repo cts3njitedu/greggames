@@ -14,11 +14,11 @@ import com.craig.greggames.model.game.cards.spades.SpadeNotifications;
 import com.craig.greggames.model.game.cards.spades.SpadePlayer;
 @Service
 @Order(3)
-public class SpadeBidValidator implements AbstractSpadeValidator {
+public class SpadeBidValidator extends AbstractSpadeValidator {
 
 	@Autowired
 	private SpadeTeamHandler teamService;
-	
+
 	private final static Set<SpadeNotifications> notificationSet;
 	static {
 
@@ -50,6 +50,7 @@ public class SpadeBidValidator implements AbstractSpadeValidator {
 				player.getRemainingCards().add(player.getPlayingCard());
 			}
 			player.setPlayingCard(null);
+			player.setPlayerBid(0);
 			return false;
 
 		}
@@ -64,6 +65,7 @@ public class SpadeBidValidator implements AbstractSpadeValidator {
 				player.getRemainingCards().add(player.getPlayingCard());
 			}
 			player.setPlayingCard(null);
+			player.setPlayerBid(0);
 			return false;
 		} else {
 
@@ -76,7 +78,7 @@ public class SpadeBidValidator implements AbstractSpadeValidator {
 
 				player.setPlayingCard(null);
 				player.getErrorMessages().put(SpadeErrors.CURRENTLY_BIDDING, SpadeErrors.CURRENTLY_BIDDING.getError());
-
+				player.setPlayerBid(0);
 				return false;
 			}
 		}

@@ -24,10 +24,10 @@ import com.craig.greggames.model.game.cards.team.TeamTable;
 public class SpadePlayerHandler {
 
 	@Autowired
-	private CardHandler cardService;
-	@Autowired
 	private SpadeTeamHandler teamService;
 
+	@Autowired
+	private SpadeBotHandler botService;
 	public void determinePlayerWinner(SpadeGame newSpadeGame) {
 
 		SpadePlayer currPlayer = newSpadeGame.getTeams()
@@ -186,6 +186,13 @@ public class SpadePlayerHandler {
 				entryPlayer.getValue().setHasPlayed(false);
 			}
 		}
+	}
+	
+	public void addNewPlayer(SpadeGame newSpadeGame) {
+		
+		botService.determineBots(newSpadeGame);
+		newSpadeGame.setNewPlayer(false);
+		
 	}
 
 }

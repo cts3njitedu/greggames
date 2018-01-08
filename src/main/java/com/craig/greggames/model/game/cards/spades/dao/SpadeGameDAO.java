@@ -338,10 +338,7 @@ public class SpadeGameDAO extends CardGame{
 	}
 
 	public void setGameNotification(SpadeNotifications gameNotification) {
-		if(gameNotification==null) {
-			gameNotification= SpadeNotifications.CREATE;
-		}
-		
+	
 		this.gameNotification = gameNotification;
 	}
 

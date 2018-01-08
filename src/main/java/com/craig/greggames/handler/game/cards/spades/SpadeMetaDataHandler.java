@@ -30,6 +30,7 @@ public class SpadeMetaDataHandler {
 		SpadePreviousHand spadePreviousHand = new SpadePreviousHand();
 		spadePreviousHand.getTeams().putAll(copySpadeGame.getTeams());
 		spadePreviousHand.setNumberOfTeams(copySpadeGame.getNumberOfTeams());
+		spadePreviousHand.setHandCount(spadeGame.getHandCount());
 		spadeGame.setPreviousHand(spadePreviousHand);
 
 	}

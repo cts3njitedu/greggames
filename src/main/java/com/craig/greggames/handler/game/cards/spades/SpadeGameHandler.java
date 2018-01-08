@@ -8,13 +8,10 @@ import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.craig.greggames.exception.GreggamesException;
 import com.craig.greggames.handler.game.cards.CardHandler;
 import com.craig.greggames.model.game.cards.player.PlayerTable;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
-import com.craig.greggames.model.game.cards.spades.SpadeNotifications;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;;
+import com.craig.greggames.model.game.cards.spades.SpadeNotifications;;
 @Service
 public class SpadeGameHandler {
 
@@ -33,12 +30,9 @@ public class SpadeGameHandler {
 	private SpadePlayerHandler playerService;
 	
 	@Autowired
-	private SpadeValidationHandler validationHandler;
-	
-	@Autowired
 	private SpadeMetaDataHandler metaDataService;
 	
-	public void createGame(SpadeGame newSpadeGame) {
+	public void create(SpadeGame newSpadeGame) {
 		
 		
 		newSpadeGame.setSpadePlayed(false);
@@ -50,7 +44,7 @@ public class SpadeGameHandler {
 		
 	}
 	
-	public void startGame(SpadeGame newSpadeGame) {
+	public void start(SpadeGame newSpadeGame) {
 
 		int start = rand.nextInt(MAX_TURN_PER_TRICK) + 1;
 		
@@ -67,117 +61,122 @@ public class SpadeGameHandler {
 	}
 
 
-	public void play(SpadeGame newSpadeGame) throws GreggamesException {
+	public void bid(SpadeGame spadeGame) {
+		
+		bidderService.determineBid(spadeGame);
+		spadeGame.setSpadePlayed(false);
+		if (spadeGame.getTurnCount() == MAX_TURN_PER_TRICK) {
 
-		newSpadeGame.setPreviousHand(null);
-		newSpadeGame.setPreviousTrick(null);
-		if (newSpadeGame.getPlayerNotification()==SpadeNotifications.BID) {
+			spadeGame.setCurrTurn(spadeGame.getStartTurn());
 
-			// check the turn count. if 4 set bidding to false;
-			
-			
-			
-			bidderService.determineBid(newSpadeGame);
-			newSpadeGame.setSpadePlayed(false);
-			if (newSpadeGame.getTurnCount() == MAX_TURN_PER_TRICK) {
+			spadeGame.setGameNotification(SpadeNotifications.PLAY);
 
-				newSpadeGame.setCurrTurn(newSpadeGame.getStartTurn());
-			
-				newSpadeGame.setGameNotification(SpadeNotifications.PLAY);
-
-				newSpadeGame.setTurnCount(1);
-				newSpadeGame.setTrickCount(1);
-			} else {
-
-				int currTurnCode = newSpadeGame.getCurrTurn().getCode() + 1;
-
-				if (currTurnCode > MAX_TURN_PER_TRICK) {
-					currTurnCode = currTurnCode - MAX_TURN_PER_TRICK;
-				}
-				newSpadeGame.setCurrTurn(PlayerTable.getPlayer(currTurnCode));
-				newSpadeGame.setTurnCount(newSpadeGame.getTurnCount() + 1);
-				newSpadeGame.setGameNotification(SpadeNotifications.BID);
-			}
-			
-			playerService.determineTurn(newSpadeGame);
-
+			spadeGame.setTurnCount(1);
+			spadeGame.setTrickCount(1);
 		} else {
 
-			
-			if (newSpadeGame.getTurnCount() == MAX_TURN_PER_TRICK) {
+			int currTurnCode = spadeGame.getCurrTurn().getCode() + 1;
 
-				// determine who won the trick
-				playerService.determinePlayerWinner(newSpadeGame);
-				// determine the amount of points the winner has
-				playerService.determinePlayerPoints(newSpadeGame);
-				// reAdjust cards. should return boolean
-				cardService.reAdjustCards(newSpadeGame);
-				PlayerTable temWinnerPlayer = newSpadeGame.getTempWinner();
-				newSpadeGame.setTempWinner(null);
-				metaDataService.addPreviousTrick(newSpadeGame);
-				
-				
-				if (newSpadeGame.getTrickCount() == MAX_TRICK_COUNT) {
+			if (currTurnCode > MAX_TURN_PER_TRICK) {
+				currTurnCode = currTurnCode - MAX_TURN_PER_TRICK;
+			}
+			spadeGame.setCurrTurn(PlayerTable.getPlayer(currTurnCode));
+			spadeGame.setTurnCount(spadeGame.getTurnCount() + 1);
+			spadeGame.setGameNotification(SpadeNotifications.BID);
+		}
 
-					// determine the total team score;
-					teamService.determineTeamPoints(newSpadeGame);
-					// determine if someone won the game;
-					teamService.determineGameWinner(newSpadeGame);
-					metaDataService.addPreviousHand(newSpadeGame);
-					int start = newSpadeGame.getStartHand().getCode() + 1;
-					if (start > MAX_TURN_PER_TRICK) {
-						start = start - MAX_TURN_PER_TRICK;
-					}
-					newSpadeGame.setBidding(true);
-					newSpadeGame.setPlaying(false);
-					newSpadeGame.setGameNotification(SpadeNotifications.BID);
-					newSpadeGame.setStartHand(PlayerTable.getPlayer(start));
-					newSpadeGame.setStartTurn(newSpadeGame.getStartHand());
-					newSpadeGame.setCurrTurn(newSpadeGame.getStartHand());
+		playerService.determineTurn(spadeGame);
+		
+	}
+	public void play(SpadeGame spadeGame){
 
-					cardService.distributeCards(newSpadeGame);
-					teamService.cleanUpPoints(newSpadeGame);
-					bidderService.cleanUpBid(newSpadeGame);
+		if (spadeGame.getTurnCount() == MAX_TURN_PER_TRICK) {
 
-					newSpadeGame.setHandCount(newSpadeGame.getHandCount() + 1);
-					newSpadeGame.setTrickCount(0);
-					newSpadeGame.setTurnCount(1);
-					newSpadeGame.setTrickOver(true);
-					newSpadeGame.setHandOver(true);
+			// determine who won the trick
+			playerService.determinePlayerWinner(spadeGame);
+			// determine the amount of points the winner has
+			playerService.determinePlayerPoints(spadeGame);
+			// reAdjust cards. should return boolean
+			cardService.reAdjustCards(spadeGame);
+			PlayerTable temWinnerPlayer = spadeGame.getTempWinner();
+			spadeGame.setTempWinner(null);
+			metaDataService.addPreviousTrick(spadeGame);
+
+			if (spadeGame.getTrickCount() == MAX_TRICK_COUNT) {
+
+				// determine the total team score;
+				teamService.determineTeamPoints(spadeGame);
+				// determine if someone won the game;
+				teamService.determineGameWinner(spadeGame);
+				metaDataService.addPreviousHand(spadeGame);
+
+				spadeGame.setTrickOver(true);
+				spadeGame.setHandOver(true);
+				if (spadeGame.isGameOver()) {
+
+					spadeGame.setTeams(null);
+					spadeGame.setPlaying(false);
+					create(spadeGame);
+					start(spadeGame);
 
 				} else {
 
-					newSpadeGame.setCurrTurn(temWinnerPlayer);
-					newSpadeGame.setStartTurn(temWinnerPlayer);
-					newSpadeGame.setTurnCount(1);
-					newSpadeGame.setTrickCount(newSpadeGame.getTrickCount() + 1);
-					newSpadeGame.setGameNotification(SpadeNotifications.PLAY);
-					newSpadeGame.setTrickOver(true);
+					int start = spadeGame.getStartHand().getCode() + 1;
+					if (start > MAX_TURN_PER_TRICK) {
+						start = start - MAX_TURN_PER_TRICK;
+					}
+
+					spadeGame.setBidding(true);
+					spadeGame.setPlaying(false);
+					spadeGame.setGameNotification(SpadeNotifications.BID);
+					spadeGame.setStartHand(PlayerTable.getPlayer(start));
+					spadeGame.setStartTurn(spadeGame.getStartHand());
+					spadeGame.setCurrTurn(spadeGame.getStartHand());
+
+					cardService.distributeCards(spadeGame);
+					teamService.cleanUpPoints(spadeGame);
+					bidderService.cleanUpBid(spadeGame);
+
+					spadeGame.setHandCount(spadeGame.getHandCount() + 1);
+					spadeGame.setTrickCount(0);
+					spadeGame.setTurnCount(1);
+					playerService.cleanUpWhoHasPlayed(spadeGame);
+					cardService.removePlayingCard(spadeGame);
+					playerService.determineTurn(spadeGame);
 
 				}
-				playerService.cleanUpWhoHasPlayed(newSpadeGame);
-				cardService.removePlayingCard(newSpadeGame);
-				
-				
 
-			
 			} else {
 
-				
-				playerService.determinePlayerWinner(newSpadeGame);
-				cardService.reAdjustCards(newSpadeGame);
-				int curr = newSpadeGame.getCurrTurn().getCode() + 1;
-				if (curr > MAX_TURN_PER_TRICK) {
-					curr = curr - MAX_TURN_PER_TRICK;
-				}
-				newSpadeGame.setCurrTurn(PlayerTable.getPlayer(curr));
-				newSpadeGame.setTurnCount(newSpadeGame.getTurnCount() + 1);
-				newSpadeGame.setGameNotification(SpadeNotifications.PLAY);
+				spadeGame.setCurrTurn(temWinnerPlayer);
+				spadeGame.setStartTurn(temWinnerPlayer);
+				spadeGame.setTurnCount(1);
+				spadeGame.setTrickCount(spadeGame.getTrickCount() + 1);
+				spadeGame.setGameNotification(SpadeNotifications.PLAY);
+				spadeGame.setTrickOver(true);
+				playerService.cleanUpWhoHasPlayed(spadeGame);
+				cardService.removePlayingCard(spadeGame);
+				playerService.determineTurn(spadeGame);
 
 			}
-			playerService.determineTurn(newSpadeGame);
+			
+
+		} else {
+
+			playerService.determinePlayerWinner(spadeGame);
+			cardService.reAdjustCards(spadeGame);
+			int curr = spadeGame.getCurrTurn().getCode() + 1;
+			if (curr > MAX_TURN_PER_TRICK) {
+				curr = curr - MAX_TURN_PER_TRICK;
+			}
+			spadeGame.setCurrTurn(PlayerTable.getPlayer(curr));
+			spadeGame.setTurnCount(spadeGame.getTurnCount() + 1);
+			spadeGame.setGameNotification(SpadeNotifications.PLAY);
+			playerService.determineTurn(spadeGame);
 
 		}
+		
+		
 
 	}
 

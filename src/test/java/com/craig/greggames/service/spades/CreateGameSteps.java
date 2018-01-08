@@ -43,7 +43,7 @@ public class CreateGameSteps {
 	public void i_attempt_to_create_the_game() throws Throwable {
 		// Write code here that turns the phrase above into concrete actions
 		//spadeGame = spadeSocket.createGame("game", spadeGame);
-		spadeService.playGame(spadeGame);
+		spadeGame = spadeService.playGame(spadeGame);
 	}
 
 	@Then("^I should be successful in creating the game$")

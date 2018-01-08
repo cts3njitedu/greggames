@@ -18,7 +18,7 @@ import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.craig.greggames.model.game.cards.spades.SpadePlayer;
 import com.craig.greggames.model.game.cards.team.TeamTable;
 import com.craig.greggames.util.DealUtility;
-import com.craig.greggames.validator.game.cards.spades.AbstractSpadeValidator;
+import com.craig.greggames.validator.game.cards.spades.SpadeValidator;
 import com.craig.greggames.validator.game.cards.spades.SpadeValidatorEngine;
 
 @Service
@@ -43,8 +43,8 @@ public class PlaySpades {
 
 	public void playGame(SpadeGame spadeGame) throws GreggamesException {
 
-		creator.createGame(spadeGame);
-		creator.startGame(spadeGame);
+		creator.create(spadeGame);
+		creator.start(spadeGame);
 		creator.play(spadeGame);
 		while (!spadeGame.isGameOver()) {
 			spadeGame.getTeams()

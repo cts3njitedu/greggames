@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.craig.greggames.model.GregGameChildTypes;
-import com.craig.greggames.service.GregGamesService;
+import com.craig.greggames.service.GregGamesServiceImpl;
 
 @RestController
 @RequestMapping("/greggames")
@@ -17,7 +17,7 @@ import com.craig.greggames.service.GregGamesService;
 public class GregGamesController {
 
 	@Autowired
-	private GregGamesService service;
+	private GregGamesServiceImpl service;
 
 	@RequestMapping(method = RequestMethod.GET, value = "/cards", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public @ResponseBody GregGameChildTypes[] getGregGames() {

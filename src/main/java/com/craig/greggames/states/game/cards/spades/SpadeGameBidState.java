@@ -8,13 +8,14 @@ import org.springframework.stereotype.Service;
 
 import com.craig.greggames.handler.game.cards.spades.SpadeBidderHandler;
 import com.craig.greggames.handler.game.cards.spades.SpadeBotHandler;
+import com.craig.greggames.handler.game.cards.spades.SpadeGameHandler;
 import com.craig.greggames.handler.game.cards.spades.SpadePlayerHandler;
 import com.craig.greggames.model.game.cards.player.PlayerTable;
 import com.craig.greggames.model.game.cards.spades.SpadeErrors;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.craig.greggames.model.game.cards.spades.SpadeNotifications;
 import com.craig.greggames.model.game.cards.spades.dal.SpadePersistenceDal;
-import com.craig.greggames.validator.GreggameValidatorFactory;
+import com.craig.greggames.validator.game.cards.spades.SpadeValidatorEngine;
 
 @Service
 @Order(3)
@@ -30,7 +31,11 @@ public class SpadeGameBidState extends AbstractSpadeGameState {
 	@Autowired
 	private SpadePlayerHandler playerService;
 
+	@Autowired
+	private SpadeValidatorEngine validatorEngine;
 	
+	@Autowired
+	private SpadeGameHandler gameService;
 	private final SpadeNotifications spadeNotification = SpadeNotifications.BID;
 
 	@Override
@@ -41,29 +46,11 @@ public class SpadeGameBidState extends AbstractSpadeGameState {
 			switch (spadeGame.getPlayerNotification()) {
 
 			case BID:
-				bidderService.determineBid(spadeGame);
-				spadeGame.setSpadePlayed(false);
-				if (spadeGame.getTurnCount() == MAX_TURN_PER_TRICK) {
-
-					spadeGame.setCurrTurn(spadeGame.getStartTurn());
-
-					spadeGame.setGameNotification(SpadeNotifications.PLAY);
-
-					spadeGame.setTurnCount(1);
-					spadeGame.setTrickCount(1);
-				} else {
-
-					int currTurnCode = spadeGame.getCurrTurn().getCode() + 1;
-
-					if (currTurnCode > MAX_TURN_PER_TRICK) {
-						currTurnCode = currTurnCode - MAX_TURN_PER_TRICK;
-					}
-					spadeGame.setCurrTurn(PlayerTable.getPlayer(currTurnCode));
-					spadeGame.setTurnCount(spadeGame.getTurnCount() + 1);
-					spadeGame.setGameNotification(SpadeNotifications.BID);
+				boolean isValid = validatorEngine.validate(spadeGame);
+				if(!isValid) {
+					return spadePersistenceDal.saveGame(spadeGame);
 				}
-
-				playerService.determineTurn(spadeGame);
+				gameService.bid(spadeGame);
 				return spadePersistenceDal.saveGame(spadeGame);
 			case NEW_PLAYER:
 				botService.determineBots(spadeGame);

@@ -14,7 +14,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.craig.cards.Players;
 import com.craig.greggames.CardGamesApplication;
 import com.craig.greggames.controller.game.cards.spades.SpadesController;
-import com.craig.greggames.controller.game.cards.spades.socket.SpadesSocketController;
 import com.craig.greggames.handler.game.cards.spades.SpadeBotHandler;
 import com.craig.greggames.handler.game.cards.spades.SpadeTeamHandler;
 import com.craig.greggames.model.game.cards.Card;
@@ -23,6 +22,7 @@ import com.craig.greggames.model.game.cards.player.PlayerTable;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.craig.greggames.model.game.cards.spades.SpadePlayer;
 import com.craig.greggames.model.game.cards.team.TeamTable;
+import com.craig.greggames.socket.game.cards.spades.SpadesSocketController;
 import com.craig.greggames.utility.JsonConverter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

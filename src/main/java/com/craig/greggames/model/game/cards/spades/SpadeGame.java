@@ -330,9 +330,6 @@ public class SpadeGame extends CardGame {
 	}
 
 	public SpadeNotifications getGameNotification() {
-		if(gameNotification==null) {
-			gameNotification= SpadeNotifications.CREATE;
-		}
 		
 		return gameNotification;
 	}

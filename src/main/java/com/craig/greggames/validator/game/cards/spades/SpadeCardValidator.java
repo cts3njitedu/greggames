@@ -19,7 +19,7 @@ import com.craig.greggames.model.game.cards.spades.SpadePlayer;
 
 @Service
 @Order(4)
-public class SpadeCardValidator implements AbstractSpadeValidator{
+public class SpadeCardValidator extends AbstractSpadeValidator{
 
 	@Autowired
 	private SpadeTeamHandler teamService;
@@ -134,10 +134,8 @@ public class SpadeCardValidator implements AbstractSpadeValidator{
 	@Override
 	public boolean validateState(SpadeNotifications spadeNotification) {
 		// TODO Auto-generated method stub
-		if(notificationSet.contains(spadeNotification)) {
-			return true;
-		}
-		return false;
+		return notificationSet.contains(spadeNotification);
+		
 	}
 
 }

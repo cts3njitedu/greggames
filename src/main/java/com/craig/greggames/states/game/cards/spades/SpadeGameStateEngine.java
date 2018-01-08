@@ -15,11 +15,11 @@ public class SpadeGameStateEngine implements GreggameStateEngine<SpadeGame>{
 	private final GregGameChildTypes greggame = GregGameChildTypes.SPADES;
 	
 	@Autowired
-	private List<AbstractSpadeGameState> abstractSpadeGameStates;
+	private List<SpadeGameState> abstractSpadeGameStates;
 	@Override
 	public SpadeGame machine(SpadeGame spadeGame) {
 		// TODO Auto-generated method stub
-		for(AbstractSpadeGameState abstractSpadeGameState: abstractSpadeGameStates) {
+		for(SpadeGameState abstractSpadeGameState: abstractSpadeGameStates) {
 			
 			if(abstractSpadeGameState.validateState(spadeGame.getGameNotification())) {
 				

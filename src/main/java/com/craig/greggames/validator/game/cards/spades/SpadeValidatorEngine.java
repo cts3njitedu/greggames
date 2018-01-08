@@ -13,14 +13,14 @@ import com.craig.greggames.validator.GreggameValidatorEngine;
 public class SpadeValidatorEngine implements GreggameValidatorEngine<SpadeGame> {
 
 	@Autowired
-	private List<AbstractSpadeValidator> abstractSpadeValidators;
+	private List<SpadeValidator> abstractSpadeValidators;
 	
 	private final GregGameChildTypes greggame = GregGameChildTypes.SPADES;
 	
 	@Override
 	public boolean validate(SpadeGame spadeGame) {
 		boolean isValid = true;
-		for(AbstractSpadeValidator abstractSpadeValidator : abstractSpadeValidators) {
+		for(SpadeValidator abstractSpadeValidator : abstractSpadeValidators) {
 			
 			if(abstractSpadeValidator.validateState(spadeGame.getGameNotification())) {
 				

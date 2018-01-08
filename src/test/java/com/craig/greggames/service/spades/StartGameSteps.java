@@ -9,10 +9,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.craig.greggames.CardGamesApplication;
 import com.craig.greggames.controller.game.cards.spades.SpadesController;
-import com.craig.greggames.controller.game.cards.spades.socket.SpadesSocketController;
 import com.craig.greggames.handler.game.cards.spades.SpadeGameHandler;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.craig.greggames.service.cards.spades.SpadeService;
+import com.craig.greggames.socket.game.cards.spades.SpadesSocketController;
 import com.craig.greggames.utility.JsonConverter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

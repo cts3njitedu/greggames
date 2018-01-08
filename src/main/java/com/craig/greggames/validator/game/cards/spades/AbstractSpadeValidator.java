@@ -3,11 +3,12 @@ package com.craig.greggames.validator.game.cards.spades;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.craig.greggames.model.game.cards.spades.SpadeNotifications;
 
-
-public interface AbstractSpadeValidator {
+public abstract class AbstractSpadeValidator implements SpadeValidator {
 
 	
-	public boolean validate(SpadeGame spadeGame);
-	
-	public boolean validateState(SpadeNotifications spadeNotification);
+	@Override
+	abstract public boolean validate(SpadeGame spadeGame);
+	@Override
+	abstract public boolean validateState(SpadeNotifications spadeNotifications);
+
 }

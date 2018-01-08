@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.craig.greggames.executor.game.cards.spades.SpadeGameExecutor;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.craig.greggames.model.game.cards.spades.dal.SpadePersistenceDal;
 import com.craig.greggames.states.GreggameStateFactory;
@@ -16,7 +17,7 @@ public class SpadeServiceImpl implements SpadeService {
 	private SpadePersistenceDal spadePersistenceDal;
 	
 	@Autowired
-	private GreggameStateFactory<SpadeGame> greggameStateFactory;
+	private SpadeGameExecutor spadeGameExecutor;
 
 	@Override
 	public List<SpadeGame> getGames() {
@@ -40,7 +41,7 @@ public class SpadeServiceImpl implements SpadeService {
 	@Override
 	public SpadeGame playGame(SpadeGame spadeGame) {
 		// TODO Auto-generated method stub
-		return greggameStateFactory.executeMachine(spadeGame);
+		return spadeGameExecutor.execute(spadeGame);
 
 	}
 

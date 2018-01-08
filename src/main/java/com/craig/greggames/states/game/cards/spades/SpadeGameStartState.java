@@ -11,12 +11,14 @@ import org.springframework.stereotype.Service;
 import com.craig.greggames.handler.game.cards.CardHandler;
 import com.craig.greggames.handler.game.cards.spades.SpadeBidderHandler;
 import com.craig.greggames.handler.game.cards.spades.SpadeBotHandler;
+import com.craig.greggames.handler.game.cards.spades.SpadeGameHandler;
 import com.craig.greggames.handler.game.cards.spades.SpadePlayerHandler;
 import com.craig.greggames.model.game.cards.player.PlayerTable;
 import com.craig.greggames.model.game.cards.spades.SpadeErrors;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.craig.greggames.model.game.cards.spades.SpadeNotifications;
 import com.craig.greggames.model.game.cards.spades.dal.SpadePersistenceDal;
+import com.craig.greggames.validator.game.cards.spades.SpadeValidatorEngine;
 
 @Service
 @Order(2)
@@ -36,7 +38,12 @@ public class SpadeGameStartState extends AbstractSpadeGameState {
 	
 	@Autowired
 	private SpadeBotHandler botService;
+	
+	@Autowired
+	private SpadeValidatorEngine validatorEngine;
 
+	@Autowired
+	private SpadeGameHandler gameService;
 	private final SpadeNotifications spadeNotification = SpadeNotifications.START;
 
 	@Override
@@ -46,20 +53,11 @@ public class SpadeGameStartState extends AbstractSpadeGameState {
 		switch (spadeGame.getPlayerNotification()) {
 
 		case START:
-			Random rand = new Random();
-			int start = rand.nextInt(MAX_TURN_PER_TRICK) + 1;
-
-			spadeGame.setStartTurn(PlayerTable.getPlayer(start));
-			spadeGame.setStartHand(PlayerTable.getPlayer(start));
-			spadeGame.setCurrTurn(PlayerTable.getPlayer(start));
-			spadeGame.setHandCount(1);
-			cardService.distributeCards(spadeGame);
-			spadeGame.setSpadePlayed(false);
-			spadeGame.setGameNotification(SpadeNotifications.BID);
-			spadeGame.setTurnCount(1);
-			bidderService.cleanUpBid(spadeGame);
-			playerService.determineTurn(spadeGame);
-
+			boolean isValid = validatorEngine.validate(spadeGame);
+			if(!isValid) {
+				return spadePersistenceDal.saveGame(spadeGame);
+			}
+			gameService.start(spadeGame);
 			return spadePersistenceDal.saveGame(spadeGame);
 		case NEW_PLAYER:
 			botService.determineBots(spadeGame);
