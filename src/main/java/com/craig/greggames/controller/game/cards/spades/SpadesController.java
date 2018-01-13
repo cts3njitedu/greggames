@@ -1,6 +1,7 @@
 package com.craig.greggames.controller.game.cards.spades;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,9 +12,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.craig.greggames.exception.GreggamesException;
+import com.craig.greggames.model.game.cards.Card;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.craig.greggames.model.game.cards.spades.dal.SpadePersistenceDal;
 import com.craig.greggames.service.cards.spades.SpadeService;
+import com.craig.greggames.util.DealUtility;
 
 @RestController
 @RequestMapping("/cards/spades")
@@ -24,6 +27,8 @@ public class SpadesController {
 	
 	@Autowired
 	private SpadePersistenceDal spadePersistenceDal;
+	@Autowired
+	private DealUtility dealUtility;
 
 	@RequestMapping(method = RequestMethod.GET, path = { "/games" })
 	public @ResponseBody List<SpadeGame> getGames() {
@@ -77,6 +82,16 @@ public class SpadesController {
 		return spadeService.playGame(spadeGame);
 		//return null;
 	}
+	
+	
+	@RequestMapping(method = RequestMethod.GET, path = { "/games/shuffle" })
+	public @ResponseBody List<Card> getCards(){
+
+		return dealUtility.getSpadeHand();
+		//return null;
+	}
+	
+	
 	
 	
 

@@ -26,12 +26,12 @@ public class CardHandler {
 	@Autowired
 	private SpadeTeamHandler teamService;
 	
-	
+	@Autowired
+	private DealUtility dealUtility;
 
 	public void distributeCards(SpadeGame newSpadeGame) {
 
-		Set<Card> cardSet = DealUtility.getSpadeHand();
-		List<Card> cards = cardSet.stream().collect(Collectors.toList());
+		List<Card> cards = dealUtility.getSpadeHand();
 		int i = 0;
 		int dealCode = newSpadeGame.getCurrTurn().getCode() + 1;
 		if (dealCode > MAX_TURN_PER_TRICK) {
