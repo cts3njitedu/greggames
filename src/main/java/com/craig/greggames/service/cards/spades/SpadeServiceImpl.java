@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.craig.greggames.executor.game.cards.spades.SpadeGameExecutor;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.craig.greggames.model.game.cards.spades.dal.SpadePersistenceDal;
-import com.craig.greggames.states.GreggameStateFactory;
 
 @Service
 public class SpadeServiceImpl implements SpadeService {

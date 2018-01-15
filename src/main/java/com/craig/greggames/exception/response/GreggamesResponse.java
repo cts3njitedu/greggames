@@ -1,8 +1,5 @@
 package com.craig.greggames.exception.response;
 
-import org.springframework.web.bind.annotation.ControllerAdvice;
-
-
 public class GreggamesResponse {
 
 	private String status;

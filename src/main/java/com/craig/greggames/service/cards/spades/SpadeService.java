@@ -2,7 +2,6 @@ package com.craig.greggames.service.cards.spades;
 
 import java.util.List;
 
-import com.craig.greggames.exception.GreggamesException;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
 
 public interface SpadeService {

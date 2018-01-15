@@ -5,8 +5,6 @@ import java.util.Map;
 
 import com.craig.greggames.model.game.cards.player.PlayerTable;
 import com.craig.greggames.model.game.cards.team.TeamTable;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 //@JsonInclude(Include.NON_NULL)
 public class SpadeTeam {

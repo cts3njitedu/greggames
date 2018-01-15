@@ -23,4 +23,16 @@ public class GreggamesSocketController {
 		greggamesPing.setGameChildTypes(GregGameChildTypes.valueOf(ggType.toUpperCase()));
 		return greggamesPing;
 	}
+	
+	@MessageMapping("/greggames/ping")
+	@SendTo("/topic/ping")
+	public GreggamesPing createGame2(Map<String,Object>request) throws Exception {
+
+		GreggamesPing greggamesPing = new GreggamesPing();
+		greggamesPing.setMessage("Ping Successful Game");
+		System.out.println(request.toString()+" from Games");
+		
+		return greggamesPing;
+	}
 }
+

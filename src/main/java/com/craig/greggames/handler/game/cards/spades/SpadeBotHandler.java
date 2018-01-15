@@ -4,7 +4,6 @@ import static com.craig.greggames.constants.game.cards.spades.SpadeGameConstants
 
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +22,6 @@ public class SpadeBotHandler {
 
 	@Autowired
 	private SpadeTeamHandler teamService;
-
-	@Autowired
-	private SpadeValidationHandler validationService;
-	
-	@Autowired
-	private SpadePlayerHandler playerService;
 
 	@Autowired
 	private CardHandler cardService;

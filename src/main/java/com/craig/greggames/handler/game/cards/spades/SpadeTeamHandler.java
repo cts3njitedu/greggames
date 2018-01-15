@@ -4,9 +4,7 @@ import static com.craig.greggames.constants.game.cards.spades.SpadeGameConstants
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import org.springframework.stereotype.Service;
