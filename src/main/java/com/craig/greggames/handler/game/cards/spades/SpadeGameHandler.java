@@ -15,7 +15,7 @@ import com.craig.greggames.model.game.cards.spades.SpadeNotifications;;
 @Service
 public class SpadeGameHandler {
 
-	private Random rand = new Random();
+	
 	
 	@Autowired
 	private SpadeBidderHandler bidderService;
@@ -46,6 +46,7 @@ public class SpadeGameHandler {
 	
 	public void start(SpadeGame newSpadeGame) {
 
+		Random rand = new Random();
 		int start = rand.nextInt(MAX_TURN_PER_TRICK) + 1;
 		
 		newSpadeGame.setStartTurn(PlayerTable.getPlayer(start));

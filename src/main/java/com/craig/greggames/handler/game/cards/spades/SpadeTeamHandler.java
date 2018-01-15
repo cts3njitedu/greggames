@@ -1,7 +1,7 @@
 package com.craig.greggames.handler.game.cards.spades;
 
 import static com.craig.greggames.constants.game.cards.spades.SpadeGameConstants.POINTS_WON_PER_TRICK_BEFORE_OVERBID;
-
+import static com.craig.greggames.constants.game.cards.spades.SpadeGameConstants.TWO_TEAMS;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -37,8 +37,8 @@ public class SpadeTeamHandler {
 
 	public TeamTable getTeamByPlayer(PlayerTable player, int numberOfTeams) {
 		
-		if(numberOfTeams==2) {
-			if(player.getCode()%2==0) {
+		if(numberOfTeams==TWO_TEAMS) {
+			if(player.getCode()%TWO_TEAMS==0) {
 				return TeamTable.TEAM2;
 			}
 			else {

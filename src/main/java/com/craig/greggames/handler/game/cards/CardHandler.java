@@ -224,7 +224,6 @@ public class CardHandler {
 			return cards.stream().filter(c -> c.getSuit() == CardSuit.DIAMONDS).collect(Collectors.toSet());
 
 		case CLUBS:
-			System.out.println(cards.toString());
 			return cards.stream().filter(c -> c.getSuit() == CardSuit.CLUBS).collect(Collectors.toSet());
 
 		default:

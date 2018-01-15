@@ -88,10 +88,8 @@ public class SpadeBidValidator extends AbstractSpadeValidator {
 	@Override
 	public boolean validateState(SpadeNotifications spadeNotification) {
 		
-		if(notificationSet.contains(spadeNotification)) {
-			return true;
-		}
-		return false;
+		return notificationSet.contains(spadeNotification);
+	
 	}
 
 }

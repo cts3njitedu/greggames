@@ -3,17 +3,17 @@ package com.craig.greggames.util;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
 import com.craig.greggames.model.game.cards.Card;
 import com.craig.greggames.model.game.cards.Deck;
+import static com.craig.greggames.constants.game.cards.CardConstants.STANDARDDECKSIZE;
 
 @Service
 public class RandomUtility {
 	
-	private final static int STANDARDDECKSIZE=52;
+	
 	
 	
 	public List<Card> shuffle(){

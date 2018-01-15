@@ -74,10 +74,7 @@ public class SpadeDetermineTurnValidator extends AbstractSpadeValidator {
 	@Override
 	public boolean validateState(SpadeNotifications spadeNotification) {
 		// TODO Auto-generated method stub
-		if(notificationSet.contains(spadeNotification)) {
-			return true;
-		}
-		return false;
+		return notificationSet.contains(spadeNotification);
 	}
 
 }

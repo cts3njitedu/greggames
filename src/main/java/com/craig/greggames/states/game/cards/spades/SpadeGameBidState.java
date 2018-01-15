@@ -1,16 +1,12 @@
 package com.craig.greggames.states.game.cards.spades;
 
-import static com.craig.greggames.constants.game.cards.spades.SpadeGameConstants.MAX_TURN_PER_TRICK;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
-import com.craig.greggames.handler.game.cards.spades.SpadeBidderHandler;
 import com.craig.greggames.handler.game.cards.spades.SpadeBotHandler;
 import com.craig.greggames.handler.game.cards.spades.SpadeGameHandler;
 import com.craig.greggames.handler.game.cards.spades.SpadePlayerHandler;
-import com.craig.greggames.model.game.cards.player.PlayerTable;
 import com.craig.greggames.model.game.cards.spades.SpadeErrors;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.craig.greggames.model.game.cards.spades.SpadeNotifications;
@@ -21,8 +17,7 @@ import com.craig.greggames.validator.game.cards.spades.SpadeValidatorEngine;
 @Order(3)
 public class SpadeGameBidState extends AbstractSpadeGameState {
 
-	@Autowired
-	private SpadeBidderHandler bidderService;
+	
 	@Autowired
 	private SpadeBotHandler botService;
 

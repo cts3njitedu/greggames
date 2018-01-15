@@ -1,4 +1,4 @@
-package com.craig.greggames.executor.game.cards.spades;
+package com.craig.greggames.executor;
 
 import com.craig.greggames.model.AbstractGreggame;
 

@@ -21,7 +21,7 @@ public class GregGamesController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/cards", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public @ResponseBody GregGameChildTypes[] getGregGames() {
-//		System.out.println("Sugar Honey Ice Tea");
+
 		return service.getGregGames();
 	}
 
