@@ -53,6 +53,9 @@ public class SpadeGameStartState extends AbstractSpadeGameState {
 		case RECEIVED_ERROR:
 			playerService.cleanUpError(spadeGame);
 			return spadePersistenceDal.saveGame(spadeGame);
+		case LEAVE_GAME:
+			gameService.leaveGame(spadeGame);
+			return spadePersistenceDal.saveGame(spadeGame);
 		default:
 			SpadeGame oldSpadeGame = spadePersistenceDal.findGame(spadeGame.getGameId());
 			playerService.addError(spadeGame, SpadeErrors.WRONG_MOVE, oldSpadeGame);

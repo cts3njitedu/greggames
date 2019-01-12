@@ -24,5 +24,7 @@ public enum SpadeNotifications {
 	
 	RECEIVED_HAND_OVER,
 	
-	GAME_OVER
+	GAME_OVER,
+	
+	LEAVE_GAME
 }

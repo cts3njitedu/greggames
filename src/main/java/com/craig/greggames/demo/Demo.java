@@ -1,14 +1,12 @@
 package com.craig.greggames.demo;
 
-import java.util.Set;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.craig.greggames.handler.game.cards.CardHandler;
 import com.craig.greggames.handler.game.cards.spades.SpadePlayerHandler;
 import com.craig.greggames.handler.game.cards.spades.SpadeTeamHandler;
-import com.craig.greggames.model.game.cards.Card;
-import com.craig.greggames.util.DealUtility;
 
 public class Demo {
 
@@ -44,7 +42,12 @@ public class Demo {
 //		PlaySpades playSpades = new PlaySpades();
 //		
 //		playSpades.test();
-		
+		UUID uuid = UUID.randomUUID();
+        String randomUUIDString = uuid.toString();
+
+        System.out.println("Random UUID String = " + randomUUIDString);
+        System.out.println("UUID version       = " + uuid.version());
+        System.out.println("UUID variant       = " + uuid.variant());
 
 	}
 }

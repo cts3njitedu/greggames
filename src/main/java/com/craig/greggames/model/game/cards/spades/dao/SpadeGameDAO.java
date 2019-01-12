@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import com.craig.greggames.model.GregGameChildTypes;
 import com.craig.greggames.model.game.cards.CardGame;
 import com.craig.greggames.model.game.cards.player.PlayerTable;
+import com.craig.greggames.model.game.cards.spades.SpadeBroken;
 import com.craig.greggames.model.game.cards.spades.SpadeNotifications;
 import com.craig.greggames.model.game.cards.team.TeamTable;
 
@@ -72,6 +73,8 @@ public class SpadeGameDAO extends CardGame{
 	
 	private boolean isTrickOver;
 	private boolean isHandOver;
+	
+	private SpadeBroken spadeBroken;
 
 	public String getGameId() {
 		return gameId;
@@ -367,13 +370,21 @@ public class SpadeGameDAO extends CardGame{
 		this.isHandOver = isHandOver;
 	}
 
-
 	@Override
 	public GregGameChildTypes getGameType() {
 		// TODO Auto-generated method stub
 		return gameType;
 	}
 
+	public SpadeBroken getSpadeBroken() {
+		return spadeBroken;
+	}
+
+	public void setSpadeBroken(SpadeBroken spadeBroken) {
+		this.spadeBroken = spadeBroken;
+	}
+
+	
 	
 	
 	

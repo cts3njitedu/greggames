@@ -11,7 +11,8 @@ import org.springframework.stereotype.Service;
 import com.craig.greggames.handler.game.cards.CardHandler;
 import com.craig.greggames.model.game.cards.player.PlayerTable;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
-import com.craig.greggames.model.game.cards.spades.SpadeNotifications;;
+import com.craig.greggames.model.game.cards.spades.SpadeNotifications;
+import com.craig.greggames.model.game.cards.spades.SpadePlayer;;
 @Service
 public class SpadeGameHandler {
 
@@ -179,6 +180,19 @@ public class SpadeGameHandler {
 		
 		
 
+	}
+	
+	
+	public void leaveGame(SpadeGame spadeGame) {
+		System.out.println("Leaving game.....");
+		SpadePlayer leavingPlayer = spadeGame.getTeams().get(teamService.getTeamByPlayer(spadeGame.getGameModifier(), spadeGame.getNumberOfTeams()))
+		.getPlayers().get(spadeGame.getGameModifier());
+		
+		leavingPlayer.setBot(true);
+		leavingPlayer.setUserId(null);
+		
+		spadeGame.setActivePlayers(spadeGame.getActivePlayers()-1);
+		
 	}
 
 

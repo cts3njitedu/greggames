@@ -12,6 +12,7 @@ import com.craig.greggames.handler.game.cards.CardHandler;
 import com.craig.greggames.handler.game.cards.spades.SpadeTeamHandler;
 import com.craig.greggames.model.game.cards.Card;
 import com.craig.greggames.model.game.cards.CardSuit;
+import com.craig.greggames.model.game.cards.spades.SpadeBroken;
 import com.craig.greggames.model.game.cards.spades.SpadeErrors;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.craig.greggames.model.game.cards.spades.SpadeNotifications;
@@ -19,7 +20,7 @@ import com.craig.greggames.model.game.cards.spades.SpadePlayer;
 
 @Service
 @Order(4)
-public class SpadeCardValidator extends AbstractSpadeValidator{
+public class SpadeCardValidator extends AbstractSpadeValidator {
 
 	@Autowired
 	private SpadeTeamHandler teamService;
@@ -33,6 +34,7 @@ public class SpadeCardValidator extends AbstractSpadeValidator{
 		notificationSet.add(SpadeNotifications.PLAY);
 
 	}
+
 	@Override
 	public boolean validate(SpadeGame spadeGame) {
 		// TODO Auto-generated method stub
@@ -73,6 +75,14 @@ public class SpadeCardValidator extends AbstractSpadeValidator{
 				}
 				if (card.getSuit() == CardSuit.SPADES) {
 
+					if (!spadeGame.isSpadePlayed()) {
+
+						SpadeBroken spadeBroken = new SpadeBroken();
+						spadeBroken.setFirstSpade(true);
+						spadeBroken.setPlayer(leadPlayer.getName());
+						spadeBroken.setTrickCount(spadeGame.getTrickCount());
+						spadeGame.setSpadeBroken(spadeBroken);
+					}
 					spadeGame.setSpadePlayed(true);
 				}
 				return true;
@@ -80,6 +90,14 @@ public class SpadeCardValidator extends AbstractSpadeValidator{
 			} else {
 
 				if (card.getSuit() == CardSuit.SPADES) {
+					if (!spadeGame.isSpadePlayed()) {
+
+						SpadeBroken spadeBroken = new SpadeBroken();
+						spadeBroken.setFirstSpade(true);
+						spadeBroken.setPlayer(leadPlayer.getName());
+						spadeBroken.setTrickCount(spadeGame.getTrickCount());
+						spadeGame.setSpadeBroken(spadeBroken);
+					}
 
 					spadeGame.setSpadePlayed(true);
 				}
@@ -89,6 +107,7 @@ public class SpadeCardValidator extends AbstractSpadeValidator{
 		}
 
 	}
+
 	public boolean isValidWhenStarting(SpadeGame spadeGame) {
 		SpadePlayer leadPlayer = spadeGame.getTeams()
 				.get(teamService.getTeamByPlayer(spadeGame.getCurrTurn(), spadeGame.getNumberOfTeams())).getPlayers()
@@ -111,7 +130,13 @@ public class SpadeCardValidator extends AbstractSpadeValidator{
 			if (!spadeGame.isSpadePlayed()) {
 				if (numOfClubs == 0 && numOfHearts == 0 && numOfDiamonds == 0) {
 
+					SpadeBroken spadeBroken = new SpadeBroken();
+					spadeBroken.setFirstSpade(true);
+					spadeBroken.setPlayer(leadPlayer.getName());
+					spadeBroken.setTrickCount(spadeGame.getTrickCount());
+					spadeGame.setSpadeBroken(spadeBroken);
 					spadeGame.setSpadePlayed(true);
+
 					return true;
 				} else {
 					leadPlayer.setError(true);
@@ -131,11 +156,12 @@ public class SpadeCardValidator extends AbstractSpadeValidator{
 		return true;
 
 	}
+
 	@Override
 	public boolean validateState(SpadeNotifications spadeNotification) {
 		// TODO Auto-generated method stub
 		return notificationSet.contains(spadeNotification);
-		
+
 	}
 
 }

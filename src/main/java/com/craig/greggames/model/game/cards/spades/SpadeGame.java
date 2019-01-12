@@ -75,7 +75,7 @@ public class SpadeGame extends CardGame {
 	private boolean isTrickOver;
 	private boolean isHandOver;
 
-
+	private SpadeBroken spadeBroken;
 
 	public String getGameId() {
 		return gameId;
@@ -371,6 +371,15 @@ public class SpadeGame extends CardGame {
 	
 	public GregGameChildTypes getGameType() {
 		return gameType;
+	}
+	
+	
+	public SpadeBroken getSpadeBroken() {
+		return spadeBroken;
+	}
+
+	public void setSpadeBroken(SpadeBroken spadeBroken) {
+		this.spadeBroken = spadeBroken;
 	}
 
 	@Override

@@ -51,6 +51,9 @@ public class SpadeGamePlayState extends AbstractSpadeGameState {
 			spadeGame.setNewPlayer(false);
 			spadeGame.setActivePlayers(spadeGame.getActivePlayers() + 1);
 			return spadePersistenceDal.saveGame(spadeGame);
+		case LEAVE_GAME:
+			gameService.leaveGame(spadeGame);
+			return spadePersistenceDal.saveGame(spadeGame);
 		case RECEIVED_ERROR:
 			playerService.cleanUpError(spadeGame);
 			return spadePersistenceDal.saveGame(spadeGame);
