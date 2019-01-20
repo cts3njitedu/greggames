@@ -33,6 +33,10 @@ public class SpadeGameHandler {
 	@Autowired
 	private SpadeMetaDataHandler metaDataService;
 	
+	@Autowired
+	private SpadeBotHandler botService;
+
+	
 	public void create(SpadeGame newSpadeGame) {
 		
 		
@@ -91,7 +95,7 @@ public class SpadeGameHandler {
 		
 	}
 	public void play(SpadeGame spadeGame){
-
+		botService.determineBotCard(spadeGame);
 		if (spadeGame.getTurnCount() == MAX_TURN_PER_TRICK) {
 
 			// determine who won the trick

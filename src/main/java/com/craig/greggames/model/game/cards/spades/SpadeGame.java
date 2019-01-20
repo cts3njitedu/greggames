@@ -30,7 +30,10 @@ public class SpadeGame extends CardGame {
 	private boolean isNewPlayer;
 
 	private int pointsToWin;
+	
+	private long versionNb;
 
+	private long gameVersionNb;
 	private PlayerTable startHand;
 	private PlayerTable startTurn;
 
@@ -72,10 +75,14 @@ public class SpadeGame extends CardGame {
 	private SpadeNotifications gameNotification;
 	private SpadeNotifications playerNotification;
 	
+	private boolean isBotPlaying;
+	
 	private boolean isTrickOver;
 	private boolean isHandOver;
 
 	private SpadeBroken spadeBroken;
+	
+	private long maxTime;
 
 	public String getGameId() {
 		return gameId;
@@ -380,6 +387,41 @@ public class SpadeGame extends CardGame {
 
 	public void setSpadeBroken(SpadeBroken spadeBroken) {
 		this.spadeBroken = spadeBroken;
+	}
+
+	
+	public long getVersionNb() {
+		return versionNb;
+	}
+
+	public void setVersionNb(long versionNb) {
+		this.versionNb = versionNb;
+	}
+
+
+	public long getGameVersionNb() {
+		return gameVersionNb;
+	}
+
+	public void setGameVersionNb(long gameVersionNb) {
+		this.gameVersionNb = gameVersionNb;
+	}
+
+	public boolean isBotPlaying() {
+		return isBotPlaying;
+	}
+
+	public void setBotPlaying(boolean isBotPlaying) {
+		this.isBotPlaying = isBotPlaying;
+	}
+
+	
+	public long getMaxTime() {
+		return maxTime;
+	}
+
+	public void setMaxTime(long maxTime) {
+		this.maxTime = maxTime;
 	}
 
 	@Override

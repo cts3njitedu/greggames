@@ -26,5 +26,7 @@ public enum SpadeNotifications {
 	
 	GAME_OVER,
 	
-	LEAVE_GAME
+	LEAVE_GAME,
+	
+	TIMER
 }

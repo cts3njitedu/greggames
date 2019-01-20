@@ -25,6 +25,15 @@ public enum CardValue {
 		return value;
 	}
 	
+	public static CardValue getCardValue(int code) {
+		for(CardValue cardValue: CardValue.values()) {
+			if(cardValue.getValue()==code) {
+				return cardValue;
+			}
+		}
+		
+		return null;
+	}
 	
 	
 }

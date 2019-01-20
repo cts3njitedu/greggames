@@ -2,6 +2,7 @@ package com.craig.greggames.handler.game.cards.spades;
 
 import static com.craig.greggames.constants.game.cards.spades.SpadeGameConstants.POINTS_WON_PER_TRICK_BEFORE_OVERBID;
 import static com.craig.greggames.constants.game.cards.spades.SpadeGameConstants.TWO_TEAMS;
+import static com.craig.greggames.constants.game.cards.spades.SpadeGameConstants.MAX_TURN_PER_TRICK;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -28,7 +29,7 @@ public class SpadeTeamHandler {
 			spadePlayer.setTeam(team);
 			spadePlayer.setName(player);
 			spadePlayer.setBidding(true);
-
+			spadePlayer.setBot(true);
 			newSpadeGame.getTeams().get(team).getPlayers().put(player, spadePlayer);
 			newSpadeGame.getTeams().get(team).setName(team);
 		}
@@ -196,6 +197,19 @@ public class SpadeTeamHandler {
 
 		}
 
+	}
+	
+	public int getTrickPlayerPosition(PlayerTable leadPlayer, PlayerTable currPlayer) {
+		int playerCode = leadPlayer.getCode();
+		
+		int currPlayerCode = currPlayer.getCode();
+		
+		if(currPlayerCode>=playerCode) {
+			return (currPlayerCode-playerCode) +1;
+		}
+		else {
+			return ((MAX_TURN_PER_TRICK+currPlayerCode) - playerCode) + 1;
+		}
 	}
 
 }

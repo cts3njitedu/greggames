@@ -30,7 +30,7 @@ public class SpadeBidderHandler {
 		int totalBid = 0;
 		if (player.isBot()) {
 
-			botService.getBotBid(player);
+			totalBid = botService.getBotBid(player);
 
 		} else {
 

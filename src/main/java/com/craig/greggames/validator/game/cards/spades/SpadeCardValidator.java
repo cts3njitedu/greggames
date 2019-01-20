@@ -73,6 +73,7 @@ public class SpadeCardValidator extends AbstractSpadeValidator {
 					player.setHasPlayed(false);
 					return false;
 				}
+			
 				if (card.getSuit() == CardSuit.SPADES) {
 
 					if (!spadeGame.isSpadePlayed()) {

@@ -18,6 +18,7 @@ public abstract class Player {
 	private boolean isTurn;
 	private boolean isWon;
 	private Set<Card> remainingCards;
+	private Set<Card> playedCards;
 	private TeamTable team;
 	
 	private boolean hasPlayed;
@@ -119,6 +120,17 @@ public abstract class Player {
 
 	public void setHasPlayed(boolean hasPlayed) {
 		this.hasPlayed = hasPlayed;
+	}
+
+	public Set<Card> getPlayedCards() {
+		if(playedCards==null) {
+			playedCards = new HashSet<>();
+		}
+		return playedCards;
+	}
+
+	public void setPlayedCards(Set<Card> playedCards) {
+		this.playedCards = playedCards;
 	}
 
 

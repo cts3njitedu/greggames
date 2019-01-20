@@ -29,7 +29,7 @@ public class SpadesSocketController {
 	@MessageMapping("/greggames/{ggType}/{gameId}")
     @SendTo("/topic/{ggType}/{gameId}")
     public SpadeGame modifyGameState(@DestinationVariable String ggType, @DestinationVariable String gameId, SpadeGame spadeGame) throws Exception, GreggamesException {
-       
+		System.out.println("Playing Game....");
          return spadeService.playGame(spadeGame);
     }
 	

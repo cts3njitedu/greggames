@@ -17,12 +17,12 @@ Feature: Make sure playing game works properly
     Given a game and players ready to bid
     When I attempt to bid
     Then I should be successful in bidding
-#
-  #@playingTrick
-  #Scenario: Testing trick of game
-    #Given a game a players ready to play
-    #When I attempt to play one trick
-    #Then I should be successful in determining the winner of trick
+
+  @playingTrick
+  Scenario: Testing trick of game
+    Given a game a players ready to play
+    When I attempt to play one trick
+    Then I should be successful in determining the winner of trick
 #
   #@playingHand
   #Scenario: Testing one entire hand

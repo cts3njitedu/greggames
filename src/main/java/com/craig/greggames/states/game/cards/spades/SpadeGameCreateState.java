@@ -1,6 +1,7 @@
 package com.craig.greggames.states.game.cards.spades;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,9 @@ public class SpadeGameCreateState extends AbstractSpadeGameState {
 	private SpadeGameHandler gameService;
 
 	private final SpadeNotifications spadeNotification = SpadeNotifications.CREATE;
+	
+	@Value ("${spade.maxTime}")
+	private long maxTime;
 
 	@Override
 	public SpadeGame state(SpadeGame spadeGame) {
@@ -36,6 +40,7 @@ public class SpadeGameCreateState extends AbstractSpadeGameState {
 			return spadePersistenceDal.saveGame(spadeGame);
 		}
 		gameService.create(spadeGame);
+		spadeGame.setMaxTime(maxTime);
 		return spadePersistenceDal.saveGame(spadeGame);
 
 	}
