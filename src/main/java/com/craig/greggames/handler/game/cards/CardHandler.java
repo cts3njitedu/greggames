@@ -122,7 +122,17 @@ public class CardHandler {
 		return maxCardValue;
 	}
 
-	
+	public boolean isAllPlayerCardsGreaterThanCard(Collection<Card>cardSet, Card cardToCompare) {
+		
+		Map<CardValue, Card> cardMap = cardSet.stream().collect(Collectors.toMap(Card::getValue, Function.identity()));
+		
+		for(int i=CardValue.ACE.getValue(); i>=cardToCompare.getValue().getValue(); i--) {
+			if(cardMap.get(CardValue.getCardValue(i))==null) {
+				return false;
+			}
+		}
+		return true;
+	}
 	public Card findCardToMatchSpecifiedCard(Collection<Card> cardSet, Card cardToCompare, boolean isUseLargestCard) {
 
 		if(cardSet==null ||cardSet.size()==0) {
@@ -248,7 +258,10 @@ public class CardHandler {
 		}
 		List<Card> cards = new ArrayList<>();
 		for(Card card: cardSet) {
-			if(card.getSuit()!=CardSuit.SPADES) {
+			if(card==null) {
+				continue;
+			}
+			if(CardSuit.SPADES!=card.getSuit()) {
 				cards.add(card);
 			}
 		}

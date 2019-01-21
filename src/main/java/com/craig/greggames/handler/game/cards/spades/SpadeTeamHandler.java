@@ -6,8 +6,10 @@ import static com.craig.greggames.constants.game.cards.spades.SpadeGameConstants
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
+import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.stereotype.Service;
 
 import com.craig.greggames.model.game.cards.player.PlayerTable;
@@ -210,6 +212,17 @@ public class SpadeTeamHandler {
 		else {
 			return ((MAX_TURN_PER_TRICK+currPlayerCode) - playerCode) + 1;
 		}
+	}
+	
+	public TeamTable getOtherTeam(Map<TeamTable,SpadeTeam>teams, TeamTable teamTable) {
+		
+		for(Entry<TeamTable, SpadeTeam> team: teams.entrySet()) {
+			if(team.getKey()!=teamTable) {
+				return team.getKey();
+			}
+		}
+		
+		return null;
 	}
 
 }

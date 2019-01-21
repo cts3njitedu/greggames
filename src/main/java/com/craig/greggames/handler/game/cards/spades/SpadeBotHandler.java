@@ -1,12 +1,15 @@
 package com.craig.greggames.handler.game.cards.spades;
 
 import static com.craig.greggames.constants.game.cards.spades.SpadeGameConstants.POINTS_WON_PER_TRICK_BEFORE_OVERBID;
+import static org.assertj.core.api.Assertions.entry;
+import static org.mockito.Matchers.intThat;
 import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
-
+import static com.craig.greggames.constants.game.cards.spades.SpadeGameConstants.MAX_TURN_PER_TRICK;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +25,10 @@ import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.craig.greggames.model.game.cards.spades.SpadeGameMetaData;
 import com.craig.greggames.model.game.cards.spades.SpadePlayer;
 import com.craig.greggames.model.game.cards.spades.SpadeTeam;
+import com.craig.greggames.model.game.cards.team.TeamTable;
+
+import ch.qos.logback.classic.net.server.ServerSocketAppender;
+import cucumber.runtime.xstream.ListOfSingleValueWriter;
 
 @Service
 public class SpadeBotHandler {
@@ -105,6 +112,10 @@ public class SpadeBotHandler {
 		else if (playerTrickPosition == 2) {
 			return secondPlayerPlaying(spadeGameMetaData, newSpadeGame);
 		}
+		
+		else if(playerTrickPosition==3) {
+			return thirdPlayerPlaying(spadeGameMetaData, newSpadeGame);
+		}
 		return null;
 
 	}
@@ -119,7 +130,17 @@ public class SpadeBotHandler {
 		SpadePlayer currPlayer = currPlayerTeam.getPlayers().get(newSpadeGame.getCurrTurn());
 
 		SpadePlayer currPlayerTeamMate = cardService.findTeamMate(currPlayerTeam.getPlayers(), currPlayer);
-
+		Map<TeamTable, SpadeTeam> allTeams = newSpadeGame.getTeams();
+		SpadeTeam otherTeam = allTeams.get(teamService.getOtherTeam(allTeams, currPlayerTeam.getName()));
+		boolean hasOtherPlayerBidNil = false;
+		
+		for(Entry<PlayerTable, SpadePlayer> player: otherTeam.getPlayers().entrySet()) {
+			if(player.getValue().isBidNil()) {
+				hasOtherPlayerBidNil = true;
+				break;
+			}
+		}
+		
 		Set<Card> spades = spadeGameMetaData.getCurrPlayerRemainingCards().get(CardSuit.SPADES);
 		Set<Card> clubs = spadeGameMetaData.getCurrPlayerRemainingCards().get(CardSuit.CLUBS);
 		Set<Card> hearts = spadeGameMetaData.getCurrPlayerRemainingCards().get(CardSuit.HEARTS);
@@ -195,36 +216,20 @@ public class SpadeBotHandler {
 			return cardService.findLargestCard(cardService.filterOutSpades(highestLowestCards.values()));
 			
 		} else if (currPlayerTeamMate.isBidNil()) {
-			Map<CardSuit, Card> lowestHighestCard = new HashMap<>();
-
-			for (CardSuit suit : CardSuit.values()) {
-				if (CardSuit.SPADES == suit) {
-					if (canPlaySpades) {
-						if (lowestCardsPlayed.get(suit) != null) {
-							lowestHighestCard.put(suit,
-									cardService.findSmallestCardLargerThanCard(spadeGameMetaData.getCurrPlayerRemainingCards().get(suit), highestCardsPlayed.get(suit)));
-						}
-					}
-
-				}
-
-				else {
-					if (lowestCardsPlayed.get(suit) != null) {
-						lowestHighestCard.put(suit,
-								cardService.findSmallestCardLargerThanCard(spadeGameMetaData.getCurrPlayerRemainingCards().get(suit), highestCardsPlayed.get(suit)));
-					}       
-				}
+			if(canPlaySpades) {
+				return cardService.findLargestCard(highestRemainingCards.values());
 			}
 			
-			if (lowestHighestCard.size() == 0) {
-				if(canPlaySpades) {
-					return cardService.findLargestCard(highestRemainingCards.values());
-				}
-				return cardService.findLargestCard(cardService.filterOutSpades(highestRemainingCards.values()));
-			}
 
-			return cardService.findSmallestCard(lowestHighestCard.values());
-		} else {
+			return cardService.findLargestCard(cardService.filterOutSpades(highestRemainingCards.values()));
+		} 
+		else if(hasOtherPlayerBidNil) {
+			if(canPlaySpades) {
+				return cardService.findSmallestCard(lowestRemainingCards.values());
+			}
+			return cardService.findSmallestCard(cardService.filterOutSpades(lowestRemainingCards.values()));
+		}
+		else {
 
 			if(canPlaySpades) {
 				return cardService.findLargestCard(highestRemainingCards.values());	
@@ -249,6 +254,33 @@ public class SpadeBotHandler {
 		Set<Card> hearts = spadeGameMetaData.getCurrPlayerRemainingCards().get(CardSuit.HEARTS);
 		Set<Card> diamonds = spadeGameMetaData.getCurrPlayerRemainingCards().get(CardSuit.DIAMONDS);
 		Card leadPlayerCard = leadPlayer.getPlayingCard();
+		
+		int code = currPlayer.getName().getCode() + 1;
+		if(code>MAX_TURN_PER_TRICK) {
+			code = code - MAX_TURN_PER_TRICK;
+		}
+		
+		
+		Map<TeamTable, SpadeTeam> allTeams = newSpadeGame.getTeams();
+		
+		
+		SpadeTeam otherTeam = allTeams.get(teamService.getOtherTeam(allTeams, currPlayerTeam.getName()));
+		
+		SpadePlayer otherPlayer = otherTeam.getPlayers().get(PlayerTable.getPlayer(code));
+		
+		Map<CardSuit, Card> lowestCardsPlayed = new HashMap<>();
+		for (CardSuit suit :spadeGameMetaData.getAllPlayedCards().keySet() ) {
+			lowestCardsPlayed.put(suit,
+					cardService.findHighestSmallestCardContinous(spadeGameMetaData.getAllPlayedCards().get(suit)));
+		}
+
+		lowestCardsPlayed.remove(null);
+		Map<CardSuit, Card> highestCardsPlayed = new HashMap<>();
+
+		for (CardSuit suit : spadeGameMetaData.getAllPlayedCards().keySet()) {
+			highestCardsPlayed.put(suit,
+					cardService.findSmallestLargestCardContinous(spadeGameMetaData.getAllPlayedCards().get(suit)));
+		}
 		Map<CardSuit, Card> lowestRemainingCards = new HashMap<>();
 
 		for (CardSuit suit : CardSuit.values()) {
@@ -270,6 +302,8 @@ public class SpadeBotHandler {
 		boolean hasLeadingPlayerSuit = spadeGameMetaData.getCurrPlayerRemainingCards()
 				.containsKey(leadPlayerCard.getSuit());
 		boolean hasOnlySpades = clubs.size() == 0 && hearts.size() == 0 && diamonds.size() == 0;
+		boolean canPlaySpades = (hearts.size()==0 && clubs.size()==0&&diamonds.size()==0) || newSpadeGame.isSpadePlayed();
+		boolean hasSpades = spades.size()==0;
 		if (currPlayer.isBidNil()) {
 			if (hasLeadingPlayerSuit) {
 				Card card = cardService.findLargestCardLessThanCard(
@@ -284,21 +318,13 @@ public class SpadeBotHandler {
 
 					return lowestRemainingCards.get(CardSuit.SPADES);
 				}
-
-				List<Card> suitsBesidesSpades = new ArrayList<>();
-				for (Card card : highestRemainingCards.values()) {
-					if (card.getSuit() != CardSuit.SPADES) {
-						suitsBesidesSpades.add(card);
-					}
-				}
-				return cardService.findLargestCard(suitsBesidesSpades);
+				return cardService.findLargestCard(cardService.filterOutSpades(highestRemainingCards.values()));
 			}
 		}
 
 		else if (currPlayerTeamMate.isBidNil()) {
 			if (hasLeadingPlayerSuit) {
-				Card card = cardService
-						.findLargestCard(spadeGameMetaData.getCurrPlayerRemainingCards().get(leadPlayerCard.getSuit()));
+				Card card = highestRemainingCards.get(leadPlayerCard.getSuit());
 
 				if ((card.getValue().getValue()) > leadPlayerCard.getValue().getValue()) {
 					return card;
@@ -306,19 +332,104 @@ public class SpadeBotHandler {
 				return lowestRemainingCards.get(leadPlayerCard.getSuit());
 			} else {
 
-				if (hasOnlySpades) {
+				if (canPlaySpades) {
 
-					return lowestRemainingCards.get(CardSuit.SPADES);
-				}
-				List<Card> suitsBesidesSpades = new ArrayList<>();
-				for (Card card : lowestRemainingCards.values()) {
-					if (card.getSuit() != CardSuit.SPADES) {
-						suitsBesidesSpades.add(card);
+					if(hasSpades) {
+						
+						return lowestRemainingCards.get(CardSuit.SPADES);			
 					}
+					return cardService.findSmallestCard(cardService.filterOutSpades(lowestRemainingCards.values()));
 				}
-				return cardService.findSmallestCard(suitsBesidesSpades);
+				else {
+					return cardService.findSmallestCard(cardService.filterOutSpades(lowestRemainingCards.values()));
+				}
 			}
 
+		}
+		else if(leadPlayer.isBidNil()) {
+			if(hasLeadingPlayerSuit) {
+				Card card = cardService.findLargestCardLessThanCard(spadeGameMetaData.getCurrPlayerRemainingCards().get(leadPlayerCard.getSuit()), leadPlayerCard);
+				if(card==null) {
+					return highestRemainingCards.get(leadPlayerCard.getSuit());
+				}
+				return card;
+				
+			}
+			else {
+				if(canPlaySpades) {
+					if(hasOnlySpades) {
+						return lowestRemainingCards.get(CardSuit.SPADES);
+					}
+					Card card = lowestCardsPlayed.get(leadPlayerCard.getSuit());
+					if(card!=null) {
+						if(card.getValue().getValue()>=leadPlayerCard.getValue().getValue()) {
+							return lowestRemainingCards.get(CardSuit.SPADES);
+						}
+						return cardService.findSmallestCard(cardService.filterOutSpades(highestRemainingCards.values()));
+					}
+					return cardService.findSmallestCard(cardService.filterOutSpades(highestRemainingCards.values()));
+				}
+				return cardService.findSmallestCard(cardService.filterOutSpades(highestRemainingCards.values()));
+			}
+
+			
+		}
+		else if(otherPlayer.isBidNil()) {
+			if(hasLeadingPlayerSuit) {
+				Card card = cardService.findSmallestCardLargerThanCard(spadeGameMetaData.getCurrPlayerRemainingCards().get(leadPlayerCard.getSuit()), leadPlayerCard);
+				if(card!=null) {
+					if((card.getValue().getValue()-2)>=leadPlayerCard.getValue().getValue()) {
+						return card;
+					}
+					card = cardService.findLargestCardLessThanCard(spadeGameMetaData.getCurrPlayerRemainingCards().get(leadPlayerCard.getSuit()), leadPlayerCard);
+					if(card!=null) {
+						return card;
+					}
+					lowestRemainingCards.get(leadPlayerCard.getSuit());
+				}
+				card = cardService.findLargestCardLessThanCard(spadeGameMetaData.getCurrPlayerRemainingCards().get(leadPlayerCard.getSuit()), leadPlayerCard);
+				if(card!=null) {
+					return card;
+				}
+				
+				return lowestRemainingCards.get(leadPlayerCard.getSuit());
+			}
+			else {
+				Card card = highestCardsPlayed.get(leadPlayerCard.getSuit());
+				if(card!=null) {
+					if(leadPlayerCard.getValue().getValue()>=card.getValue().getValue()) {
+						if(canPlaySpades) {
+							if(hasOnlySpades) {
+								return lowestRemainingCards.get(CardSuit.SPADES);
+							}
+							return cardService.findLargestCard(cardService.filterOutSpades(lowestRemainingCards.values()));
+						}
+						return cardService.findLargestCard(cardService.filterOutSpades(lowestRemainingCards.values()));
+					}
+			
+					if(canPlaySpades) {
+						if(hasOnlySpades) {
+							return lowestRemainingCards.get(CardSuit.SPADES);
+						}
+						cardService.findSmallestCard(cardService.filterOutSpades(highestRemainingCards.values()));
+					}
+					return cardService.findLargestCard(cardService.filterOutSpades(lowestRemainingCards.values()));
+					
+				}
+				else {
+					if(canPlaySpades) {
+						if(hasSpades) {
+							if(leadPlayerCard.getValue().getValue()<=lowestCardsPlayed.get(leadPlayerCard.getSuit()).getValue().getValue()) {
+								return lowestRemainingCards.get(CardSuit.SPADES);
+							}
+							return cardService.findSmallestCard(cardService.filterOutSpades(highestRemainingCards.values()));
+						}
+						return cardService.findSmallestCard(cardService.filterOutSpades(highestRemainingCards.values()));
+					}
+					return cardService.findLargestCard(cardService.filterOutSpades(lowestRemainingCards.values()));
+				}
+		
+			}
 		}
 		else {
 			if(hasLeadingPlayerSuit) {
@@ -335,24 +446,265 @@ public class SpadeBotHandler {
 				}
 				else {
 					
-					if(spades.size()>0) {
+					if(hasSpades) {
 						return lowestRemainingCards.get(CardSuit.SPADES);
 					}
-					List<Card> suitsBesidesSpades = new ArrayList<>();
-					for (Card card : lowestRemainingCards.values()) {
-						if (card.getSuit() != CardSuit.SPADES) {
-							suitsBesidesSpades.add(card);
-						}
-					}
-					return cardService.findSmallestCard(suitsBesidesSpades);
+				
+					return cardService.findSmallestCard(cardService.filterOutSpades(lowestRemainingCards.values()));
 					
 				}
 				
 			}
 		}
 	}
+	
+	private Card thirdPlayerPlaying(SpadeGameMetaData spadeGameMetaData, SpadeGame newSpadeGame) {
+		SpadeTeam leadingSpadeTeam = newSpadeGame.getTeams()
+				.get(teamService.getTeamByPlayer(newSpadeGame.getStartTurn(), newSpadeGame.getNumberOfTeams()));
+		SpadeTeam currPlayerTeam = newSpadeGame.getTeams()
+				.get(teamService.getTeamByPlayer(newSpadeGame.getCurrTurn(), newSpadeGame.getNumberOfTeams()));
+		SpadePlayer leadPlayer = leadingSpadeTeam.getPlayers().get(newSpadeGame.getStartTurn());
 
+		SpadePlayer currPlayer = currPlayerTeam.getPlayers().get(newSpadeGame.getCurrTurn());
+		SpadePlayer currPlayerTeamMate = cardService.findTeamMate(currPlayerTeam.getPlayers(), currPlayer);
+		Set<Card> spades = spadeGameMetaData.getCurrPlayerRemainingCards().get(CardSuit.SPADES);
+		Set<Card> clubs = spadeGameMetaData.getCurrPlayerRemainingCards().get(CardSuit.CLUBS);
+		Set<Card> hearts = spadeGameMetaData.getCurrPlayerRemainingCards().get(CardSuit.HEARTS);
+		Set<Card> diamonds = spadeGameMetaData.getCurrPlayerRemainingCards().get(CardSuit.DIAMONDS);
+		Card leadPlayerCard = leadPlayer.getPlayingCard();
+		
+		int code = currPlayer.getName().getCode() + 1;
+		if(code>MAX_TURN_PER_TRICK) {
+			code = code - MAX_TURN_PER_TRICK;
+		}
+		
+		Map<TeamTable, SpadeTeam> allTeams = newSpadeGame.getTeams();
+		
+		
+		SpadeTeam otherTeam = allTeams.get(teamService.getOtherTeam(allTeams, currPlayerTeam.getName()));
+		code = currPlayer.getName().getCode() - 1;
+		
+		if(code<1) {
+			code = MAX_TURN_PER_TRICK;
+		}
+		SpadePlayer otherPlayer = otherTeam.getPlayers().get(PlayerTable.getPlayer(code));
+		SpadePlayer previousPlayer = otherTeam.getPlayers().get(PlayerTable.getPlayer(code));
+		SpadePlayer currWinner = newSpadeGame.getTeams().get(teamService.getTeamByPlayer(newSpadeGame.getTempWinner(), newSpadeGame.getNumberOfPlayers()))
+				.getPlayers().get(newSpadeGame.getTempWinner());
+		Map<CardSuit, Card> lowestCardsPlayed = new HashMap<>();
+		for (CardSuit suit :spadeGameMetaData.getAllPlayedCards().keySet() ) {
+			lowestCardsPlayed.put(suit,
+					cardService.findHighestSmallestCardContinous(spadeGameMetaData.getAllPlayedCards().get(suit)));
+		}
 
+		lowestCardsPlayed.remove(null);
+		Map<CardSuit, Card> highestCardsPlayed = new HashMap<>();
+
+		for (CardSuit suit : spadeGameMetaData.getAllPlayedCards().keySet()) {
+			highestCardsPlayed.put(suit,
+					cardService.findSmallestLargestCardContinous(spadeGameMetaData.getAllPlayedCards().get(suit)));
+		}
+		Map<CardSuit, Card> lowestRemainingCards = new HashMap<>();
+
+		for (CardSuit suit : CardSuit.values()) {
+			lowestRemainingCards.put(suit,
+					cardService.findSmallestCard(spadeGameMetaData.getCurrPlayerRemainingCards().get(suit)));
+		}
+
+		lowestRemainingCards.remove(null);
+
+		Map<CardSuit, Card> highestRemainingCards = new HashMap<>();
+
+		for (CardSuit suit : CardSuit.values()) {
+			highestRemainingCards.put(suit,
+					cardService.findLargestCard(spadeGameMetaData.getCurrPlayerRemainingCards().get(suit)));
+		}
+
+		highestRemainingCards.remove(null);
+
+		boolean hasLeadingPlayerSuit = spadeGameMetaData.getCurrPlayerRemainingCards()
+				.containsKey(leadPlayerCard.getSuit());
+		boolean hasOnlySpades = clubs.size() == 0 && hearts.size() == 0 && diamonds.size() == 0;
+		boolean canPlaySpades = (hearts.size()==0 && clubs.size()==0&&diamonds.size()==0) || newSpadeGame.isSpadePlayed();
+		boolean hasSpades = spades.size()==0;
+		Card winnerCard = currWinner.getPlayingCard();
+		if(currPlayer.isBidNil()) {
+			if(hasLeadingPlayerSuit) {
+				Card cardToCompare = leadPlayerCard;
+				if(winnerCard.getSuit()==cardToCompare.getSuit()) {
+					cardToCompare = winnerCard;
+				}
+				
+				Card card = cardService.findLargestCardLessThanCard(spadeGameMetaData.getCurrPlayerRemainingCards().get(cardToCompare.getSuit()), cardToCompare);
+				
+				if(card!=null) {
+					return card;
+				}
+				
+				return cardService.findSmallestCardLargerThanCard(spadeGameMetaData.getCurrPlayerRemainingCards().get(cardToCompare.getSuit()), cardToCompare);
+				
+			}
+			
+			else {
+				if(canPlaySpades) {
+					if(hasOnlySpades) {
+						return lowestRemainingCards.get(CardSuit.SPADES);
+					}
+					return cardService.findLargestCard(cardService.filterOutSpades(highestRemainingCards.values()));
+				}
+				
+				return cardService.findLargestCard(cardService.filterOutSpades(highestRemainingCards.values()));
+				
+			}
+		}
+		if(currPlayerTeamMate.isBidNil()) {
+			if(hasLeadingPlayerSuit) {
+				if(currWinner.getName()==currPlayerTeamMate.getName()) {
+					Card card = cardService.findSmallestCardLargerThanCard(spadeGameMetaData.getCurrPlayerRemainingCards().get(leadPlayerCard.getSuit()), currPlayerTeamMate.getPlayingCard());
+					if(card!=null) {
+						return card;
+					}
+					return lowestRemainingCards.get(leadPlayerCard.getSuit());
+				}
+				return lowestRemainingCards.get(leadPlayerCard.getSuit());
+			}
+			else {
+				
+				if(canPlaySpades) {
+					if(currWinner.getName()==currPlayerTeamMate.getName()) {
+						if(hasSpades) {
+							return lowestRemainingCards.get(CardSuit.SPADES);
+						}
+						else {
+							return cardService.findSmallestCard(lowestRemainingCards.values());
+						}
+					}
+					if(hasOnlySpades) {
+						return lowestRemainingCards.get(CardSuit.SPADES);
+					}
+					return cardService.findSmallestCard(cardService.filterOutSpades(lowestRemainingCards.values()));
+				}
+				else {
+					
+					if(hasOnlySpades) {
+						return lowestRemainingCards.get(CardSuit.SPADES);
+					}
+					return cardService.findSmallestCard(cardService.filterOutSpades(lowestRemainingCards.values()));
+				}
+			}
+		}
+		else if(previousPlayer.isBidNil()) {
+			if(hasLeadingPlayerSuit) {
+				if(previousPlayer.getName()==currWinner.getName()) {
+
+					return lowestRemainingCards.get(leadPlayerCard.getSuit());
+				}
+				Card card = cardService.findLargestCardLessThanCard(spadeGameMetaData.getCurrPlayerRemainingCards().get(leadPlayerCard.getSuit()), leadPlayerCard);
+				if(card!=null) {
+					return card;
+				}
+				return cardService.findSmallestCardLargerThanCard(spadeGameMetaData.getCurrPlayerRemainingCards().get(leadPlayerCard.getSuit()), leadPlayerCard);
+				
+			}
+			else {
+				if(hasOnlySpades) {
+					return lowestRemainingCards.get(CardSuit.SPADES);
+				}
+				
+				if(previousPlayer.getName()==currWinner.getName()) {
+					return cardService.findSmallestCard(cardService.filterOutSpades(lowestRemainingCards.values()));
+				}
+				return cardService.findSmallestCard(cardService.filterOutSpades(highestRemainingCards.values()));
+				
+			}
+		}
+		else if(otherPlayer.isBidNil()) {
+			if(hasLeadingPlayerSuit) {
+				Card cardToCompare = leadPlayerCard;
+				if(winnerCard.getSuit()==leadPlayerCard.getSuit()) {
+					cardToCompare = winnerCard;
+				}
+				Card card = cardService.findSmallestCardLargerThanCard(spadeGameMetaData.getCurrPlayerRemainingCards().get(leadPlayerCard.getSuit()), cardToCompare);
+				if(card!=null) {
+					if((card.getValue().getValue()-2)>=cardToCompare.getValue().getValue()) {
+						return card;
+					}	
+					return cardService.findLargestCardLessThanCard(spadeGameMetaData.getCurrPlayerRemainingCards().get(leadPlayerCard.getSuit()), cardToCompare);
+					
+				}
+				return cardService.findLargestCardLessThanCard(spadeGameMetaData.getCurrPlayerRemainingCards().get(leadPlayerCard.getSuit()), cardToCompare);
+				
+			}
+			else {
+				if(currPlayerTeamMate.getName()==currWinner.getName()) {
+					if(hasOnlySpades) {
+						return lowestRemainingCards.get(CardSuit.SPADES);
+					}
+					return cardService.findSmallestCard(cardService.filterOutSpades(highestRemainingCards.values()));
+				}
+				return cardService.findSmallestCard(cardService.filterOutSpades(highestRemainingCards.values()));
+			}
+		}
+		
+		else {
+			if(hasLeadingPlayerSuit) {
+				if(currPlayerTeamMate.getName()==currWinner.getName()) {
+					Card card = currPlayerTeamMate.getPlayingCard();
+					if(card!=null)
+					if(card.getSuit()==leadPlayerCard.getSuit()) {
+						if(card.getValue().getValue()>highestCardsPlayed.get(card.getSuit()).getValue().getValue()) {
+							boolean isAllPlayersGreaterThanCard = cardService.isAllCardsGreaterThanCardPlayed(spadeGameMetaData.getCurrPlayerRemainingCards().get(leadPlayerCard.getSuit()), card);
+							if(isAllPlayersGreaterThanCard) {
+								return lowestRemainingCards.get(leadPlayerCard.getSuit());
+							}
+							return highestRemainingCards.get(leadPlayerCard.getSuit());
+						}
+						return highestRemainingCards.get(leadPlayerCard.getSuit());
+					}
+					return lowestRemainingCards.get(leadPlayerCard.getSuit());
+				}
+				return highestRemainingCards.get(leadPlayerCard.getSuit());
+				
+				
+			}
+			else {
+				
+				if(currPlayerTeamMate.getName()==currWinner.getName()) {
+					Card card = currPlayerTeamMate.getPlayingCard();
+					if(card.getSuit()==leadPlayerCard.getSuit()) {
+						if(card.getValue().getValue()>highestCardsPlayed.get(card.getSuit()).getValue().getValue()) {
+							if(hasOnlySpades) {
+								return lowestRemainingCards.get(CardSuit.SPADES);
+							}
+							return cardService.findSmallestCard(cardService.filterOutSpades(lowestRemainingCards.values()));
+						}
+						if(hasSpades) {
+							return highestRemainingCards.get(CardSuit.SPADES);
+						}
+						
+						return cardService.findSmallestCard(cardService.filterOutSpades(lowestRemainingCards.values()));
+					}
+					if(hasOnlySpades) {
+						return lowestRemainingCards.get(CardSuit.SPADES);
+					}
+					
+					return cardService.findSmallestCard(cardService.filterOutSpades(lowestRemainingCards.values()));
+				}
+				if(hasSpades) {
+					return highestRemainingCards.get(CardSuit.SPADES);
+				}
+				
+				return cardService.findSmallestCard(cardService.filterOutSpades(lowestRemainingCards.values()));
+					
+			}
+			
+			
+		}
+		
+		
+	}
+
+	
 	public void determineBots(SpadeGame newSpadeGame) {
 
 		System.out.println("Determining Bots");

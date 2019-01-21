@@ -42,12 +42,17 @@ public class SpadeCardValidator extends AbstractSpadeValidator {
 
 			return isValidWhenStarting(spadeGame);
 
-		} else {
+		} 
+		
+		else {
 
 			SpadePlayer player = spadeGame.getTeams()
 					.get(teamService.getTeamByPlayer(spadeGame.getCurrTurn(), spadeGame.getNumberOfTeams()))
 					.getPlayers().get(spadeGame.getCurrTurn());
-
+			if(player.isBot()) {
+				return true;
+			}
+			
 			SpadePlayer leadPlayer = spadeGame.getTeams()
 					.get(teamService.getTeamByPlayer(spadeGame.getStartTurn(), spadeGame.getNumberOfTeams()))
 					.getPlayers().get(spadeGame.getStartTurn());
@@ -113,6 +118,9 @@ public class SpadeCardValidator extends AbstractSpadeValidator {
 		SpadePlayer leadPlayer = spadeGame.getTeams()
 				.get(teamService.getTeamByPlayer(spadeGame.getCurrTurn(), spadeGame.getNumberOfTeams())).getPlayers()
 				.get(spadeGame.getCurrTurn());
+		if(leadPlayer.isBot()) {
+			return true;
+		}
 		leadPlayer.setError(false);
 		leadPlayer.getErrorMessages().clear();
 
