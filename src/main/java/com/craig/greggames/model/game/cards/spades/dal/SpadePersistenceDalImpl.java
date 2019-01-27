@@ -68,4 +68,19 @@ public class SpadePersistenceDalImpl implements SpadePersistenceDal{
 		return spadeGame;
 	}
 
+	@Override
+	public SpadeGame updateLockingField(SpadeGame spadeGame) {
+		// TODO Auto-generated method stub
+		SpadeGameDAO spadeGameDAO = mapper.spadeGameToDAO(spadeGame);
+		
+		spadeGameDAO = repository.updateLockingField(spadeGameDAO);
+		boolean lock = true;
+		if(spadeGameDAO!=null) {
+			lock = false;
+		}
+		spadeGame.setLock(lock);
+		
+		return spadeGame;
+	}
+
 }

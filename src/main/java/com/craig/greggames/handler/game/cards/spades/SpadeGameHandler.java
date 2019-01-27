@@ -19,22 +19,25 @@ public class SpadeGameHandler {
 	
 	
 	@Autowired
-	private SpadeBidderHandler bidderService;
+	private SpadeBidderHandler spadeBidderHandler;
 	
 	@Autowired
-	private CardHandler cardService;
+	private CardHandler cardHandler;
 	
 	@Autowired
-	private SpadeTeamHandler teamService;
+	private SpadeTeamHandler spadeTeamHandler;
 	
 	@Autowired
-	private SpadePlayerHandler playerService;
+	private SpadePlayerHandler spadePlayerHandler;
 	
 	@Autowired
-	private SpadeMetaDataHandler metaDataService;
+	private SpadeMetaDataHandler spadeMetaDataHandler;
 	
 	@Autowired
-	private SpadeBotHandler botService;
+	private SpadeBotHandler spadeBotHandler;
+	
+	
+
 
 	
 	public void create(SpadeGame newSpadeGame) {
@@ -44,7 +47,7 @@ public class SpadeGameHandler {
 		
 		newSpadeGame.setNumberOfPlayers(MAX_TURN_PER_TRICK);
 		newSpadeGame.setGameNotification(SpadeNotifications.START);
-		teamService.makeTeams(newSpadeGame);
+		spadeTeamHandler.makeTeams(newSpadeGame);
 		
 		
 	}
@@ -58,18 +61,18 @@ public class SpadeGameHandler {
 		newSpadeGame.setStartHand(PlayerTable.getPlayer(start));
 		newSpadeGame.setCurrTurn(PlayerTable.getPlayer(start));
 		newSpadeGame.setHandCount(1);
-		cardService.distributeCards(newSpadeGame);
+		cardHandler.distributeCards(newSpadeGame);
 		newSpadeGame.setSpadePlayed(false);
 		newSpadeGame.setGameNotification(SpadeNotifications.BID);
 		newSpadeGame.setTurnCount(1);
-		bidderService.cleanUpBid(newSpadeGame);
-		playerService.determineTurn(newSpadeGame);
+		spadeBidderHandler.cleanUpBid(newSpadeGame);
+		spadePlayerHandler.determineTurn(newSpadeGame);
 	}
 
 
 	public void bid(SpadeGame spadeGame) {
 		
-		bidderService.determineBid(spadeGame);
+		spadeBidderHandler.determineBid(spadeGame);
 		spadeGame.setSpadePlayed(false);
 		if (spadeGame.getTurnCount() == MAX_TURN_PER_TRICK) {
 
@@ -91,30 +94,30 @@ public class SpadeGameHandler {
 			spadeGame.setGameNotification(SpadeNotifications.BID);
 		}
 
-		playerService.determineTurn(spadeGame);
+		spadePlayerHandler.determineTurn(spadeGame);
 		
 	}
 	public void play(SpadeGame spadeGame){
-		botService.determineBotCard(spadeGame);
+//		spadeBotHandler.determineBotCard(spadeGame);
 		if (spadeGame.getTurnCount() == MAX_TURN_PER_TRICK) {
 
 			// determine who won the trick
-			playerService.determinePlayerWinner(spadeGame);
+			spadePlayerHandler.determinePlayerWinner(spadeGame);
 			// determine the amount of points the winner has
-			playerService.determinePlayerPoints(spadeGame);
+			spadePlayerHandler.determinePlayerPoints(spadeGame);
 			// reAdjust cards. should return boolean
-			cardService.reAdjustCards(spadeGame);
+			cardHandler.reAdjustCards(spadeGame);
 			PlayerTable temWinnerPlayer = spadeGame.getTempWinner();
 			spadeGame.setTempWinner(null);
-			metaDataService.addPreviousTrick(spadeGame);
+			spadeMetaDataHandler.addPreviousTrick(spadeGame);
 
 			if (spadeGame.getTrickCount() == MAX_TRICK_COUNT) {
 
 				// determine the total team score;
-				teamService.determineTeamPoints(spadeGame);
+				spadeTeamHandler.determineTeamPoints(spadeGame);
 				// determine if someone won the game;
-				teamService.determineGameWinner(spadeGame);
-				metaDataService.addPreviousHand(spadeGame);
+				spadeTeamHandler.determineGameWinner(spadeGame);
+				spadeMetaDataHandler.addPreviousHand(spadeGame);
 
 				spadeGame.setTrickOver(true);
 				spadeGame.setHandOver(true);
@@ -139,16 +142,16 @@ public class SpadeGameHandler {
 					spadeGame.setStartTurn(spadeGame.getStartHand());
 					spadeGame.setCurrTurn(spadeGame.getStartHand());
 
-					cardService.distributeCards(spadeGame);
-					teamService.cleanUpPoints(spadeGame);
-					bidderService.cleanUpBid(spadeGame);
+					cardHandler.distributeCards(spadeGame);
+					spadeTeamHandler.cleanUpPoints(spadeGame);
+					spadeBidderHandler.cleanUpBid(spadeGame);
 
 					spadeGame.setHandCount(spadeGame.getHandCount() + 1);
 					spadeGame.setTrickCount(0);
 					spadeGame.setTurnCount(1);
-					playerService.cleanUpWhoHasPlayed(spadeGame);
-					cardService.removePlayingCard(spadeGame);
-					playerService.determineTurn(spadeGame);
+					spadePlayerHandler.cleanUpWhoHasPlayed(spadeGame);
+					cardHandler.removePlayingCard(spadeGame);
+					spadePlayerHandler.determineTurn(spadeGame);
 
 				}
 
@@ -160,17 +163,17 @@ public class SpadeGameHandler {
 				spadeGame.setTrickCount(spadeGame.getTrickCount() + 1);
 				spadeGame.setGameNotification(SpadeNotifications.PLAY);
 				spadeGame.setTrickOver(true);
-				playerService.cleanUpWhoHasPlayed(spadeGame);
-				cardService.removePlayingCard(spadeGame);
-				playerService.determineTurn(spadeGame);
+				spadePlayerHandler.cleanUpWhoHasPlayed(spadeGame);
+				cardHandler.removePlayingCard(spadeGame);
+				spadePlayerHandler.determineTurn(spadeGame);
 
 			}
 			
 
 		} else {
 
-			playerService.determinePlayerWinner(spadeGame);
-			cardService.reAdjustCards(spadeGame);
+			spadePlayerHandler.determinePlayerWinner(spadeGame);
+			cardHandler.reAdjustCards(spadeGame);
 			int curr = spadeGame.getCurrTurn().getCode() + 1;
 			if (curr > MAX_TURN_PER_TRICK) {
 				curr = curr - MAX_TURN_PER_TRICK;
@@ -178,7 +181,7 @@ public class SpadeGameHandler {
 			spadeGame.setCurrTurn(PlayerTable.getPlayer(curr));
 			spadeGame.setTurnCount(spadeGame.getTurnCount() + 1);
 			spadeGame.setGameNotification(SpadeNotifications.PLAY);
-			playerService.determineTurn(spadeGame);
+			spadePlayerHandler.determineTurn(spadeGame);
 
 		}
 		
@@ -189,13 +192,12 @@ public class SpadeGameHandler {
 	
 	public void leaveGame(SpadeGame spadeGame) {
 		System.out.println("Leaving game.....");
-		SpadePlayer leavingPlayer = spadeGame.getTeams().get(teamService.getTeamByPlayer(spadeGame.getGameModifier(), spadeGame.getNumberOfTeams()))
+		SpadePlayer leavingPlayer = spadeGame.getTeams().get(spadeTeamHandler.getTeamByPlayer(spadeGame.getGameModifier(), spadeGame.getNumberOfTeams()))
 		.getPlayers().get(spadeGame.getGameModifier());
 		
 		leavingPlayer.setBot(true);
 		leavingPlayer.setUserId(null);
-		
-		spadeGame.setActivePlayers(spadeGame.getActivePlayers()-1);
+		spadeBotHandler.determineBots(spadeGame);
 		
 	}
 

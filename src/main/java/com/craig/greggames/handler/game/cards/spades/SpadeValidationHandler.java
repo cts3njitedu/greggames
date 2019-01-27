@@ -16,10 +16,10 @@ import com.craig.greggames.model.game.cards.spades.SpadePlayer;;
 public class SpadeValidationHandler {
 
 	@Autowired
-	private SpadeTeamHandler teamService;
+	private SpadeTeamHandler spadeTeamHandler;
 
 	@Autowired
-	private CardHandler cardService;
+	private CardHandler cardHandler;
 	
 
 	public boolean validateBid(SpadeGame spadeGame) {
@@ -30,7 +30,7 @@ public class SpadeValidationHandler {
 		}
 
 		SpadePlayer player = spadeGame.getTeams()
-				.get(teamService.getTeamByPlayer(spadeGame.getGameModifier(), spadeGame.getNumberOfTeams()))
+				.get(spadeTeamHandler.getTeamByPlayer(spadeGame.getGameModifier(), spadeGame.getNumberOfTeams()))
 				.getPlayers().get(spadeGame.getGameModifier());
 
 		player.setError(false);
@@ -81,11 +81,11 @@ public class SpadeValidationHandler {
 	public boolean validateTurn(SpadeGame spadeGame, SpadeGame prevSpadeGame) {
 
 		SpadePlayer player = spadeGame.getTeams()
-				.get(teamService.getTeamByPlayer(spadeGame.getGameModifier(), spadeGame.getNumberOfTeams()))
+				.get(spadeTeamHandler.getTeamByPlayer(spadeGame.getGameModifier(), spadeGame.getNumberOfTeams()))
 				.getPlayers().get(spadeGame.getGameModifier());
 
 		SpadePlayer prevPlayer = prevSpadeGame.getTeams()
-				.get(teamService.getTeamByPlayer(prevSpadeGame.getGameModifier(), prevSpadeGame.getNumberOfTeams()))
+				.get(spadeTeamHandler.getTeamByPlayer(prevSpadeGame.getGameModifier(), prevSpadeGame.getNumberOfTeams()))
 				.getPlayers().get(prevSpadeGame.getGameModifier());
 		player.setError(false);
 		player.getErrorMessages().clear();
@@ -123,11 +123,11 @@ public class SpadeValidationHandler {
 		} else {
 
 			SpadePlayer player = spadeGame.getTeams()
-					.get(teamService.getTeamByPlayer(spadeGame.getCurrTurn(), spadeGame.getNumberOfTeams()))
+					.get(spadeTeamHandler.getTeamByPlayer(spadeGame.getCurrTurn(), spadeGame.getNumberOfTeams()))
 					.getPlayers().get(spadeGame.getCurrTurn());
 
 			SpadePlayer leadPlayer = spadeGame.getTeams()
-					.get(teamService.getTeamByPlayer(spadeGame.getStartTurn(), spadeGame.getNumberOfTeams()))
+					.get(spadeTeamHandler.getTeamByPlayer(spadeGame.getStartTurn(), spadeGame.getNumberOfTeams()))
 					.getPlayers().get(spadeGame.getStartTurn());
 
 			Card card = player.getPlayingCard();
@@ -135,7 +135,7 @@ public class SpadeValidationHandler {
 
 			Set<Card> cards = player.getRemainingCards();
 
-			Map<CardSuit, Set<Card>> cardsForEachSuit = cardService.distributeCardsAccordingToSuit(cards);
+			Map<CardSuit, Set<Card>> cardsForEachSuit = cardHandler.distributeCardsAccordingToSuit(cards);
 
 			Set<Card> cardsToMatch = cardsForEachSuit.get(startCard.getSuit());
 			if (cardsToMatch.size() > 0) {
@@ -172,7 +172,7 @@ public class SpadeValidationHandler {
 
 	public boolean isValidWhenStarting(SpadeGame spadeGame) {
 		SpadePlayer leadPlayer = spadeGame.getTeams()
-				.get(teamService.getTeamByPlayer(spadeGame.getCurrTurn(), spadeGame.getNumberOfTeams())).getPlayers()
+				.get(spadeTeamHandler.getTeamByPlayer(spadeGame.getCurrTurn(), spadeGame.getNumberOfTeams())).getPlayers()
 				.get(spadeGame.getCurrTurn());
 		leadPlayer.setError(false);
 		leadPlayer.getErrorMessages().clear();
@@ -180,7 +180,7 @@ public class SpadeValidationHandler {
 		Card leadPlayerCard = leadPlayer.getPlayingCard();
 		Set<Card> cards = leadPlayer.getRemainingCards();
 
-		Map<CardSuit, Set<Card>> cardsForEachSuit = cardService.distributeCardsAccordingToSuit(cards);
+		Map<CardSuit, Set<Card>> cardsForEachSuit = cardHandler.distributeCardsAccordingToSuit(cards);
 
 		int numOfClubs = cardsForEachSuit.get(CardSuit.CLUBS).size();
 		int numOfHearts = cardsForEachSuit.get(CardSuit.HEARTS).size();

@@ -27,17 +27,17 @@ public class PlaySpades {
 	@Autowired
 	private SpadeGameHandler creator;
 	@Autowired
-	private SpadeTeamHandler teamService;
+	private SpadeTeamHandler spadeTeamHandler;
 	
 	@Autowired
-	private CardHandler cardService;
+	private CardHandler cardHandler;
 	@Autowired
 	private SpadeValidatorEngine validatorFactory;
 
 	public PlaySpades() {
 
 		this.creator = new SpadeGameHandler();
-		this.cardService = new CardHandler();
+		this.cardHandler = new CardHandler();
 		this.validatorFactory=new SpadeValidatorEngine();
 	}
 
@@ -48,23 +48,23 @@ public class PlaySpades {
 		creator.play(spadeGame);
 		while (!spadeGame.isGameOver()) {
 			spadeGame.getTeams()
-					.get(teamService.getTeamByPlayer(spadeGame.getCurrTurn(), spadeGame.getNumberOfTeams()))
+					.get(spadeTeamHandler.getTeamByPlayer(spadeGame.getCurrTurn(), spadeGame.getNumberOfTeams()))
 					.getPlayers().get(spadeGame.getCurrTurn()).setBot(true);
 
 			creator.play(spadeGame);
 
 			spadeGame.getTeams()
-					.get(teamService.getTeamByPlayer(spadeGame.getCurrTurn(), spadeGame.getNumberOfTeams()))
+					.get(spadeTeamHandler.getTeamByPlayer(spadeGame.getCurrTurn(), spadeGame.getNumberOfTeams()))
 					.getPlayers().get(spadeGame.getCurrTurn()).setBot(true);
 			creator.play(spadeGame);
 
 			spadeGame.getTeams()
-					.get(teamService.getTeamByPlayer(spadeGame.getCurrTurn(), spadeGame.getNumberOfTeams()))
+					.get(spadeTeamHandler.getTeamByPlayer(spadeGame.getCurrTurn(), spadeGame.getNumberOfTeams()))
 					.getPlayers().get(spadeGame.getCurrTurn()).setBot(true);
 			creator.play(spadeGame);
 
 			spadeGame.getTeams()
-					.get(teamService.getTeamByPlayer(spadeGame.getCurrTurn(), spadeGame.getNumberOfTeams()))
+					.get(spadeTeamHandler.getTeamByPlayer(spadeGame.getCurrTurn(), spadeGame.getNumberOfTeams()))
 					.getPlayers().get(spadeGame.getCurrTurn()).setBot(true);
 			creator.play(spadeGame);
 
@@ -105,7 +105,7 @@ public class PlaySpades {
 
 			PlayerTable player = spadeGame.getCurrTurn();
 
-			TeamTable team = teamService.getTeamByPlayer(player, spadeGame.getNumberOfTeams());
+			TeamTable team = spadeTeamHandler.getTeamByPlayer(player, spadeGame.getNumberOfTeams());
 			spadePlayer1 = spadeGame.getTeams().get(team).getPlayers().get(player);
 			cards = spadeGame.getTeams().get(team).getPlayers().get(player).getRemainingCards();
 			for(Card c: cards) {
@@ -119,7 +119,7 @@ public class PlaySpades {
 
 			player = spadeGame.getCurrTurn();
 
-			team = teamService.getTeamByPlayer(player, spadeGame.getNumberOfTeams());
+			team = spadeTeamHandler.getTeamByPlayer(player, spadeGame.getNumberOfTeams());
 			spadePlayer2 = spadeGame.getTeams().get(team).getPlayers().get(player);
 			cards = spadeGame.getTeams().get(team).getPlayers().get(player).getRemainingCards();
 			for(Card c: cards) {
@@ -133,7 +133,7 @@ public class PlaySpades {
 			creator.play(spadeGame);
 
 			player = spadeGame.getCurrTurn();
-			team = teamService.getTeamByPlayer(player, spadeGame.getNumberOfTeams());
+			team = spadeTeamHandler.getTeamByPlayer(player, spadeGame.getNumberOfTeams());
 			spadePlayer3 = spadeGame.getTeams().get(team).getPlayers().get(player);
 			cards = spadeGame.getTeams().get(team).getPlayers().get(player).getRemainingCards();
 			for(Card c: cards) {
@@ -146,7 +146,7 @@ public class PlaySpades {
 			creator.play(spadeGame);
 
 			player = spadeGame.getCurrTurn();
-			team = teamService.getTeamByPlayer(player, spadeGame.getNumberOfTeams());
+			team = spadeTeamHandler.getTeamByPlayer(player, spadeGame.getNumberOfTeams());
 			spadePlayer4 = spadeGame.getTeams().get(team).getPlayers().get(player);
 			cards = spadeGame.getTeams().get(team).getPlayers().get(player).getRemainingCards();
 			for(Card c: cards) {

@@ -1,11 +1,11 @@
 package com.craig.greggames.states.game.cards.spades;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
-import com.craig.greggames.broadcast.game.cards.spades.SpadeGameBroadCaster;
-import com.craig.greggames.handler.game.cards.spades.SpadeGameHandler;
 import com.craig.greggames.handler.game.cards.spades.SpadePlayerHandler;
 import com.craig.greggames.model.game.cards.spades.SpadeErrors;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
@@ -13,36 +13,23 @@ import com.craig.greggames.model.game.cards.spades.SpadeNotifications;
 import com.craig.greggames.model.game.cards.spades.dal.SpadePersistenceDal;
 
 @Service
-@Order(2)
-public class SpadeGameStartState extends AbstractSpadeGameState {
+@Order(Ordered.LOWEST_PRECEDENCE)
+public class SpadeGameErrorState extends AbstractSpadeGameState {
 
-	@Autowired
-	private SpadePlayerHandler spadePlayerHandler;
+
 
 	@Autowired
 	private SpadePersistenceDal spadePersistenceDal;
 	
 	@Autowired
-	private SpadeGameBroadCaster spadeGameBroadCaster;
-
-	@Autowired
-	private SpadeGameHandler spadeGameHandler;
-	private final SpadeNotifications spadeNotification = SpadeNotifications.START;
+	private SpadePlayerHandler spadePlayerHandler;
+	
 
 	@Override
 	public SpadeGame state(SpadeGame spadeGame) {
 		// TODO Auto-generated method stub
-
-		if(spadeGame.getPlayerNotification()==spadeGame.getGameNotification()) {
-			spadeGameHandler.start(spadeGame);
-			spadeGameBroadCaster.addGame(spadeGame);
-		}
-		else {
-			SpadeGame oldSpadeGame = spadePersistenceDal.findGame(spadeGame.getGameId());
-			spadePlayerHandler.addError(spadeGame, SpadeErrors.WRONG_MOVE, oldSpadeGame);
-		}
-	
-			
+		SpadeGame oldSpadeGame = spadePersistenceDal.findGame(spadeGame.getGameId());
+		spadePlayerHandler.addError(spadeGame, SpadeErrors.WAITING_FOR_OTHER_PLAYERS, oldSpadeGame);
 		return spadePersistenceDal.saveGame(spadeGame);
 		
 
@@ -51,7 +38,8 @@ public class SpadeGameStartState extends AbstractSpadeGameState {
 	@Override
 	public boolean validateState(SpadeNotifications spadeNotifications) {
 		// TODO Auto-generated method stub
-		return spadeNotification == spadeNotifications;
+		//this should run last. this means that others state were invalid
+		return true;
 	}
 
 }

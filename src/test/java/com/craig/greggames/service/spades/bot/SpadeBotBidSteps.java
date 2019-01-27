@@ -35,7 +35,7 @@ public class SpadeBotBidSteps {
 	private SpadeBotHandler botHandler;
 	
 	@Autowired
-	private SpadeTeamHandler teamService;
+	private SpadeTeamHandler spadeTeamHandler;
 	
 	private JsonConverter jsonConverter;
 
@@ -56,19 +56,19 @@ public class SpadeBotBidSteps {
 		
 		
 		SpadePlayer spadePlayer1=null;
-		TeamTable team1 = teamService.getTeamByPlayer(PlayerTable.PLAYER1, spadeGame.getNumberOfTeams());
+		TeamTable team1 = spadeTeamHandler.getTeamByPlayer(PlayerTable.PLAYER1, spadeGame.getNumberOfTeams());
 		spadePlayer1 = spadeGame.getTeams().get(team1).getPlayers().get(PlayerTable.PLAYER1);
 		spadePlayer1.setPlayingCard(Deck.FIVE_DIAMONDS.getCard());
 		
 		
 		SpadePlayer spadePlayer2 = null;
-		TeamTable team2 = teamService.getTeamByPlayer(PlayerTable.PLAYER2, spadeGame.getNumberOfTeams());
+		TeamTable team2 = spadeTeamHandler.getTeamByPlayer(PlayerTable.PLAYER2, spadeGame.getNumberOfTeams());
 		spadePlayer2 = spadeGame.getTeams().get(team2).getPlayers().get(PlayerTable.PLAYER1);
 		spadePlayer2.setPlayingCard(Deck.SIX_DIAMONDS.getCard());
 		
 	
 		SpadePlayer spadePlayer3=null;
-		team1 = teamService.getTeamByPlayer(PlayerTable.PLAYER3, spadeGame.getNumberOfTeams());
+		team1 = spadeTeamHandler.getTeamByPlayer(PlayerTable.PLAYER3, spadeGame.getNumberOfTeams());
 		spadePlayer3 = spadeGame.getTeams().get(team1).getPlayers().get(PlayerTable.PLAYER1);
 		spadePlayer3.setPlayingCard(Deck.NINE_DIAMONDS.getCard());
 		

@@ -34,10 +34,10 @@
 //	List<SpadeGame> spadeGames = new ArrayList<SpadeGame>();
 //
 //	@Autowired
-//	private SpadeTeamHandler teamService;
+//	private SpadeTeamHandler spadeTeamHandler;
 //
 //	@Autowired
-//	private SpadePlayerHandler playerService;
+//	private SpadePlayerHandler spadePlayerHandler;
 //
 //	@Given("^a state of game, a temp winner and the current player and temp winner playing card$")
 //	public void makeState(List<TempWinner> tempWinner) throws Throwable {
@@ -62,7 +62,7 @@
 //
 //			spadeGame.setCurrTurn(PlayerTable.PLAYER2);
 //			spadeGame.setTempWinner(PlayerTable.PLAYER1);
-//			teamService.makeTeams(spadeGame);
+//			spadeTeamHandler.makeTeams(spadeGame);
 //			Card tempWinnerCard = Deck.getCardByName(temp.getTempWinnerCard());
 //			
 //
@@ -86,7 +86,7 @@
 //		// Write code here that turns the phrase above into concrete actions
 //		for (SpadeGame game : spadeGames) {
 //
-//			playerService.determinePlayerWinner(game);
+//			spadePlayerHandler.determinePlayerWinner(game);
 //		}
 //	}
 //

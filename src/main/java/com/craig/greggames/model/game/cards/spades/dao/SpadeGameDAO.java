@@ -83,6 +83,10 @@ public class SpadeGameDAO extends CardGame{
 	private SpadeBroken spadeBroken;
 	
 	private long maxTime;
+	
+	private boolean isServingPlaying;
+	
+	private boolean lock;
 
 	public String getGameId() {
 		return gameId;
@@ -424,6 +428,23 @@ public class SpadeGameDAO extends CardGame{
 	public void setMaxTime(long maxTime) {
 		this.maxTime = maxTime;
 	}
+
+	public boolean isServingPlaying() {
+		return isServingPlaying;
+	}
+
+	public void setServingPlaying(boolean isServingPlaying) {
+		this.isServingPlaying = isServingPlaying;
+	}
+
+	public boolean isLock() {
+		return lock;
+	}
+
+	public void setLock(boolean lock) {
+		this.lock = lock;
+	}
+	
 	
 	
 	

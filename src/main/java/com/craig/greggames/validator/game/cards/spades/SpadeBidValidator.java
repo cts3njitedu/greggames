@@ -17,7 +17,7 @@ import com.craig.greggames.model.game.cards.spades.SpadePlayer;
 public class SpadeBidValidator extends AbstractSpadeValidator {
 
 	@Autowired
-	private SpadeTeamHandler teamService;
+	private SpadeTeamHandler spadeTeamHandler;
 
 	private final static Set<SpadeNotifications> notificationSet;
 	static {
@@ -30,13 +30,16 @@ public class SpadeBidValidator extends AbstractSpadeValidator {
 	@Override
 	public boolean validate(SpadeGame spadeGame) {
 		// TODO Auto-generated method stub
+		if(!notificationSet.contains(spadeGame.getPlayerNotification())) {
+			return true;
+		}
 		if (spadeGame.getGameModifier() == null) {
 
 			return false;
 		}
 
 		SpadePlayer player = spadeGame.getTeams()
-				.get(teamService.getTeamByPlayer(spadeGame.getGameModifier(), spadeGame.getNumberOfTeams()))
+				.get(spadeTeamHandler.getTeamByPlayer(spadeGame.getGameModifier(), spadeGame.getNumberOfTeams()))
 				.getPlayers().get(spadeGame.getGameModifier());
 
 		player.setError(false);

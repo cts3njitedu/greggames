@@ -28,7 +28,7 @@
 //public class DetermineGameWinnerSteps {
 //
 //	@Autowired
-//	private SpadeTeamHandler teamService;
+//	private SpadeTeamHandler spadeTeamHandler;
 //
 //	private List<SpadeGame> games = new ArrayList<SpadeGame>();
 //
@@ -51,7 +51,7 @@
 //			spadeGame.setBidNilPoints(100);
 //			spadeGame.setPointsToLose(-500);
 //
-//			teamService.makeTeams(spadeGame);
+//			spadeTeamHandler.makeTeams(spadeGame);
 //
 //			SpadeTeam team1 = spadeGame.getTeams().get(TeamTable.TEAM1);
 //			SpadeTeam team2 = spadeGame.getTeams().get(TeamTable.TEAM2);
@@ -70,7 +70,7 @@
 //
 //		for (SpadeGame game : games) {
 //
-//			teamService.determineGameWinner(game);
+//			spadeTeamHandler.determineGameWinner(game);
 //		}
 //
 //	}

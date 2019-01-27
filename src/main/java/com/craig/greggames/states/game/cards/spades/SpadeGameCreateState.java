@@ -24,7 +24,7 @@ public class SpadeGameCreateState extends AbstractSpadeGameState {
 	private SpadeValidatorEngine validatorEngine;
 	
 	@Autowired
-	private SpadeGameHandler gameService;
+	private SpadeGameHandler spadeGameHandler;
 
 	private final SpadeNotifications spadeNotification = SpadeNotifications.CREATE;
 	
@@ -34,12 +34,7 @@ public class SpadeGameCreateState extends AbstractSpadeGameState {
 	@Override
 	public SpadeGame state(SpadeGame spadeGame) {
 		// TODO Auto-generated method stub
-		
-		boolean isValid = validatorEngine.validate(spadeGame);
-		if(!isValid) {
-			return spadePersistenceDal.saveGame(spadeGame);
-		}
-		gameService.create(spadeGame);
+		spadeGameHandler.create(spadeGame);
 		spadeGame.setMaxTime(maxTime);
 		return spadePersistenceDal.saveGame(spadeGame);
 
@@ -48,10 +43,7 @@ public class SpadeGameCreateState extends AbstractSpadeGameState {
 	@Override
 	public boolean validateState(SpadeNotifications spadeNotifications) {
 		// TODO Auto-generated method stub
-		if (spadeNotification == spadeNotifications) {
-			return true;
-		}
-		return false;
+		return spadeNotification == spadeNotifications;
 	}
 
 }

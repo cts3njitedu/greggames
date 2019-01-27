@@ -4,17 +4,21 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
+import com.craig.greggames.broadcast.game.cards.spades.SpadeGameBroadCaster;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.craig.greggames.model.game.cards.spades.SpadeNotifications;
 import com.craig.greggames.model.game.cards.spades.dal.SpadePersistenceDal;
 
 @Service
-public class SpadeCoalescerEnricher extends AbstractSpadeGameEnricher {
-
+@Order(Ordered.LOWEST_PRECEDENCE)
+public class SpadeBroadCasterEnricher extends AbstractSpadeGameEnricher {
+	
 	@Autowired
-	private SpadePersistenceDal spadePersistenceDal;
+	private SpadeGameBroadCaster spadeGameBroadCaster;
 	private final static Set<SpadeNotifications> notificationSet;
 	static {
 
@@ -22,8 +26,7 @@ public class SpadeCoalescerEnricher extends AbstractSpadeGameEnricher {
 
 		notificationSet.add(SpadeNotifications.BID);
 		notificationSet.add(SpadeNotifications.PLAY);
-		notificationSet.add(SpadeNotifications.START);
-	
+		
 		
 	
 
@@ -31,16 +34,7 @@ public class SpadeCoalescerEnricher extends AbstractSpadeGameEnricher {
 	@Override
 	public void enricher(SpadeGame spadeGame) {
 		// TODO Auto-generated method stub
-		
-
-		SpadeGame oldSpadeGame = spadePersistenceDal.findGame(spadeGame.getGameId());
-		//spadeGame.setGameNotification(oldSpadeGame.getGameNotification());
-		spadeGame.setPointsToWin(oldSpadeGame.getPointsToWin());
-		spadeGame.setPointsToLose(oldSpadeGame.getPointsToLose());
-		spadeGame.setBidNilPoints(oldSpadeGame.getBidNilPoints());
-		spadeGame.setBags(oldSpadeGame.getBags());
-		spadeGame.setBagPoints(oldSpadeGame.getBagPoints());
-		spadeGame.setNumberOfTeams(oldSpadeGame.getNumberOfTeams());
+		spadeGameBroadCaster.removeGame(spadeGame);
 		
 		
 	}

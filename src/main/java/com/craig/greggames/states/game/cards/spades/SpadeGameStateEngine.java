@@ -21,7 +21,7 @@ public class SpadeGameStateEngine implements GreggameStateEngine<SpadeGame>{
 		// TODO Auto-generated method stub
 		for(SpadeGameState abstractSpadeGameState: abstractSpadeGameStates) {
 			
-			if(abstractSpadeGameState.validateState(spadeGame.getGameNotification())) {
+			if(abstractSpadeGameState.validateState(spadeGame.getPlayerNotification())) {
 				
 				return abstractSpadeGameState.state(spadeGame);
 			

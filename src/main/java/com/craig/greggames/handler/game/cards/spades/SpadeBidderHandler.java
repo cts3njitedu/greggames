@@ -15,27 +15,18 @@ import com.craig.greggames.model.game.cards.team.TeamTable;
 public class SpadeBidderHandler {
 
 	@Autowired
-	private SpadeTeamHandler teamService;
+	private SpadeTeamHandler spadeTeamHandler;
 
-	@Autowired
-	private SpadeBotHandler botService;
 
 	public void determineBid(SpadeGame newSpadeGame) {
 
 		SpadeTeam team = newSpadeGame.getTeams()
-				.get(teamService.getTeamByPlayer(newSpadeGame.getCurrTurn(), newSpadeGame.getNumberOfTeams()));
+				.get(spadeTeamHandler.getTeamByPlayer(newSpadeGame.getCurrTurn(), newSpadeGame.getNumberOfTeams()));
 
 		SpadePlayer player = team.getPlayers().get(newSpadeGame.getCurrTurn());
 
 		int totalBid = 0;
-		if (player.isBot()) {
-
-			totalBid = botService.getBotBid(player);
-
-		} else {
-
-			totalBid = player.getPlayerBid();
-		}
+		totalBid = player.getPlayerBid();
 		team.setTotalBid(team.getTotalBid() + totalBid);
 		if(totalBid==0) {
 			player.setBidNil(true);

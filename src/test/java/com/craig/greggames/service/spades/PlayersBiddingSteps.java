@@ -27,7 +27,7 @@ public class PlayersBiddingSteps {
 	private SpadesSocketController messageController;
 
 	@Autowired
-	private SpadeTeamHandler teamService;
+	private SpadeTeamHandler spadeTeamHandler;
 	
 	@Autowired
 	private SpadeService spadeService;
@@ -50,22 +50,22 @@ public class PlayersBiddingSteps {
 	@When("^I attempt to bid$")
 	public void i_attempt_to_bid() throws Throwable {
 		// Write code here that turns the phrase above into concrete actions
-		spadeGame.getTeams().get(teamService.getTeamByPlayer(spadeGame.getCurrTurn(), spadeGame.getNumberOfTeams()))
+		spadeGame.getTeams().get(spadeTeamHandler.getTeamByPlayer(spadeGame.getCurrTurn(), spadeGame.getNumberOfTeams()))
 				.getPlayers().get(spadeGame.getCurrTurn()).setPlayerBid(50);
 		spadeGame.setGameModifier(spadeGame.getCurrTurn());
 
 		spadeGame = messageController.modifyGameState("spade", spadeGame.getGameId(), spadeGame);
-		spadeGame.getTeams().get(teamService.getTeamByPlayer(spadeGame.getCurrTurn(), spadeGame.getNumberOfTeams()))
+		spadeGame.getTeams().get(spadeTeamHandler.getTeamByPlayer(spadeGame.getCurrTurn(), spadeGame.getNumberOfTeams()))
 				.getPlayers().get(spadeGame.getCurrTurn()).setPlayerBid(40);
 
 		spadeGame.setGameModifier(spadeGame.getCurrTurn());
 		spadeGame = messageController.modifyGameState("spade", spadeGame.getGameId(), spadeGame);
-		spadeGame.getTeams().get(teamService.getTeamByPlayer(spadeGame.getCurrTurn(), spadeGame.getNumberOfTeams()))
+		spadeGame.getTeams().get(spadeTeamHandler.getTeamByPlayer(spadeGame.getCurrTurn(), spadeGame.getNumberOfTeams()))
 				.getPlayers().get(spadeGame.getCurrTurn()).setPlayerBid(30);
 		spadeGame.setGameModifier(spadeGame.getCurrTurn());
 		spadeGame = messageController.modifyGameState("spade", spadeGame.getGameId(), spadeGame);
 
-		spadeGame.getTeams().get(teamService.getTeamByPlayer(spadeGame.getCurrTurn(), spadeGame.getNumberOfTeams()))
+		spadeGame.getTeams().get(spadeTeamHandler.getTeamByPlayer(spadeGame.getCurrTurn(), spadeGame.getNumberOfTeams()))
 				.getPlayers().get(spadeGame.getCurrTurn()).setPlayerBid(60);
 		spadeGame.setGameModifier(spadeGame.getCurrTurn());
 		spadeGame = messageController.modifyGameState("spade", spadeGame.getGameId(), spadeGame);

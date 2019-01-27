@@ -20,7 +20,7 @@ import com.craig.greggames.model.game.cards.spades.SpadePlayer;
 
 @Service
 @Order(4)
-public class SpadeCardValidator extends AbstractSpadeValidator {
+public class SpadeBroadCastorValidator extends AbstractSpadeValidator {
 
 	@Autowired
 	private SpadeTeamHandler spadeTeamHandler;

@@ -15,6 +15,8 @@ public interface SpadePersistenceDal {
 	public SpadeGame startGame(String gameId);
 
 	public SpadeGame saveGame(SpadeGame spadeGame);
+	
+	public SpadeGame updateLockingField(SpadeGame spadeGame);
 
 
 }

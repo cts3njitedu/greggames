@@ -18,61 +18,63 @@ import com.craig.greggames.validator.game.cards.spades.SpadeValidatorEngine;
 public class SpadeGamePlayState extends AbstractSpadeGameState {
 
 	@Autowired
-	private SpadePlayerHandler playerService;
+	private SpadePlayerHandler spadePlayerHandler;
 
 	@Autowired
 	private SpadePersistenceDal spadePersistenceDal;
 
-	@Autowired
-	private SpadeBotHandler botService;
+	
 
 	@Autowired
-	private SpadeValidatorEngine validatorEngine;
-
-	@Autowired
-	private SpadeGameHandler gameService;
+	private SpadeGameHandler spadeGameHandler;
 
 	private final SpadeNotifications spadeNotification = SpadeNotifications.PLAY;
 
 	@Override
 	public SpadeGame state(SpadeGame spadeGame) {
 		// TODO Auto-generated method stub
-		switch (spadeGame.getPlayerNotification()) {
-
-		case PLAY:
-			boolean isValid = validatorEngine.validate(spadeGame);
-			if (!isValid) {
-				return spadePersistenceDal.saveGame(spadeGame);
-			}
-			gameService.play(spadeGame);
-			return spadePersistenceDal.saveGame(spadeGame);
-		case NEW_PLAYER:
-			botService.determineBots(spadeGame);
-			spadeGame.setNewPlayer(false);
-			spadeGame.setActivePlayers(spadeGame.getActivePlayers() + 1);
-			return spadePersistenceDal.saveGame(spadeGame);
-		case LEAVE_GAME:
-			gameService.leaveGame(spadeGame);
-			return spadePersistenceDal.saveGame(spadeGame);
-		case RECEIVED_ERROR:
-			playerService.cleanUpError(spadeGame);
-			return spadePersistenceDal.saveGame(spadeGame);
-		default:
-			SpadeGame oldSpadeGame = spadePersistenceDal.findGame(spadeGame.getGameId());
-			playerService.addError(spadeGame, SpadeErrors.CURRENTLY_PLAYING, oldSpadeGame);
-			return spadePersistenceDal.saveGame(spadeGame);
-
+		
+		if(spadeGame.getPlayerNotification()==spadeGame.getGameNotification()) {
+			spadeGameHandler.play(spadeGame);
+			
 		}
+		else {
+			SpadeGame oldSpadeGame = spadePersistenceDal.findGame(spadeGame.getGameId());
+			spadePlayerHandler.addError(spadeGame, SpadeErrors.CURRENTLY_PLAYING, oldSpadeGame);
+		}
+		
+		return spadePersistenceDal.saveGame(spadeGame);
+//		switch (spadeGame.getPlayerNotification()) {
+//
+//		case PLAY:
+//			spadeGameHandler.play(spadeGame);
+//			//before you save add to map
+//			return spadePersistenceDal.saveGame(spadeGame);
+//		case NEW_PLAYER:
+//			spadeBotHandler.determineBots(spadeGame);
+//			spadeGame.setNewPlayer(false);
+//			spadeGame.setActivePlayers(spadeGame.getActivePlayers() + 1);
+//			return spadePersistenceDal.saveGame(spadeGame);
+//		case LEAVE_GAME:
+//			spadeGameHandler.leaveGame(spadeGame);
+//			return spadePersistenceDal.saveGame(spadeGame);
+//		case RECEIVED_ERROR:
+//			spadePlayerHandler.cleanUpError(spadeGame);
+//			return spadePersistenceDal.saveGame(spadeGame);
+//		default:
+//			SpadeGame oldSpadeGame = spadePersistenceDal.findGame(spadeGame.getGameId());
+//			spadePlayerHandler.addError(spadeGame, SpadeErrors.CURRENTLY_PLAYING, oldSpadeGame);
+//			return spadePersistenceDal.saveGame(spadeGame);
+//
+//		}
 
 	}
 
 	@Override
 	public boolean validateState(SpadeNotifications spadeNotifications) {
 		// TODO Auto-generated method stub
-		if (spadeNotification == spadeNotifications) {
-			return true;
-		}
-		return false;
+		return spadeNotification == spadeNotifications;
+		
 	}
 
 }

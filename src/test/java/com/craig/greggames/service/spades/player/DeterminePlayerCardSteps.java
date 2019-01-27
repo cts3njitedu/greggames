@@ -21,10 +21,10 @@
 //public class DeterminePlayerCardSteps {
 //
 //	@Autowired
-//	private SpadeTeamHandler teamService;
+//	private SpadeTeamHandler spadeTeamHandler;
 //
 //	@Autowired
-//	private SpadePlayerHandler playerService;
+//	private SpadePlayerHandler spadePlayerHandler;
 //
 //	private SpadeGame spadeGame;
 //
@@ -34,7 +34,7 @@
 //		spadeGame = new SpadeGame();
 //
 //		spadeGame.setNumberOfTeams(2);
-//		teamService.makeTeams(spadeGame);
+//		spadeTeamHandler.makeTeams(spadeGame);
 //
 //		spadeGame.setCurrTurn(PlayerTable.PLAYER2);
 //
@@ -63,7 +63,7 @@
 //	@When("^I determine player card$")
 //	public void i_determine_player_card() throws Throwable {
 //		// Write code here that turns the phrase above into concrete actions
-//		//playerService.determinePlayerCard(spadeGame);
+//		//spadePlayerHandler.determinePlayerCard(spadeGame);
 //	}
 //
 //	@Then("^I should be correct in determining player card$")

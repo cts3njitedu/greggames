@@ -33,7 +33,7 @@ import com.craig.greggames.util.DealUtility;;
 public class CardHandler {
 
 	@Autowired
-	private SpadeTeamHandler teamService;
+	private SpadeTeamHandler spadeTeamHandler;
 	
 	@Autowired
 	private DealUtility dealUtility;
@@ -50,7 +50,7 @@ public class CardHandler {
 		for (int turn = 1; turn <= MAX_TURN_PER_TRICK; turn++) {
 
 			SpadePlayer spadePlayer = newSpadeGame.getTeams()
-					.get(teamService.getTeamByPlayer(PlayerTable.getPlayer(dealCode), newSpadeGame.getNumberOfTeams()))
+					.get(spadeTeamHandler.getTeamByPlayer(PlayerTable.getPlayer(dealCode), newSpadeGame.getNumberOfTeams()))
 					.getPlayers().get(PlayerTable.getPlayer(dealCode));
 			spadePlayer.setRemainingCards(null);
 
@@ -288,16 +288,16 @@ public class CardHandler {
 		PlayerTable player = newSpadeGame.getCurrTurn();
 
 		Card oldPlayingCard = newSpadeGame.getTeams()
-				.get(teamService.getTeamByPlayer(player, newSpadeGame.getNumberOfTeams())).getPlayers()
+				.get(spadeTeamHandler.getTeamByPlayer(player, newSpadeGame.getNumberOfTeams())).getPlayers()
 
 				.get(player).getPlayingCard();
 
 		Set<Card> cardsLeft = newSpadeGame.getTeams()
-				.get(teamService.getTeamByPlayer(player, newSpadeGame.getNumberOfTeams())).getPlayers().get(player)
+				.get(spadeTeamHandler.getTeamByPlayer(player, newSpadeGame.getNumberOfTeams())).getPlayers().get(player)
 				.getRemainingCards();
 
 		Set<Card> cardsPlayed = newSpadeGame.getTeams()
-				.get(teamService.getTeamByPlayer(player, newSpadeGame.getNumberOfTeams())).getPlayers().get(player)
+				.get(spadeTeamHandler.getTeamByPlayer(player, newSpadeGame.getNumberOfTeams())).getPlayers().get(player)
 				.getPlayedCards();
 		cardsLeft.remove(oldPlayingCard);
 		cardsPlayed.add(oldPlayingCard);
@@ -308,7 +308,7 @@ public class CardHandler {
 
 		for (PlayerTable player : PlayerTable.values()) {
 
-			newSpadeGame.getTeams().get(teamService.getTeamByPlayer(player, newSpadeGame.getNumberOfTeams()))
+			newSpadeGame.getTeams().get(spadeTeamHandler.getTeamByPlayer(player, newSpadeGame.getNumberOfTeams()))
 					.getPlayers().get(player).setPlayingCard(null);
 
 		}
@@ -402,11 +402,11 @@ public class CardHandler {
 		
 		Map<TeamTable, SpadeTeam> teams = newSpadeGame.getTeams();
 		SpadePlayer leadPlayer = teams
-				.get(teamService.getTeamByPlayer(newSpadeGame.getStartTurn(), newSpadeGame.getNumberOfTeams()))
+				.get(spadeTeamHandler.getTeamByPlayer(newSpadeGame.getStartTurn(), newSpadeGame.getNumberOfTeams()))
 				.getPlayers().get(newSpadeGame.getStartTurn());
 
 		SpadeTeam currTeam = teams
-				.get(teamService.getTeamByPlayer(newSpadeGame.getCurrTurn(), newSpadeGame.getNumberOfTeams()));
+				.get(spadeTeamHandler.getTeamByPlayer(newSpadeGame.getCurrTurn(), newSpadeGame.getNumberOfTeams()));
 		SpadePlayer currPlayer = currTeam.getPlayers().get(newSpadeGame.getCurrTurn());
 		
 		

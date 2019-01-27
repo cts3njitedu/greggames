@@ -14,10 +14,10 @@ public class GetBotCard {
 	@Autowired
 	private SpadeGameHandler creator;
 	@Autowired
-	private SpadeTeamHandler teamService;
+	private SpadeTeamHandler spadeTeamHandler;
 	
 	@Autowired
-	private CardHandler cardService;
+	private CardHandler cardHandler;
 	@Autowired
 	private SpadeValidatorEngine validatorFactory;
 	@Autowired
@@ -28,7 +28,7 @@ public class GetBotCard {
 	public GetBotCard() {
 
 		this.creator = new SpadeGameHandler();
-		this.cardService = new CardHandler();
+		this.cardHandler = new CardHandler();
 		this.validatorFactory=new SpadeValidatorEngine();
 	}
 	

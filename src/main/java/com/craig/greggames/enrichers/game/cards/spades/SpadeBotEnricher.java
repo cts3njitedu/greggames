@@ -6,15 +6,16 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.craig.greggames.handler.game.cards.spades.SpadeBotHandler;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.craig.greggames.model.game.cards.spades.SpadeNotifications;
-import com.craig.greggames.model.game.cards.spades.dal.SpadePersistenceDal;
 
 @Service
-public class SpadeCoalescerEnricher extends AbstractSpadeGameEnricher {
+public class SpadeBotEnricher extends AbstractSpadeGameEnricher {
 
 	@Autowired
-	private SpadePersistenceDal spadePersistenceDal;
+	private SpadeBotHandler spadeBidderHandler;
+	
 	private final static Set<SpadeNotifications> notificationSet;
 	static {
 
@@ -22,8 +23,6 @@ public class SpadeCoalescerEnricher extends AbstractSpadeGameEnricher {
 
 		notificationSet.add(SpadeNotifications.BID);
 		notificationSet.add(SpadeNotifications.PLAY);
-		notificationSet.add(SpadeNotifications.START);
-	
 		
 	
 
@@ -32,16 +31,22 @@ public class SpadeCoalescerEnricher extends AbstractSpadeGameEnricher {
 	public void enricher(SpadeGame spadeGame) {
 		// TODO Auto-generated method stub
 		
+		if(spadeGame.isServingPlaying()) {
+			
+			switch (spadeGame.getGameNotification()) {
 
-		SpadeGame oldSpadeGame = spadePersistenceDal.findGame(spadeGame.getGameId());
-		//spadeGame.setGameNotification(oldSpadeGame.getGameNotification());
-		spadeGame.setPointsToWin(oldSpadeGame.getPointsToWin());
-		spadeGame.setPointsToLose(oldSpadeGame.getPointsToLose());
-		spadeGame.setBidNilPoints(oldSpadeGame.getBidNilPoints());
-		spadeGame.setBags(oldSpadeGame.getBags());
-		spadeGame.setBagPoints(oldSpadeGame.getBagPoints());
-		spadeGame.setNumberOfTeams(oldSpadeGame.getNumberOfTeams());
-		
+			case PLAY:
+				spadeBidderHandler.determineBotCard(spadeGame);
+				break;
+			case BID:
+				spadeBidderHandler.getBotBid(spadeGame);
+				break;
+			default:
+				spadeBidderHandler.getBotBid(spadeGame);
+				break;
+			}
+			
+		}
 		
 	}
 	@Override

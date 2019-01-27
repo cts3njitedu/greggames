@@ -68,7 +68,7 @@ public class SpadeTeamHandler {
 			int totalPreviousBags = entry.getValue().getTotalBags();
 			int totalRoundScore = 0;
 		
-
+			System.out.println(entry.getValue().getTotalBid());
 			int totalTricks = 0;
 			for (Entry<PlayerTable, SpadePlayer> entryPlayer : entry.getValue().getPlayers().entrySet()) {
 				if (entryPlayer.getValue().getPlayerBid() == 0) {
@@ -109,6 +109,7 @@ public class SpadeTeamHandler {
 			else {
 				
 				totalFailedBid -= entry.getValue().getTotalBid();
+				totalRoundBags=0;
 				
 			}
 

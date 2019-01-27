@@ -3,6 +3,8 @@ package com.craig.greggames.validator.game.cards.spades;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
+import org.apache.log4j.spi.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
@@ -19,10 +21,12 @@ import com.craig.greggames.model.game.cards.spades.dal.SpadePersistenceDal;
 public class SpadeDetermineTurnValidator extends AbstractSpadeValidator {
 
 	@Autowired
-	private SpadeTeamHandler teamService;
+	private SpadeTeamHandler spadeTeamHandler;
 	@Autowired
 	private SpadePersistenceDal spadePersistenceDal;
 	private final static Set<SpadeNotifications> notificationSet;
+	
+	private Logger logger = Logger.getLogger(SpadeDetermineTurnValidator.class);
 	static {
 
 		notificationSet = new HashSet<SpadeNotifications>();
@@ -34,42 +38,44 @@ public class SpadeDetermineTurnValidator extends AbstractSpadeValidator {
 	@Override
 	public boolean validate(SpadeGame spadeGame) {
 		// TODO Auto-generated method stub
-	
-		SpadeGame prevSpadeGame = spadePersistenceDal.findGame(spadeGame.getGameId());
-		SpadePlayer player = spadeGame.getTeams()
-				.get(teamService.getTeamByPlayer(spadeGame.getGameModifier(), spadeGame.getNumberOfTeams()))
-				.getPlayers().get(spadeGame.getGameModifier());
+		if(notificationSet.contains(spadeGame.getPlayerNotification())) {
+			SpadeGame prevSpadeGame = spadePersistenceDal.findGame(spadeGame.getGameId());
+			SpadePlayer player = spadeGame.getTeams()
+					.get(spadeTeamHandler.getTeamByPlayer(spadeGame.getGameModifier(), spadeGame.getNumberOfTeams()))
+					.getPlayers().get(spadeGame.getGameModifier());
 
-		SpadePlayer prevPlayer = prevSpadeGame.getTeams()
-				.get(teamService.getTeamByPlayer(spadeGame.getGameModifier(), spadeGame.getNumberOfTeams()))
-				.getPlayers().get(spadeGame.getGameModifier());
-		player.setError(false);
-		player.getErrorMessages().clear();
-		if (spadeGame.getGameModifier() != spadeGame.getCurrTurn()) {
-			player.setError(true);
+			SpadePlayer prevPlayer = prevSpadeGame.getTeams()
+					.get(spadeTeamHandler.getTeamByPlayer(spadeGame.getGameModifier(), spadeGame.getNumberOfTeams()))
+					.getPlayers().get(spadeGame.getGameModifier());
+			player.setError(false);
+			player.getErrorMessages().clear();
+			if (spadeGame.getGameModifier() != spadeGame.getCurrTurn()) {
+				player.setError(true);
 
-			player.getErrorMessages().put(SpadeErrors.NOT_YOUR_TURN, SpadeErrors.NOT_YOUR_TURN.getError());
+				player.getErrorMessages().put(SpadeErrors.NOT_YOUR_TURN, SpadeErrors.NOT_YOUR_TURN.getError());
 
-			if (prevPlayer.getPlayingCard() != null) {
+				if (prevPlayer.getPlayingCard() != null) {
 
-				player.getRemainingCards().add(player.getPlayingCard());
-				player.setPlayingCard(prevPlayer.getPlayingCard());
-
-			} else {
-
-				if(player.getPlayingCard()!=null) {
 					player.getRemainingCards().add(player.getPlayingCard());
+					player.setPlayingCard(prevPlayer.getPlayingCard());
+
+				} else {
+
+					if(player.getPlayingCard()!=null) {
+						player.getRemainingCards().add(player.getPlayingCard());
+					}
+					
+					player.setPlayingCard(null);
 				}
-				
-				player.setPlayingCard(null);
+
+				return false;
+
 			}
 
-			return false;
-
+			return true;
 		}
-	
-
 		return true;
+		
 	}
 	@Override
 	public boolean validateState(SpadeNotifications spadeNotification) {

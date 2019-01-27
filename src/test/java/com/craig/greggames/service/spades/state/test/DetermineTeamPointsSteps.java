@@ -29,7 +29,7 @@ import cucumber.api.java.en.When;
 public class DetermineTeamPointsSteps {
 
 	@Autowired
-	private SpadeTeamHandler teamService;
+	private SpadeTeamHandler spadeTeamHandler;
 
 
 	private List<SpadeGame> games = new ArrayList<SpadeGame>();
@@ -51,7 +51,7 @@ public class DetermineTeamPointsSteps {
 			spadeGame.setBidNilPoints(100);
 			spadeGame.setPointsToLose(-500);
 
-			teamService.makeTeams(spadeGame);
+			spadeTeamHandler.makeTeams(spadeGame);
 
 			SpadeTeam team1 = spadeGame.getTeams().get(TeamTable.TEAM1);
 			SpadeTeam team2 = spadeGame.getTeams().get(TeamTable.TEAM2);
@@ -90,7 +90,7 @@ public class DetermineTeamPointsSteps {
 		
 		for(SpadeGame game: games) {
 			
-			teamService.determineTeamPoints(game);
+			spadeTeamHandler.determineTeamPoints(game);
 		}
 		
 

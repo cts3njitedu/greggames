@@ -23,14 +23,14 @@ import com.craig.greggames.model.game.cards.team.TeamTable;
 public class SpadePlayerHandler {
 
 	@Autowired
-	private SpadeTeamHandler teamService;
+	private SpadeTeamHandler spadeTeamHandler;
 
 	@Autowired
-	private SpadeBotHandler botService;
+	private SpadeBotHandler spadeBotHandler;
 	public void determinePlayerWinner(SpadeGame newSpadeGame) {
 
 		SpadePlayer currPlayer = newSpadeGame.getTeams()
-				.get(teamService.getTeamByPlayer(newSpadeGame.getCurrTurn(), newSpadeGame.getNumberOfTeams()))
+				.get(spadeTeamHandler.getTeamByPlayer(newSpadeGame.getCurrTurn(), newSpadeGame.getNumberOfTeams()))
 				.getPlayers().get(newSpadeGame.getCurrTurn());
 		currPlayer.setHasPlayed(true);
 		if (newSpadeGame.getTempWinner() == null) {
@@ -44,7 +44,7 @@ public class SpadePlayerHandler {
 		} else {
 
 			SpadeTeam spadeTeam = newSpadeGame.getTeams()
-					.get(teamService.getTeamByPlayer(newSpadeGame.getTempWinner(), newSpadeGame.getNumberOfTeams()));
+					.get(spadeTeamHandler.getTeamByPlayer(newSpadeGame.getTempWinner(), newSpadeGame.getNumberOfTeams()));
 
 			SpadePlayer tempWinner = spadeTeam.getPlayers().get(newSpadeGame.getTempWinner());
 			Card tempWinnerCard = tempWinner.getPlayingCard();
@@ -91,7 +91,7 @@ public class SpadePlayerHandler {
 	public void determinePlayerPoints(SpadeGame newSpadeGame) {
 
 		SpadePlayer spadePlayer = newSpadeGame.getTeams()
-				.get(teamService.getTeamByPlayer(newSpadeGame.getTempWinner(), newSpadeGame.getNumberOfTeams()))
+				.get(spadeTeamHandler.getTeamByPlayer(newSpadeGame.getTempWinner(), newSpadeGame.getNumberOfTeams()))
 				.getPlayers().get(newSpadeGame.getTempWinner());
 
 		spadePlayer.setWon(true);
@@ -104,7 +104,7 @@ public class SpadePlayerHandler {
 
 	public SpadePlayer retrievePlayer(PlayerTable player, SpadeGame newSpadeGame) {
 
-		return newSpadeGame.getTeams().get(teamService.getTeamByPlayer(player, newSpadeGame.getNumberOfTeams()))
+		return newSpadeGame.getTeams().get(spadeTeamHandler.getTeamByPlayer(player, newSpadeGame.getNumberOfTeams()))
 				.getPlayers().get(player);
 
 	}
@@ -143,7 +143,7 @@ public class SpadePlayerHandler {
 	public void cleanUpError(SpadeGame newSpadeGame) {
 
 		SpadePlayer player = newSpadeGame.getTeams()
-				.get(teamService.getTeamByPlayer(newSpadeGame.getGameModifier(), newSpadeGame.getNumberOfTeams()))
+				.get(spadeTeamHandler.getTeamByPlayer(newSpadeGame.getGameModifier(), newSpadeGame.getNumberOfTeams()))
 				.getPlayers().get(newSpadeGame.getGameModifier());
 		player.setError(false);
 		player.getErrorMessages().clear();
@@ -152,11 +152,11 @@ public class SpadePlayerHandler {
 	public void addError(SpadeGame newSpadeGame, SpadeErrors spadeError, SpadeGame oldSpadeGame) {
 
 		SpadePlayer player = newSpadeGame.getTeams()
-				.get(teamService.getTeamByPlayer(newSpadeGame.getGameModifier(), newSpadeGame.getNumberOfTeams()))
+				.get(spadeTeamHandler.getTeamByPlayer(newSpadeGame.getGameModifier(), newSpadeGame.getNumberOfTeams()))
 				.getPlayers().get(newSpadeGame.getGameModifier());
 
 		SpadePlayer oldPlayer = newSpadeGame.getTeams()
-				.get(teamService.getTeamByPlayer(newSpadeGame.getGameModifier(), newSpadeGame.getNumberOfTeams()))
+				.get(spadeTeamHandler.getTeamByPlayer(newSpadeGame.getGameModifier(), newSpadeGame.getNumberOfTeams()))
 				.getPlayers().get(newSpadeGame.getGameModifier());
 		player.setError(true);
 
@@ -189,9 +189,24 @@ public class SpadePlayerHandler {
 	
 	public void addNewPlayer(SpadeGame newSpadeGame) {
 		
-		botService.determineBots(newSpadeGame);
+		spadeBotHandler.determineBots(newSpadeGame);
 		newSpadeGame.setNewPlayer(false);
 		
+	}
+	
+	public void determineActivePlayers(SpadeGame newSpadeGame) {
+		int activePlayers=0;
+		for (Entry<TeamTable, SpadeTeam> entry : newSpadeGame.getTeams().entrySet()) {
+
+			for (Entry<PlayerTable, SpadePlayer> entryPlayer : entry.getValue().getPlayers().entrySet()) {
+
+				if(!entryPlayer.getValue().isBot()) {
+					activePlayers++;
+				}
+			}
+		}
+		
+		newSpadeGame.setActivePlayers(activePlayers);
 	}
 
 }

@@ -15,17 +15,17 @@ import com.craig.greggames.model.game.cards.spades.SpadeGame;
 public class Demo {
 
 	@Autowired
-	private SpadeTeamHandler teamService;
+	private SpadeTeamHandler spadeTeamHandler;
 	@Autowired
-	private SpadePlayerHandler playerService;
+	private SpadePlayerHandler spadePlayerHandler;
 	@Autowired
-	private CardHandler cardService;
+	private CardHandler cardHandler;
 	
 	@Autowired
-	private SpadeBotHandler botService;
+	private SpadeBotHandler spadeBotHandler;
 	
 	@Autowired
-	private SpadeGameHandler gameService;
+	private SpadeGameHandler spadeGameHandler;
 	
 
 	public static void main(String[] args) {
