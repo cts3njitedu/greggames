@@ -35,7 +35,7 @@ public class SpadeGameStartState extends AbstractSpadeGameState {
 
 		if(spadeGame.getPlayerNotification()==spadeGame.getGameNotification()) {
 			spadeGameHandler.start(spadeGame);
-			spadeGameBroadCaster.addGame(spadeGame);
+			spadeGameBroadCaster.addGameToScheduler(spadeGame);
 		}
 		else {
 			SpadeGame oldSpadeGame = spadePersistenceDal.findGame(spadeGame.getGameId());

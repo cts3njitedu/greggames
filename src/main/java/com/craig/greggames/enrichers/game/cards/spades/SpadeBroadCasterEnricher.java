@@ -34,7 +34,7 @@ public class SpadeBroadCasterEnricher extends AbstractSpadeGameEnricher {
 	@Override
 	public void enricher(SpadeGame spadeGame) {
 		// TODO Auto-generated method stub
-		spadeGameBroadCaster.removeGame(spadeGame);
+		//spadeGameBroadCaster.removeGame(spadeGame);
 		
 		
 	}
