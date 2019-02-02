@@ -29,7 +29,7 @@ public class SpadeGameReceiveError extends AbstractSpadeGameState {
 		// TODO Auto-generated method stub
 		spadePlayerHandler.cleanUpError(spadeGame);
 		
-		return spadePersistenceDal.saveGame(spadeGame);
+		return spadeGame;
 	}
 
 	@Override

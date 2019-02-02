@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import com.craig.greggames.model.game.cards.CardGame;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.craig.greggames.model.game.cards.spades.dal.SpadePersistenceDal;
+import com.craig.greggames.service.cards.spades.SpadeService;
 import com.craig.greggames.util.GregMapper;
 
 
@@ -25,6 +26,9 @@ public class TaskCreator {
 	@Autowired
 	private GregMapper gregMapper;
 	
+	@Autowired
+	private SpadeService spadeService;
+	
 	public Runnable createTask(SpadeGame spadeGame) {
 		return new Runnable() {
 			private long time = spadeGame.getMaxTime(); 
@@ -33,15 +37,16 @@ public class TaskCreator {
 			public void run() {
 				// TODO Auto-generated method stub
 				time--;
-				if(time<=0) {
-					System.out.println("done");
-				}
 				timeGame = spadePersistenceDal.findGame(timeGame.getGameId());
 				System.out.println(timeGame.getGameId() + ":"+time);
 				timeGame.setMaxTime(time);
 				spadePersistenceDal.saveGame(timeGame);
 				simpMessagingTemplate.convertAndSend("/topic/spades/"+timeGame.getGameId(),timeGame);
 				
+				if(time==0) {
+					timeGame.setServingPlaying(true);
+					timeGame = spadeService.playGame(timeGame);
+				}
 			}
 		};
 	}

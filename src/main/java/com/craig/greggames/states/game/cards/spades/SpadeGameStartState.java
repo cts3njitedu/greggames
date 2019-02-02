@@ -43,7 +43,7 @@ public class SpadeGameStartState extends AbstractSpadeGameState {
 		}
 	
 			
-		return spadePersistenceDal.saveGame(spadeGame);
+		return spadeGame;
 		
 
 	}

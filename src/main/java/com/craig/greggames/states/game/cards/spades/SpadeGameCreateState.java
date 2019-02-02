@@ -36,7 +36,7 @@ public class SpadeGameCreateState extends AbstractSpadeGameState {
 		// TODO Auto-generated method stub
 		spadeGameHandler.create(spadeGame);
 		spadeGame.setMaxTime(maxTime);
-		return spadePersistenceDal.saveGame(spadeGame);
+		return spadeGame;
 
 	}
 

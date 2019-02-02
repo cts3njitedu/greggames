@@ -29,7 +29,7 @@ public class SpadeGameLeaveState extends AbstractSpadeGameState {
 		// TODO Auto-generated method stub
 		spadeGameHandler.leaveGame(spadeGame);
 		
-		return spadePersistenceDal.saveGame(spadeGame);
+		return spadeGame;
 	}
 
 	@Override

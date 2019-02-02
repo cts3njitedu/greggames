@@ -32,7 +32,7 @@ public class SpadeGameNewPlayerState extends AbstractSpadeGameState {
 		System.out.println("New Player");
 		spadeBotHandler.determineBots(spadeGame);
 		spadeGame.setNewPlayer(false);
-		return spadePersistenceDal.saveGame(spadeGame);
+		return spadeGame;
 	}
 
 	@Override

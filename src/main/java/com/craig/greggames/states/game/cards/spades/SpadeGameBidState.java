@@ -42,7 +42,7 @@ public class SpadeGameBidState extends AbstractSpadeGameState {
 			spadePlayerHandler.addError(spadeGame, SpadeErrors.CURRENTLY_BIDDING, oldSpadeGame);	
 		}
 		
-		return spadePersistenceDal.saveGame(spadeGame);
+		return spadeGame;
 
 	}
 

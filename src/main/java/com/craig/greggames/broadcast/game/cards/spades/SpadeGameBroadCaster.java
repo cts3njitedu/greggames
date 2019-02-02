@@ -26,8 +26,7 @@ public class SpadeGameBroadCaster {
 	private static int TIME_INTERVAL = 1000;
 
 	
-	@Autowired
-	private SimpMessagingTemplate simpMessagingTemplate;
+	
 	
 	@Autowired
 	private SpadePersistenceDal spadePersistenceDal;
@@ -52,6 +51,7 @@ public class SpadeGameBroadCaster {
 		scheduleFutureMap.remove(spadeGame.getGameId());
 	}
 	
+
 	
 	public boolean cancelGameScheduler(SpadeGame spadeGame) {
 		ScheduledFuture<?> scheduledFuture = scheduleFutureMap.get(spadeGame.getGameId());

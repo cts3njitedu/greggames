@@ -43,7 +43,7 @@ public class SpadeGamePlayState extends AbstractSpadeGameState {
 			spadePlayerHandler.addError(spadeGame, SpadeErrors.CURRENTLY_PLAYING, oldSpadeGame);
 		}
 		
-		return spadePersistenceDal.saveGame(spadeGame);
+		return spadeGame;
 //		switch (spadeGame.getPlayerNotification()) {
 //
 //		case PLAY:

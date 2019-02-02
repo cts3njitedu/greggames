@@ -3,6 +3,7 @@ package com.craig.greggames.model.game.cards.spades.dao.repo;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -36,11 +37,15 @@ public class SpadeGameRepositoryImpl implements SpadeGameRepositoryCustom{
 	@Override
 	public SpadeGameDAO updateLockingField(SpadeGameDAO spadeGameDAO) {
 		// TODO Auto-generated method stub
-		Query query = new Query(Criteria.where("_id").is(spadeGameDAO.getGameId()).and("lock").is(false));
+		Query query = new Query(Criteria.where("_id").is(spadeGameDAO.getGameId()).and("lock").is(false)
+				.and("trickCount").is(spadeGameDAO.getTrickCount()).and("turnCount").is(spadeGameDAO.getTurnCount())
+				.and("handCount").is(spadeGameDAO.getHandCount()));
 		
 		Update update = new Update();
 		update.set("lock",true);
 		
-		return mongoTemplate.findAndModify(query, update, SpadeGameDAO.class);
+		FindAndModifyOptions findAndModifyOptions = new FindAndModifyOptions();
+		findAndModifyOptions.returnNew(true);
+		return mongoTemplate.findAndModify(query, update, findAndModifyOptions,SpadeGameDAO.class);
 	}
 }
