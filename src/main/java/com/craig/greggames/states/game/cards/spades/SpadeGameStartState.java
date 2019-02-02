@@ -21,9 +21,7 @@ public class SpadeGameStartState extends AbstractSpadeGameState {
 
 	@Autowired
 	private SpadePersistenceDal spadePersistenceDal;
-	
-	@Autowired
-	private SpadeGameBroadCaster spadeGameBroadCaster;
+
 
 	@Autowired
 	private SpadeGameHandler spadeGameHandler;
@@ -35,7 +33,7 @@ public class SpadeGameStartState extends AbstractSpadeGameState {
 
 		if(spadeGame.getPlayerNotification()==spadeGame.getGameNotification()) {
 			spadeGameHandler.start(spadeGame);
-			spadeGameBroadCaster.addGameToScheduler(spadeGame);
+			
 		}
 		else {
 			SpadeGame oldSpadeGame = spadePersistenceDal.findGame(spadeGame.getGameId());
