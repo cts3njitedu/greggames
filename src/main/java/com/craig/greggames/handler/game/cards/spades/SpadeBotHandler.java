@@ -1,28 +1,22 @@
 package com.craig.greggames.handler.game.cards.spades;
 
-import static com.craig.greggames.constants.game.cards.spades.SpadeGameConstants.MAX_TURN_PER_TRICK;
 import static com.craig.greggames.constants.game.cards.spades.SpadeGameConstants.POINTS_WON_PER_TRICK_BEFORE_OVERBID;
 
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.craig.greggames.handler.bot.game.cards.spades.SpadeBotPlayerPositionEngine;
 import com.craig.greggames.handler.game.cards.CardHandler;
 import com.craig.greggames.model.game.cards.Card;
-import com.craig.greggames.model.game.cards.CardSuit;
 import com.craig.greggames.model.game.cards.CardValue;
 import com.craig.greggames.model.game.cards.player.PlayerTable;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.craig.greggames.model.game.cards.spades.SpadeGameMetaData;
 import com.craig.greggames.model.game.cards.spades.SpadePlayer;
 import com.craig.greggames.model.game.cards.spades.SpadeTeam;
-import com.craig.greggames.model.game.cards.team.TeamTable;
 
 @Service
 public class SpadeBotHandler {
@@ -33,12 +27,15 @@ public class SpadeBotHandler {
 	@Autowired
 	private CardHandler cardHandler;
 	
+	private Logger logger = Logger.getLogger(SpadeBotHandler.class);
+	
 	@Autowired
 	private SpadeBotPlayerPositionEngine spadeBotPlayerPositionEngine;
 	
 	
 
 	public int getBotBid(SpadeGame spadeGame) {
+		logger.info("Bot is bidding");
 		int spades = 0;
 		int clubs = 0;
 		int diamonds = 0;
@@ -80,14 +77,17 @@ public class SpadeBotHandler {
 			}
 
 		}
+		logger.info("spades: " + spades + ", hearts: "+ hearts + ", clubs: "+ clubs + ", diamonds: " + diamonds );
 		return POINTS_WON_PER_TRICK_BEFORE_OVERBID * (hearts + spades + diamonds + clubs);
 
 	}
 
 	public void determineBotCard(SpadeGame spadeGame) {
 		
+		logger.info("Determining bot card");
 		SpadePlayer player = spadeGame.getTeams().get(spadeTeamHandler.getTeamByPlayer(spadeGame.getCurrTurn(), spadeGame.getNumberOfTeams())).getPlayers().get(spadeGame.getCurrTurn());
 		if(spadeGame.isServingPlaying()) {
+			logger.info("Server is playing");
 			player.setPlayingCard(getBotCard(spadeGame));
 		}
 		
@@ -103,7 +103,7 @@ public class SpadeBotHandler {
 		SpadePlayer currPlayer = currPlayerTeam.getPlayers().get(newSpadeGame.getCurrTurn());
 
 		SpadeGameMetaData spadeGameMetaData = cardHandler.getSpadeGameMetaData(newSpadeGame);
-
+		logger.info("Spade game metadata " + spadeGameMetaData);
 		int playerTrickPosition = spadeTeamHandler.getTrickPlayerPosition(leadPlayer.getName(), currPlayer.getName());
 
 		return spadeBotPlayerPositionEngine.botPlayerEngine(spadeGameMetaData, newSpadeGame, playerTrickPosition);
@@ -112,7 +112,7 @@ public class SpadeBotHandler {
 
 	public void determineBots(SpadeGame newSpadeGame) {
 
-		System.out.println("Determining Bots");
+		logger.info("Determining Bots");
 		int numberOfActivePlayers = 0;
 		for (PlayerTable player : PlayerTable.values()) {
 

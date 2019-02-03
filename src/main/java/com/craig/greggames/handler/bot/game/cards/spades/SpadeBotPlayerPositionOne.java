@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +30,8 @@ public class SpadeBotPlayerPositionOne implements SpadeBotPlayerPosition {
 
 	@Autowired
 	private CardHandler cardHandler;
+	
+	private Logger logger = Logger.getLogger(SpadeBotPlayerPositionOne.class);
 
 	@Override
 	public boolean validatePosition(int position) {
@@ -39,7 +42,7 @@ public class SpadeBotPlayerPositionOne implements SpadeBotPlayerPosition {
 	@Override
 	public Card getCard(SpadeGameMetaData spadeGameMetaData, SpadeGame spadeGame) {
 		// TODO Auto-generated method stub
-		
+		logger.info("Entering "+ getClass());
 		SpadeTeam currPlayerTeam = spadeGame.getTeams()
 				.get(spadeTeamHandler.getTeamByPlayer(spadeGame.getCurrTurn(), spadeGame.getNumberOfTeams()));
 
@@ -96,13 +99,14 @@ public class SpadeBotPlayerPositionOne implements SpadeBotPlayerPosition {
 		
 		boolean hasOnlySpades = hearts.size()==0 && clubs.size()==0&&diamonds.size()==0;
 		if (currPlayer.isBidNil()) {
-
+			logger.info("Current player bid nil");
 			if(canPlaySpades) {
 				return cardHandler.findSmallestCard(lowestRemainingCards.values());
 			}
 			return cardHandler.findSmallestCard(cardHandler.filterOutSpades(lowestRemainingCards.values()));
 			
 		} else if (currPlayerTeamMate.isBidNil()) {
+			logger.info("Current player bid nil");
 			if(canPlaySpades) {
 				return cardHandler.findLargestCard(highestRemainingCards.values());
 			}
@@ -111,13 +115,14 @@ public class SpadeBotPlayerPositionOne implements SpadeBotPlayerPosition {
 			return cardHandler.findLargestCard(cardHandler.filterOutSpades(highestRemainingCards.values()));
 		} 
 		else if(hasOtherPlayerBidNil) {
+			logger.info("Other player bid nil");
 			if(canPlaySpades) {
 				return cardHandler.findSmallestCard(lowestRemainingCards.values());
 			}
 			return cardHandler.findSmallestCard(cardHandler.filterOutSpades(lowestRemainingCards.values()));
 		}
 		else {
-
+			logger.info("No one bids nil");
 			if(canPlaySpades) {
 				return cardHandler.findLargestCard(highestRemainingCards.values());	
 			}

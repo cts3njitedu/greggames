@@ -2,6 +2,7 @@ package com.craig.greggames.preprocessor.game.cards.spades;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +14,12 @@ public class PreProcessorExecutor {
 	@Autowired
 	private List<AbstractPreProcessor> preProcessors;
 	
+	private Logger logger = Logger.getLogger(PreProcessorExecutor.class);
 	
 	public SpadeGame preProcess(SpadeGame spadeGame) {
+		
 		SpadeGame newSpadeGame = spadeGame;
+		logger.debug("Entering spade game preprocessor...");
 		for(AbstractPreProcessor abstractPreProcessor: preProcessors) {
 			if(abstractPreProcessor.isValidState(spadeGame)) {
 				newSpadeGame = abstractPreProcessor.preProcess(newSpadeGame);
@@ -24,6 +28,7 @@ public class PreProcessorExecutor {
 				}
 			}
 		}
+		logger.debug("Exiting spade game preprocessor...");
 		return newSpadeGame;
 	}
 }

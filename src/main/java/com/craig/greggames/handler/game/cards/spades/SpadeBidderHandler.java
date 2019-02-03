@@ -2,6 +2,7 @@ package com.craig.greggames.handler.game.cards.spades;
 
 import java.util.Map.Entry;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,9 +18,11 @@ public class SpadeBidderHandler {
 	@Autowired
 	private SpadeTeamHandler spadeTeamHandler;
 
+	private Logger logger = Logger.getLogger(SpadeBidderHandler.class);
 
 	public void determineBid(SpadeGame newSpadeGame) {
 
+		logger.info("Entering " + getClass());
 		SpadeTeam team = newSpadeGame.getTeams()
 				.get(spadeTeamHandler.getTeamByPlayer(newSpadeGame.getCurrTurn(), newSpadeGame.getNumberOfTeams()));
 
@@ -29,13 +32,16 @@ public class SpadeBidderHandler {
 		totalBid = player.getPlayerBid();
 		team.setTotalBid(team.getTotalBid() + totalBid);
 		if(totalBid==0) {
+			logger.info(newSpadeGame.getGameModifier() + " is bidding nil");
 			player.setBidNil(true);
 		}
+		logger.info("Exiting " + getClass());
 
 	}
 
 	public void cleanUpBid(SpadeGame newSpadeGame) {
 
+		logger.info("Cleaning up Bid");
 		for (Entry<TeamTable, SpadeTeam> team : newSpadeGame.getTeams().entrySet()) {
 
 			team.getValue().setTotalBid(0);

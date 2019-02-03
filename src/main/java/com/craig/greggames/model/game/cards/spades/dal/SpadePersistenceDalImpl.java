@@ -75,6 +75,7 @@ public class SpadePersistenceDalImpl implements SpadePersistenceDal{
 		
 		spadeGameDAO = repository.updateLockingField(spadeGameDAO);
 		if(spadeGameDAO!=null) {
+			
 			return mapper.spadeDAOToGame(spadeGameDAO);
 		}
 		

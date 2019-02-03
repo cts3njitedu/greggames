@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.spi.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
@@ -26,7 +25,7 @@ public class SpadeDetermineTurnValidator extends AbstractSpadeValidator {
 	private SpadePersistenceDal spadePersistenceDal;
 	private final static Set<SpadeNotifications> notificationSet;
 	
-	private Logger logger = Logger.getLogger(SpadeDetermineTurnValidator.class);
+	private static final Logger logger = Logger.getLogger(SpadeDetermineTurnValidator.class);
 	static {
 
 		notificationSet = new HashSet<SpadeNotifications>();
@@ -38,7 +37,9 @@ public class SpadeDetermineTurnValidator extends AbstractSpadeValidator {
 	@Override
 	public boolean validate(SpadeGame spadeGame) {
 		// TODO Auto-generated method stub
+		logger.info("Entering "+ getClass() + " with player notification "+ spadeGame.getPlayerNotification());
 		if(notificationSet.contains(spadeGame.getPlayerNotification())) {
+			
 			SpadeGame prevSpadeGame = spadePersistenceDal.findGame(spadeGame.getGameId());
 			SpadePlayer player = spadeGame.getTeams()
 					.get(spadeTeamHandler.getTeamByPlayer(spadeGame.getGameModifier(), spadeGame.getNumberOfTeams()))
@@ -74,6 +75,8 @@ public class SpadeDetermineTurnValidator extends AbstractSpadeValidator {
 
 			return true;
 		}
+		
+		
 		return true;
 		
 	}

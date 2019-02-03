@@ -7,6 +7,7 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,8 +28,11 @@ public class SpadePlayerHandler {
 
 	@Autowired
 	private SpadeBotHandler spadeBotHandler;
+	
+	private Logger logger = Logger.getLogger(SpadePlayerHandler.class);
 	public void determinePlayerWinner(SpadeGame newSpadeGame) {
 
+		logger.info("Determining player winner");
 		SpadePlayer currPlayer = newSpadeGame.getTeams()
 				.get(spadeTeamHandler.getTeamByPlayer(newSpadeGame.getCurrTurn(), newSpadeGame.getNumberOfTeams()))
 				.getPlayers().get(newSpadeGame.getCurrTurn());
@@ -85,11 +89,13 @@ public class SpadePlayerHandler {
 				}
 			}
 		}
+		logger.info("Winner is " + newSpadeGame.getTempWinner());
 
 	}
 
 	public void determinePlayerPoints(SpadeGame newSpadeGame) {
 
+		logger.info("Determing player points");
 		SpadePlayer spadePlayer = newSpadeGame.getTeams()
 				.get(spadeTeamHandler.getTeamByPlayer(newSpadeGame.getTempWinner(), newSpadeGame.getNumberOfTeams()))
 				.getPlayers().get(newSpadeGame.getTempWinner());
@@ -98,6 +104,7 @@ public class SpadePlayerHandler {
 		spadePlayer.setTurn(true);
 		spadePlayer.setPlayerCurrentScore(spadePlayer.getPlayerCurrentScore() + POINTS_WON_PER_TRICK_BEFORE_OVERBID);
 
+		logger.info("Player: " + spadePlayer.getName() + ", Current Score: "+ spadePlayer.getPlayerCurrentScore());
 		newSpadeGame.setStartTurn(spadePlayer.getName());
 
 	}
@@ -159,9 +166,9 @@ public class SpadePlayerHandler {
 				.get(spadeTeamHandler.getTeamByPlayer(newSpadeGame.getGameModifier(), newSpadeGame.getNumberOfTeams()))
 				.getPlayers().get(newSpadeGame.getGameModifier());
 		player.setError(true);
-
+		
 		player.getErrorMessages().put(spadeError, spadeError.getError());
-
+		logger.info("Error for player " + player.getName() + " is "+ player.getErrorMessages());
 		if (oldPlayer.isHasPlayed()) {
 
 			player.getRemainingCards().add(player.getPlayingCard());
@@ -188,13 +195,14 @@ public class SpadePlayerHandler {
 	}
 	
 	public void addNewPlayer(SpadeGame newSpadeGame) {
-		
+		logger.info("Adding new player...");
 		spadeBotHandler.determineBots(newSpadeGame);
 		newSpadeGame.setNewPlayer(false);
 		
 	}
 	
 	public void determineActivePlayers(SpadeGame newSpadeGame) {
+		
 		int activePlayers=0;
 		for (Entry<TeamTable, SpadeTeam> entry : newSpadeGame.getTeams().entrySet()) {
 
@@ -207,6 +215,7 @@ public class SpadePlayerHandler {
 		}
 		
 		newSpadeGame.setActivePlayers(activePlayers);
+		logger.info("Number of active players: " + newSpadeGame.getActivePlayers());
 	}
 
 }

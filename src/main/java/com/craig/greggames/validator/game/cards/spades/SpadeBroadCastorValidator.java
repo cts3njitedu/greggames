@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,8 @@ public class SpadeBroadCastorValidator extends AbstractSpadeValidator {
 	private SpadeTeamHandler spadeTeamHandler;
 	@Autowired
 	private CardHandler cardHandler;
+	
+	private static final Logger logger = Logger.getLogger(SpadeBroadCastorValidator.class);
 	private final static Set<SpadeNotifications> notificationSet;
 	static {
 
@@ -38,6 +41,7 @@ public class SpadeBroadCastorValidator extends AbstractSpadeValidator {
 	@Override
 	public boolean validate(SpadeGame spadeGame) {
 		// TODO Auto-generated method stub
+		logger.info("Entering " + getClass());
 		if(!notificationSet.contains(spadeGame.getPlayerNotification())) {
 			return true;
 		}
@@ -130,7 +134,7 @@ public class SpadeBroadCastorValidator extends AbstractSpadeValidator {
 		int numOfClubs = cardsForEachSuit.get(CardSuit.CLUBS).size();
 		int numOfHearts = cardsForEachSuit.get(CardSuit.HEARTS).size();
 		int numOfDiamonds = cardsForEachSuit.get(CardSuit.DIAMONDS).size();
-		System.out.println("clubs: " + numOfClubs + ", hearts: " + numOfHearts + ", diamonds: " + numOfDiamonds);
+		logger.info("clubs: " + numOfClubs + ", hearts: " + numOfHearts + ", diamonds: " + numOfDiamonds);
 
 		if (leadPlayerCard.getSuit() == CardSuit.SPADES) {
 
@@ -167,8 +171,8 @@ public class SpadeBroadCastorValidator extends AbstractSpadeValidator {
 	@Override
 	public boolean validateState(SpadeNotifications spadeNotification) {
 		// TODO Auto-generated method stub
-		return notificationSet.contains(spadeNotification);
-
+		//return notificationSet.contains(spadeNotification);
+		return false;
 	}
 
 }

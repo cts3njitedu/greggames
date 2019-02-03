@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +32,7 @@ public class SpadeBotPlayerPositionTwo implements SpadeBotPlayerPosition {
 
 	@Autowired
 	private CardHandler cardHandler;
+	private Logger logger = Logger.getLogger(SpadeBotPlayerPositionTwo.class);
 
 	@Override
 	public boolean validatePosition(int position) {
@@ -41,6 +43,7 @@ public class SpadeBotPlayerPositionTwo implements SpadeBotPlayerPosition {
 	@Override
 	public Card getCard(SpadeGameMetaData spadeGameMetaData, SpadeGame spadeGame) {
 		// TODO Auto-generated method stub
+		logger.info("Entering: " + getClass());
 		SpadeTeam leadingSpadeTeam = spadeGame.getTeams()
 				.get(spadeTeamHandler.getTeamByPlayer(spadeGame.getStartTurn(), spadeGame.getNumberOfTeams()));
 		SpadeTeam currPlayerTeam = spadeGame.getTeams()
@@ -105,6 +108,7 @@ public class SpadeBotPlayerPositionTwo implements SpadeBotPlayerPosition {
 		boolean canPlaySpades = (hearts.size()==0 && clubs.size()==0&&diamonds.size()==0) || spadeGame.isSpadePlayed();
 		boolean hasSpades = spades.size()==0;
 		if (currPlayer.isBidNil()) {
+			logger.info("Current player bid nil");
 			if (hasLeadingPlayerSuit) {
 				Card card = cardHandler.findLargestCardLessThanCard(
 						spadeGameMetaData.getCurrPlayerRemainingCards().get(leadPlayerCard.getSuit()), leadPlayerCard);
@@ -123,6 +127,7 @@ public class SpadeBotPlayerPositionTwo implements SpadeBotPlayerPosition {
 		}
 
 		else if (currPlayerTeamMate.isBidNil()) {
+			logger.info("Current player teammate bid nil");
 			if (hasLeadingPlayerSuit) {
 				return highestRemainingCards.get(leadPlayerCard.getSuit());
 			} else {
@@ -142,6 +147,7 @@ public class SpadeBotPlayerPositionTwo implements SpadeBotPlayerPosition {
 
 		}
 		else if(leadPlayer.isBidNil()) {
+			logger.info("Previous player bid nil");
 			if(hasLeadingPlayerSuit) {
 				Card card = cardHandler.findLargestCardLessThanCard(spadeGameMetaData.getCurrPlayerRemainingCards().get(leadPlayerCard.getSuit()), leadPlayerCard);
 				if(card==null) {
@@ -161,6 +167,7 @@ public class SpadeBotPlayerPositionTwo implements SpadeBotPlayerPosition {
 			}
 		}
 		else if(otherPlayer.isBidNil()) {
+			logger.info("Next player bid nil");
 			if(hasLeadingPlayerSuit) {
 				Card card = cardHandler.findSmallestCardLargerThanCard(spadeGameMetaData.getCurrPlayerRemainingCards().get(leadPlayerCard.getSuit()), leadPlayerCard);
 				if(card!=null) {
@@ -198,6 +205,7 @@ public class SpadeBotPlayerPositionTwo implements SpadeBotPlayerPosition {
 			}
 		}
 		else {
+			logger.info("No one bid nil");
 			if(hasLeadingPlayerSuit) {
 				if(highestRemainingCards.get(leadPlayerCard.getSuit()).getValue().getValue()>leadPlayerCard.getValue().getValue()) {
 					

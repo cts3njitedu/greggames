@@ -1,5 +1,6 @@
 package com.craig.greggames.states.game.cards.spades;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class SpadeGamePlayState extends AbstractSpadeGameState {
 	@Autowired
 	private SpadePersistenceDal spadePersistenceDal;
 
-	
+	private Logger logger = Logger.getLogger(SpadeGamePlayState.class);
 
 	@Autowired
 	private SpadeGameHandler spadeGameHandler;
@@ -33,8 +34,9 @@ public class SpadeGamePlayState extends AbstractSpadeGameState {
 	@Override
 	public SpadeGame state(SpadeGame spadeGame) {
 		// TODO Auto-generated method stub
-		
+		logger.info("Entering " + getClass());
 		if(spadeGame.getPlayerNotification()==spadeGame.getGameNotification()) {
+			logger.info("Player notification is playing");
 			spadeGameHandler.play(spadeGame);
 			
 		}
@@ -42,7 +44,7 @@ public class SpadeGamePlayState extends AbstractSpadeGameState {
 			SpadeGame oldSpadeGame = spadePersistenceDal.findGame(spadeGame.getGameId());
 			spadePlayerHandler.addError(spadeGame, SpadeErrors.CURRENTLY_PLAYING, oldSpadeGame);
 		}
-		
+		logger.info("Exiting " + getClass());
 		return spadeGame;
 //		switch (spadeGame.getPlayerNotification()) {
 //

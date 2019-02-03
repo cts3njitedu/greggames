@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,7 @@ public class CancelTimerPreProcessor extends AbstractPreProcessor{
 	private Set<SpadeNotifications> spadeNotifications=
 			new HashSet<>(Arrays.asList(SpadeNotifications.START,SpadeNotifications.BID, SpadeNotifications.PLAY));
 	
+	private Logger logger = Logger.getLogger(CancelTimerPreProcessor.class);
 	
 	@Override
 	boolean isValidState(SpadeGame spadeGame) {
@@ -31,7 +33,9 @@ public class CancelTimerPreProcessor extends AbstractPreProcessor{
 	@Override
 	SpadeGame preProcess(SpadeGame spadeGame) {
 		// TODO Auto-generated method stub
+		logger.debug("Entering: "+getClass());
 		spadeGameBroadCaster.cancelGameScheduler(spadeGame);
+		logger.debug("Exiting: "+getClass());
 		return spadeGame;
 	
 	}

@@ -30,10 +30,10 @@ public class GreggamesSocketController {
 	@MessageMapping("/greggames/ping")
 	@SendTo("/topic/ping")
 	public GreggamesPing createGame2(Map<String,Object>request) throws Exception {
-		System.out.println("entering...");
+		//System.out.println("entering...");
 		GreggamesPing greggamesPing = new GreggamesPing();
 		greggamesPing.setMessage("Ping Successful Game");
-		System.out.println(request.toString()+" from Games");
+		//System.out.println(request.toString()+" from Games");
 		
 		return greggamesPing;
 	}

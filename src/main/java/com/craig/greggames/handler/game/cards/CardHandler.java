@@ -15,10 +15,12 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.craig.greggames.handler.game.cards.spades.SpadeTeamHandler;
+import com.craig.greggames.handler.game.cards.spades.SpadeValidationHandler;
 import com.craig.greggames.model.game.cards.Card;
 import com.craig.greggames.model.game.cards.CardSuit;
 import com.craig.greggames.model.game.cards.CardValue;
@@ -38,8 +40,10 @@ public class CardHandler {
 	@Autowired
 	private DealUtility dealUtility;
 
+	private Logger logger = Logger.getLogger(CardHandler.class);
 	public void distributeCards(SpadeGame newSpadeGame) {
 
+		logger.info("Distributing cards...");
 		List<Card> cards = dealUtility.getSpadeHand();
 		int i = 0;
 		int dealCode = newSpadeGame.getCurrTurn().getCode() + 1;
@@ -56,7 +60,7 @@ public class CardHandler {
 
 			spadePlayer.getRemainingCards()
 					.addAll(cards.subList(i, i + MAX_TRICK_COUNT));
-			
+			logger.info("Player: " + spadePlayer.getName() + ", Cards: " + spadePlayer.getRemainingCards());
 			spadePlayer.setPlayedCards(null);
 			dealCode++;
 			if (dealCode > MAX_TURN_PER_TRICK) {
@@ -400,6 +404,7 @@ public class CardHandler {
 	}
 	public SpadeGameMetaData getSpadeGameMetaData(SpadeGame newSpadeGame) {
 		
+		logger.info("Getting spade game meta data...");
 		Map<TeamTable, SpadeTeam> teams = newSpadeGame.getTeams();
 		SpadePlayer leadPlayer = teams
 				.get(spadeTeamHandler.getTeamByPlayer(newSpadeGame.getStartTurn(), newSpadeGame.getNumberOfTeams()))

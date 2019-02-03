@@ -3,6 +3,7 @@ package com.craig.greggames.validator.game.cards.spades;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
@@ -22,8 +23,11 @@ public class SpadeGameValidator extends AbstractSpadeValidator {
 		notificationSet.add(SpadeNotifications.BID);
 
 	}
+	
+	private static final Logger logger = Logger.getLogger(SpadeGameValidator.class);
 	@Override
 	public boolean validate(SpadeGame spadeGame) {
+		logger.info("Entering " + getClass());
 		if(!notificationSet.contains(spadeGame.getPlayerNotification())) {
 			return true;
 		}

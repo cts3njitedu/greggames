@@ -4,9 +4,10 @@ import static com.craig.greggames.constants.game.cards.spades.SpadeGameConstants
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +32,8 @@ public class SpadeBotPlayerPositionFour implements SpadeBotPlayerPosition {
 
 	@Autowired
 	private CardHandler cardHandler;
+	
+	private Logger logger = Logger.getLogger(SpadeBotPlayerPositionFour.class);
 
 	@Override
 	public boolean validatePosition(int position) {
@@ -41,6 +44,7 @@ public class SpadeBotPlayerPositionFour implements SpadeBotPlayerPosition {
 	@Override
 	public Card getCard(SpadeGameMetaData spadeGameMetaData, SpadeGame spadeGame) {
 		// TODO Auto-generated method stub
+		logger.info("Entering " + getClass());
 		SpadeTeam leadingSpadeTeam = spadeGame.getTeams()
 				.get(spadeTeamHandler.getTeamByPlayer(spadeGame.getStartTurn(), spadeGame.getNumberOfTeams()));
 		SpadeTeam currPlayerTeam = spadeGame.getTeams()
@@ -113,6 +117,7 @@ public class SpadeBotPlayerPositionFour implements SpadeBotPlayerPosition {
 		Card winnerCard = currWinner.getPlayingCard();
 		
 		if(currPlayer.isBidNil()) {
+			logger.info("Current player bid nil");
 			if(hasLeadingPlayerSuit) {
 				Card cardToCompare = leadPlayerCard;
 				if(winnerCard.getSuit()==leadPlayerCard.getSuit()) {
@@ -144,6 +149,7 @@ public class SpadeBotPlayerPositionFour implements SpadeBotPlayerPosition {
 			}
 		}
 		else if(currPlayerTeamMate.isBidNil()) {
+			logger.info("Current player teammate bid nil");
 			if(hasLeadingPlayerSuit) {
 				Card cardToCompare = leadPlayerCard;
 				if(winnerCard.getSuit()==leadPlayerCard.getSuit()) {
@@ -173,7 +179,7 @@ public class SpadeBotPlayerPositionFour implements SpadeBotPlayerPosition {
 			}
 		}
 		else if(hasOtherPlayerBidNil) {
-			
+			logger.info("Player before bid nil");
 			if(hasLeadingPlayerSuit) {
 				if(currPlayerTeamMate.getName() == currWinner.getName()) {
 					if(currPlayerTeamMate.getPlayingCard().getSuit()==leadPlayerCard.getSuit()) {
@@ -203,6 +209,7 @@ public class SpadeBotPlayerPositionFour implements SpadeBotPlayerPosition {
 			
 		}
 		else {
+			logger.info("No one bid nil");
 			if(hasLeadingPlayerSuit) {
 				if(currPlayerTeamMate.getName()==currWinner.getName()) {
 					return lowestRemainingCards.get(leadPlayerCard.getSuit());
@@ -241,7 +248,9 @@ public class SpadeBotPlayerPositionFour implements SpadeBotPlayerPosition {
 				}
 				return cardHandler.findSmallestCard(cardHandler.filterOutSpades(lowestRemainingCards.values()));
 			}
+			
 		}
+		
 		
 		
 	}

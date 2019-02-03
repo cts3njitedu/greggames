@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.log4j.Logger;
 import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +22,10 @@ import com.craig.greggames.model.game.cards.team.TeamTable;
 @Service
 public class SpadeTeamHandler {
 
+	private Logger logger = Logger.getLogger(SpadeTeamHandler.class);
 	public void makeTeams(SpadeGame newSpadeGame) {
 
+		logger.info("Making Teams...");
 		for (PlayerTable player : PlayerTable.values()) {
 
 			TeamTable team = getTeamByPlayer(player, newSpadeGame.getNumberOfTeams());
@@ -36,6 +39,7 @@ public class SpadeTeamHandler {
 			newSpadeGame.getTeams().get(team).setName(team);
 		}
 
+		logger.info("Teams: " +  newSpadeGame.getTeams());
 	}
 
 	public TeamTable getTeamByPlayer(PlayerTable player, int numberOfTeams) {
@@ -56,6 +60,7 @@ public class SpadeTeamHandler {
 	}
 	public void determineTeamPoints(SpadeGame newSpadeGame) {
 
+		logger.info("Determing team points...");
 		for (Entry<TeamTable, SpadeTeam> entry : newSpadeGame.getTeams().entrySet()) {
 			
 			int totalSuccessfulBid = 0;
@@ -68,7 +73,7 @@ public class SpadeTeamHandler {
 			int totalPreviousBags = entry.getValue().getTotalBags();
 			int totalRoundScore = 0;
 		
-			System.out.println(entry.getValue().getTotalBid());
+			logger.info("Total Bid is: " + entry.getValue().getTotalBid() + " for team "+ entry.getKey());
 			int totalTricks = 0;
 			for (Entry<PlayerTable, SpadePlayer> entryPlayer : entry.getValue().getPlayers().entrySet()) {
 				if (entryPlayer.getValue().getPlayerBid() == 0) {
@@ -83,7 +88,9 @@ public class SpadeTeamHandler {
 				}
 				totalTricks += entryPlayer.getValue().getPlayerCurrentScore();
 
+				logger.info("Total bags for " + entryPlayer.getKey() + " is "+ totalTricks);
 			}
+			
 			int totalRoundBags = totalTricks - entry.getValue().getTotalBid();
 			if(totalRoundBags==0) {
 				
@@ -129,6 +136,13 @@ public class SpadeTeamHandler {
 			entry.getValue().setTotalTricks(totalTricks);
 			entry.getValue().setTotalScore(totalPreviousScore+totalRoundScore);
 			
+			logger.info("Total bags: " + totalBagScore + ", Total Previous Bags: "+ totalPreviousBags + ", Total Bid Nil Score: " 
+			+ totalBidNilScore+ ", Total Failed Bid: "+ totalFailedBid+ ", Total Successful Bid: "+ totalSuccessfulBid
+			+ ", Total Round Bags: " + totalRoundBags + " Total Previous Score: " + totalPreviousScore 
+			+ ", Total Over Book Score: " + totalOverBookScore + ", Total Round Score: "+ totalRoundScore
+			+ ", Total Tricks: " + totalTricks + ", Total Score: "+ entry.getValue().getTotalScore()+ " for " + 
+			entry.getKey());
+			
 		}
 
 	}
@@ -137,6 +151,7 @@ public class SpadeTeamHandler {
 
 		// List<SpadeTeam> spadeTeams = new ArrayList<SpadeTeam>();
 
+		logger.info("Determing game winner...");
 		SpadeTeam maxScoreTeam = newSpadeGame.getTeams().values().stream()
 				.max(Comparator.comparing(SpadeTeam::getTotalScore)).get();
 		SpadeTeam minScoreTeam = newSpadeGame.getTeams().values().stream()
@@ -144,19 +159,20 @@ public class SpadeTeamHandler {
 
 		List<SpadeTeam> winnerTeams = new ArrayList<SpadeTeam>();
 		for (SpadeTeam team : newSpadeGame.getTeams().values()) {
-
+			logger.info("Team: " + team.getName() + ", Score: "+ team.getTotalScore());
 			if (team.getTotalScore() == maxScoreTeam.getTotalScore()) {
 
 				winnerTeams.add(team);
 			}
 		}
 
+		//what if there is a tie?
 		if (maxScoreTeam.getTotalScore() >= newSpadeGame.getPointsToWin()) {
-
+			
 			for (Entry<TeamTable, SpadeTeam> entry : newSpadeGame.getTeams().entrySet()) {
 
 				if (entry.getValue().getTotalScore() == maxScoreTeam.getTotalScore()) {
-
+					logger.info(entry.getKey() + " has won game with score of " + entry.getValue().getTotalScore() );
 					entry.getValue().setWon(true);
 				} else {
 					entry.getValue().setWon(false);
@@ -173,7 +189,7 @@ public class SpadeTeamHandler {
 				for (Entry<TeamTable, SpadeTeam> entry : newSpadeGame.getTeams().entrySet()) {
 
 					if (entry.getValue().getTotalScore() == maxScoreTeam.getTotalScore()) {
-
+						logger.info(entry.getKey() + " has won game with score of " + entry.getValue().getTotalScore());
 						entry.getValue().setWon(true);
 					} else {
 						entry.getValue().setWon(false);

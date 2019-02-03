@@ -3,6 +3,7 @@ package com.craig.greggames.handler.game.cards.spades;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,7 @@ public class SpadeValidationHandler {
 	@Autowired
 	private CardHandler cardHandler;
 	
-
+	private Logger logger = Logger.getLogger(SpadeValidationHandler.class);
 	public boolean validateBid(SpadeGame spadeGame) {
 
 		if (spadeGame.getGameModifier() == null) {
@@ -36,6 +37,7 @@ public class SpadeValidationHandler {
 		player.setError(false);
 		player.getErrorMessages().clear();
 		if (spadeGame.getGameModifier() != spadeGame.getCurrTurn()) {
+			
 			player.setError(true);
 
 			player.getErrorMessages().put(SpadeErrors.NOT_YOUR_TURN, SpadeErrors.NOT_YOUR_TURN.getError());
@@ -90,6 +92,7 @@ public class SpadeValidationHandler {
 		player.setError(false);
 		player.getErrorMessages().clear();
 		if (spadeGame.getGameModifier() != spadeGame.getCurrTurn()) {
+			
 			player.setError(true);
 
 			player.getErrorMessages().put(SpadeErrors.NOT_YOUR_TURN, SpadeErrors.NOT_YOUR_TURN.getError());

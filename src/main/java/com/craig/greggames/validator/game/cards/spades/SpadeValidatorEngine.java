@@ -2,6 +2,7 @@ package com.craig.greggames.validator.game.cards.spades;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,9 +18,12 @@ public class SpadeValidatorEngine implements GreggameValidatorEngine<SpadeGame> 
 	
 	private final GregGameChildTypes greggame = GregGameChildTypes.SPADES;
 	
+	private static final Logger logger = Logger.getLogger(SpadeValidatorEngine.class);
+	
 	@Override
 	public boolean validate(SpadeGame spadeGame) {
 		boolean isValid = true;
+		logger.info("Entering " + getClass());
 		for(SpadeValidator abstractSpadeValidator : abstractSpadeValidators) {
 			
 			if(abstractSpadeValidator.validateState(spadeGame.getGameNotification())) {
@@ -29,6 +33,7 @@ public class SpadeValidatorEngine implements GreggameValidatorEngine<SpadeGame> 
 			
 			
 		}
+		logger.info("Exiting "+ getClass());
 		return isValid;
 	}
 

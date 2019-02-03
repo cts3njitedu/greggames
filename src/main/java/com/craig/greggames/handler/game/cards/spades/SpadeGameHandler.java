@@ -5,6 +5,7 @@ import static com.craig.greggames.constants.game.cards.spades.SpadeGameConstants
 
 import java.util.Random;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,11 +38,12 @@ public class SpadeGameHandler {
 	private SpadeBotHandler spadeBotHandler;
 	
 	
-
+	private Logger logger = Logger.getLogger(SpadeGameHandler.class);
 
 	
 	public void create(SpadeGame newSpadeGame) {
 		
+		logger.info("Creating game");
 		
 		newSpadeGame.setSpadePlayed(false);
 		
@@ -49,11 +51,14 @@ public class SpadeGameHandler {
 		newSpadeGame.setGameNotification(SpadeNotifications.START);
 		spadeTeamHandler.makeTeams(newSpadeGame);
 		
+		logger.info("New created game " + newSpadeGame);
+		
 		
 	}
 	
 	public void start(SpadeGame newSpadeGame) {
 
+		logger.info("Starting game");
 		Random rand = new Random();
 		int start = rand.nextInt(MAX_TURN_PER_TRICK) + 1;
 		
@@ -71,11 +76,11 @@ public class SpadeGameHandler {
 
 
 	public void bid(SpadeGame spadeGame) {
-		
+		logger.info("Bidding...");
 		spadeBidderHandler.determineBid(spadeGame);
 		spadeGame.setSpadePlayed(false);
 		if (spadeGame.getTurnCount() == MAX_TURN_PER_TRICK) {
-
+			logger.info("Final turn for trick number: " + spadeGame.getTrickCount());
 			spadeGame.setCurrTurn(spadeGame.getStartTurn());
 
 			spadeGame.setGameNotification(SpadeNotifications.PLAY);
@@ -99,8 +104,9 @@ public class SpadeGameHandler {
 	}
 	public void play(SpadeGame spadeGame){
 //		spadeBotHandler.determineBotCard(spadeGame);
+		logger.info("Playing game...");
 		if (spadeGame.getTurnCount() == MAX_TURN_PER_TRICK) {
-
+			logger.info("Max turn for trick count: " + spadeGame.getTrickCount());
 			// determine who won the trick
 			spadePlayerHandler.determinePlayerWinner(spadeGame);
 			// determine the amount of points the winner has
@@ -112,7 +118,7 @@ public class SpadeGameHandler {
 			spadeMetaDataHandler.addPreviousTrick(spadeGame);
 
 			if (spadeGame.getTrickCount() == MAX_TRICK_COUNT) {
-
+				logger.info("Max trick count for hand count: " + spadeGame.getHandCount());
 				// determine the total team score;
 				spadeTeamHandler.determineTeamPoints(spadeGame);
 				// determine if someone won the game;
@@ -122,7 +128,7 @@ public class SpadeGameHandler {
 				spadeGame.setTrickOver(true);
 				spadeGame.setHandOver(true);
 				if (spadeGame.isGameOver()) {
-
+					logger.info("Game is over for game id " + spadeGame.getGameId());
 					spadeGame.setTeams(null);
 					spadeGame.setPlaying(false);
 					create(spadeGame);
@@ -191,7 +197,7 @@ public class SpadeGameHandler {
 	
 	
 	public void leaveGame(SpadeGame spadeGame) {
-		System.out.println("Leaving game.....");
+		logger.info("Leaving game is player " + spadeGame.getGameModifier());
 		SpadePlayer leavingPlayer = spadeGame.getTeams().get(spadeTeamHandler.getTeamByPlayer(spadeGame.getGameModifier(), spadeGame.getNumberOfTeams()))
 		.getPlayers().get(spadeGame.getGameModifier());
 		

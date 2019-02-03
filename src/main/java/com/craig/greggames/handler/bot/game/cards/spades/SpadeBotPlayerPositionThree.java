@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,8 @@ public class SpadeBotPlayerPositionThree implements SpadeBotPlayerPosition {
 
 	@Autowired
 	private CardHandler cardHandler;
+	
+	private Logger logger = Logger.getLogger(SpadeBotPlayerPositionThree.class);
 
 	@Override
 	public boolean validatePosition(int position) {
@@ -40,6 +43,7 @@ public class SpadeBotPlayerPositionThree implements SpadeBotPlayerPosition {
 	@Override
 	public Card getCard(SpadeGameMetaData spadeGameMetaData, SpadeGame spadeGame) {
 		// TODO Auto-generated method stub
+		logger.info("Entering " + getClass());
 		SpadeTeam leadingSpadeTeam = spadeGame.getTeams()
 				.get(spadeTeamHandler.getTeamByPlayer(spadeGame.getStartTurn(), spadeGame.getNumberOfTeams()));
 		SpadeTeam currPlayerTeam = spadeGame.getTeams()
@@ -110,6 +114,7 @@ public class SpadeBotPlayerPositionThree implements SpadeBotPlayerPosition {
 		boolean hasSpades = spades.size()==0;
 		Card winnerCard = currWinner.getPlayingCard();
 		if(currPlayer.isBidNil()) {
+			logger.info("Current player bid nil");
 			if(hasLeadingPlayerSuit) {
 				Card cardToCompare = leadPlayerCard;
 				if(winnerCard.getSuit()==cardToCompare.getSuit()) {
@@ -139,6 +144,7 @@ public class SpadeBotPlayerPositionThree implements SpadeBotPlayerPosition {
 			}
 		}
 		if(currPlayerTeamMate.isBidNil()) {
+			logger.info("Current player teammate bid nil");
 			if(hasLeadingPlayerSuit) {
 				if(currWinner.getName()==currPlayerTeamMate.getName()) {
 					if(currWinner.getPlayingCard().getSuit()==leadPlayerCard.getSuit()) {
@@ -180,6 +186,7 @@ public class SpadeBotPlayerPositionThree implements SpadeBotPlayerPosition {
 			}
 		}
 		else if(previousPlayer.isBidNil()) {
+			logger.info("Previous player bid nil");
 			if(hasLeadingPlayerSuit) {
 				if(previousPlayer.getName()==currWinner.getName()) {
 
@@ -213,6 +220,7 @@ public class SpadeBotPlayerPositionThree implements SpadeBotPlayerPosition {
 			}
 		}
 		else if(otherPlayer.isBidNil()) {
+			logger.info("Next player bid nil");
 			if(hasLeadingPlayerSuit) {
 				Card cardToCompare = leadPlayerCard;
 				if(winnerCard.getSuit()==leadPlayerCard.getSuit()) {
@@ -245,6 +253,7 @@ public class SpadeBotPlayerPositionThree implements SpadeBotPlayerPosition {
 		}
 		
 		else {
+			logger.info("No one bid nil");
 			if(hasLeadingPlayerSuit) {
 				if(currPlayerTeamMate.getName()==currWinner.getName()) {
 					Card card = currPlayerTeamMate.getPlayingCard();

@@ -37,7 +37,7 @@ public class SpadeGameRepositoryImpl implements SpadeGameRepositoryCustom{
 	@Override
 	public SpadeGameDAO updateLockingField(SpadeGameDAO spadeGameDAO) {
 		// TODO Auto-generated method stub
-		Query query = new Query(Criteria.where("_id").is(spadeGameDAO.getGameId()).and("lock").is(false)
+		Query query = new Query(Criteria.where("gameId").is(spadeGameDAO.getGameId()).and("lock").is(false)
 				.and("trickCount").is(spadeGameDAO.getTrickCount()).and("turnCount").is(spadeGameDAO.getTurnCount())
 				.and("handCount").is(spadeGameDAO.getHandCount()));
 		
