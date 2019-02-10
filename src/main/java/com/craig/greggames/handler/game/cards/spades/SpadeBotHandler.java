@@ -77,7 +77,9 @@ public class SpadeBotHandler {
 			}
 
 		}
+		
 		logger.info("spades: " + spades + ", hearts: "+ hearts + ", clubs: "+ clubs + ", diamonds: " + diamonds );
+		player.setPlayerBid(POINTS_WON_PER_TRICK_BEFORE_OVERBID * (hearts + spades + diamonds + clubs));
 		return POINTS_WON_PER_TRICK_BEFORE_OVERBID * (hearts + spades + diamonds + clubs);
 
 	}

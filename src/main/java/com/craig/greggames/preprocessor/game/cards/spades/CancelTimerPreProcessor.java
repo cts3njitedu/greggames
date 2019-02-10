@@ -33,9 +33,9 @@ public class CancelTimerPreProcessor extends AbstractPreProcessor{
 	@Override
 	SpadeGame preProcess(SpadeGame spadeGame) {
 		// TODO Auto-generated method stub
-		logger.debug("Entering: "+getClass());
+		logger.info("Entering: "+getClass());
 		spadeGameBroadCaster.cancelGameScheduler(spadeGame);
-		logger.debug("Exiting: "+getClass());
+		logger.info("Exiting: "+getClass());
 		return spadeGame;
 	
 	}

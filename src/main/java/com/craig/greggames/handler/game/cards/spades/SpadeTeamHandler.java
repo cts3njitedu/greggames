@@ -43,7 +43,7 @@ public class SpadeTeamHandler {
 	}
 
 	public TeamTable getTeamByPlayer(PlayerTable player, int numberOfTeams) {
-		
+		logger.info("Player: "+ player + " Number of teams: " + numberOfTeams );
 		if(numberOfTeams==TWO_TEAMS) {
 			if(player.getCode()%TWO_TEAMS==0) {
 				return TeamTable.TEAM2;

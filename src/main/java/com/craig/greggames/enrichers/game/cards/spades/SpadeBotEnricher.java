@@ -3,9 +3,11 @@ package com.craig.greggames.enrichers.game.cards.spades;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.craig.greggames.executor.game.cards.spades.SpadeGameExecutor;
 import com.craig.greggames.handler.game.cards.spades.SpadeBotHandler;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.craig.greggames.model.game.cards.spades.SpadeNotifications;
@@ -16,6 +18,7 @@ public class SpadeBotEnricher extends AbstractSpadeGameEnricher {
 	@Autowired
 	private SpadeBotHandler spadeBidderHandler;
 	
+	private static final Logger logger = Logger.getLogger(SpadeBotEnricher.class);
 	private final static Set<SpadeNotifications> notificationSet;
 	static {
 
@@ -32,7 +35,7 @@ public class SpadeBotEnricher extends AbstractSpadeGameEnricher {
 		// TODO Auto-generated method stub
 		
 		if(spadeGame.isServingPlaying()) {
-			
+			logger.info("Entering Spade Bot Enricher with player action of  " +spadeGame.getGameNotification());
 			switch (spadeGame.getGameNotification()) {
 
 			case PLAY:

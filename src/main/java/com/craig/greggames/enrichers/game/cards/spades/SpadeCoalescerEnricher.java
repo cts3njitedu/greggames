@@ -43,6 +43,8 @@ public class SpadeCoalescerEnricher extends AbstractSpadeGameEnricher {
 		spadeGame.setNumberOfTeams(oldSpadeGame.getNumberOfTeams());
 		
 		
+		
+		
 	}
 	@Override
 	public boolean validateState(SpadeNotifications spadeNotification) {

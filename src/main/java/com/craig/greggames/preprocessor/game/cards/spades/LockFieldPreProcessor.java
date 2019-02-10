@@ -35,17 +35,17 @@ public class LockFieldPreProcessor extends AbstractPreProcessor{
 	@Override
 	SpadeGame preProcess(SpadeGame spadeGame) {
 		// TODO Auto-generated method stub
-		logger.debug("Entering " + getClass());
+		logger.info("Entering " + getClass());
 		SpadeGame newSpadeGame = spadePersistenceDal.updateLockingField(spadeGame);
 		
-		logger.debug("Value of spade game is: " + newSpadeGame);
+		logger.info("Value of spade game is: " + newSpadeGame);
 		if(newSpadeGame!=null) {
 			spadeGame.setLock(newSpadeGame.isLock());
 		}
 		else {
 			spadeGame=null;
 		}
-		logger.debug("Exiting " + getClass());
+		logger.info("Exiting " + getClass());
 		return spadeGame;
 	
 	}

@@ -19,7 +19,7 @@ public class PreProcessorExecutor {
 	public SpadeGame preProcess(SpadeGame spadeGame) {
 		
 		SpadeGame newSpadeGame = spadeGame;
-		logger.debug("Entering spade game preprocessor...");
+		logger.info("Entering spade game preprocessor...");
 		for(AbstractPreProcessor abstractPreProcessor: preProcessors) {
 			if(abstractPreProcessor.isValidState(spadeGame)) {
 				newSpadeGame = abstractPreProcessor.preProcess(newSpadeGame);
@@ -28,7 +28,7 @@ public class PreProcessorExecutor {
 				}
 			}
 		}
-		logger.debug("Exiting spade game preprocessor...");
+		logger.info("Exiting spade game preprocessor...");
 		return newSpadeGame;
 	}
 }

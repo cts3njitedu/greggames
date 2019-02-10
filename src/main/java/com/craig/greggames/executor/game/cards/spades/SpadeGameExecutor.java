@@ -43,9 +43,9 @@ public class SpadeGameExecutor extends CardGameExecutor<SpadeGame> {
 	@Override
 	public SpadeGame execute(SpadeGame spadeGame) {
 		// TODO Auto-generated method stub
-		logger.debug("Spade Game State Start: "+ spadeGame.getGameId());
+		logger.info("Spade Game State Start: "+ spadeGame.getGameId()+ "Player Action: "+ spadeGame.getPlayerNotification());
 		try {
-			logger.debug("Spade Game: " + new ObjectMapper().writeValueAsString(spadeGame));
+			logger.info("Spade Game: " + new ObjectMapper().writeValueAsString(spadeGame));
 		} catch (JsonProcessingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

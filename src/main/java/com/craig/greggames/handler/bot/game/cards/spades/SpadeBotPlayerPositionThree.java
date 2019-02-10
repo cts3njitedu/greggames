@@ -74,7 +74,8 @@ public class SpadeBotPlayerPositionThree implements SpadeBotPlayerPosition {
 		}
 		SpadePlayer otherPlayer = otherTeam.getPlayers().get(PlayerTable.getPlayer(code));
 		SpadePlayer previousPlayer = otherTeam.getPlayers().get(PlayerTable.getPlayer(code));
-		SpadePlayer currWinner = spadeGame.getTeams().get(spadeTeamHandler.getTeamByPlayer(spadeGame.getTempWinner(), spadeGame.getNumberOfPlayers()))
+		logger.info(spadeGame.getTeams().get(spadeTeamHandler.getTeamByPlayer(spadeGame.getTempWinner(), spadeGame.getNumberOfTeams())));
+		SpadePlayer currWinner = spadeGame.getTeams().get(spadeTeamHandler.getTeamByPlayer(spadeGame.getTempWinner(), spadeGame.getNumberOfTeams()))
 				.getPlayers().get(spadeGame.getTempWinner());
 		Map<CardSuit, Card> lowestCardsPlayed = new HashMap<>();
 		for (CardSuit suit :spadeGameMetaData.getAllPlayedCards().keySet() ) {

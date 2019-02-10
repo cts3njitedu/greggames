@@ -35,6 +35,7 @@ public class SpadeBidderHandler {
 			logger.info(newSpadeGame.getGameModifier() + " is bidding nil");
 			player.setBidNil(true);
 		}
+		logger.info(newSpadeGame.getGameModifier()+ " bid is "+ totalBid);
 		logger.info("Exiting " + getClass());
 
 	}
