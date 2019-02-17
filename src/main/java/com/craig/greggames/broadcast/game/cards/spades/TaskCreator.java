@@ -1,14 +1,11 @@
 package com.craig.greggames.broadcast.game.cards.spades;
 
-import java.util.Timer;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
-import com.craig.greggames.enrichers.game.cards.spades.SpadeMetaDataRemoverEnricher;
+import com.craig.greggames.cleaners.games.cards.spades.SpadeGameCleanerEngine;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.craig.greggames.model.game.cards.spades.dal.SpadePersistenceDal;
 import com.craig.greggames.service.cards.spades.SpadeService;
@@ -17,7 +14,7 @@ import com.craig.greggames.util.GregMapper;
 
 
 @Component
-@Scope("prototype")
+//@Scope("prototype")
 public class TaskCreator {
 
 	@Autowired
@@ -27,7 +24,7 @@ public class TaskCreator {
 	private SpadePersistenceDal spadePersistenceDal;
 	
 	@Autowired
-	private SpadeMetaDataRemoverEnricher spadeMetaDataRemoverEnricher;
+	private SpadeGameCleanerEngine spadeGameCleanerEngine;
 	
 	@Autowired
 	private GregMapper gregMapper;
@@ -49,7 +46,7 @@ public class TaskCreator {
 				timeGame = spadePersistenceDal.findGame(timeGame.getGameId());
 				//System.out.println(timeGame.getGameId() + ":"+time);
 				timeGame.setMaxTime(time);
-				spadeMetaDataRemoverEnricher.enricher(timeGame);
+				spadeGameCleanerEngine.cleanse(timeGame);
 				spadePersistenceDal.saveGame(timeGame);
 				if(time%10==0) {
 					logger.info("Time for game " + timeGame.getGameId() + " is "+ time);

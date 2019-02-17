@@ -4,6 +4,7 @@ import static com.craig.greggames.constants.game.cards.spades.SpadeGameConstants
 import static com.craig.greggames.constants.game.cards.spades.SpadeGameConstants.POINTS_WON_PER_TRICK_BEFORE_OVERBID;
 
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.craig.greggames.model.game.cards.Card;
 import com.craig.greggames.model.game.cards.CardSuit;
+import com.craig.greggames.model.game.cards.player.PlayerPosition;
 import com.craig.greggames.model.game.cards.player.PlayerTable;
 import com.craig.greggames.model.game.cards.spades.SpadeErrors;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
@@ -218,4 +220,28 @@ public class SpadePlayerHandler {
 		logger.info("Number of active players: " + newSpadeGame.getActivePlayers());
 	}
 
+	public void setPlayerPosition(SpadeGame newSpadeGame) {
+		
+		logger.info("Setting player positions...");
+		for (Entry<TeamTable, SpadeTeam> entry : newSpadeGame.getTeams().entrySet()) {
+
+			for (Entry<PlayerTable, SpadePlayer> entryPlayer : entry.getValue().getPlayers().entrySet()) {
+				int position = entryPlayer.getKey().getCode();
+				int count = 1;
+				PlayerTable currentPlayer = entryPlayer.getKey();
+				Map<PlayerPosition, PlayerTable> playerPositionMap = entryPlayer.getValue().getPlayerPositions();
+				while(count<=MAX_TURN_PER_TRICK) {
+					playerPositionMap.put(PlayerPosition.getPlayerPosition(count), currentPlayer);
+					count++;
+					position++;
+					if(position>MAX_TURN_PER_TRICK) {
+						position = 1;
+					}
+					currentPlayer = PlayerTable.getPlayer(position);
+				}
+				entryPlayer.getValue().setPlayerPositions(playerPositionMap);
+			}
+		}
+		
+	}
 }

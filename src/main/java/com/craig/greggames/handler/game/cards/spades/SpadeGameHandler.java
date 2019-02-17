@@ -50,6 +50,7 @@ public class SpadeGameHandler {
 		newSpadeGame.setNumberOfPlayers(MAX_TURN_PER_TRICK);
 		newSpadeGame.setGameNotification(SpadeNotifications.START);
 		spadeTeamHandler.makeTeams(newSpadeGame);
+		spadePlayerHandler.setPlayerPosition(newSpadeGame);
 		
 		logger.info("New created game " + newSpadeGame);
 		

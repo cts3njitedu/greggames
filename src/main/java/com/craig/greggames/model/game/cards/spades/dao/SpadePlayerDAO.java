@@ -13,7 +13,7 @@ public class SpadePlayerDAO extends PlayerDAO{
 	private int playerBags;
 	private boolean isBidding;
 	private boolean isBidNil;
-
+	
 	private boolean isBot;
 	public int getPlayerBid() {
 		return playerBid;

@@ -1,12 +1,15 @@
 package com.craig.greggames.model.game.cards.player;
 
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import com.craig.greggames.model.game.ServerMessage;
 import com.craig.greggames.model.game.cards.Card;
 import com.craig.greggames.model.game.cards.spades.SpadeErrors;
+import com.craig.greggames.model.game.cards.spades.SpadePlayer;
 import com.craig.greggames.model.game.cards.team.TeamTable;
 
 public abstract class Player {
@@ -25,6 +28,10 @@ public abstract class Player {
 
 	private boolean error;
 	private Map<SpadeErrors,String> errorMessages;
+	
+	private Map<ServerMessage, String> serverMessages;
+
+	private Map<PlayerPosition, PlayerTable> playerPositions;
 
 	public String getUserId() {
 		return userId;
@@ -133,6 +140,29 @@ public abstract class Player {
 		this.playedCards = playedCards;
 	}
 
+	public Map<ServerMessage, String> getServerMessages() {
+		if(serverMessages==null) {
+			serverMessages = new HashMap<>();
+		}
+		return serverMessages;
+	}
+
+	public void setServerMessages(Map<ServerMessage, String> serverMessages) {
+		this.serverMessages = serverMessages;
+	}
+
+	public Map<PlayerPosition, PlayerTable> getPlayerPositions() {
+		if(playerPositions==null) {
+			return new HashMap<>();
+		}
+		return playerPositions;
+	}
+
+	public void setPlayerPositions(Map<PlayerPosition, PlayerTable> playerPositions) {
+		this.playerPositions = playerPositions;
+	}
+
+	
 
 	
 

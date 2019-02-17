@@ -1,8 +1,9 @@
 package com.craig.greggames.handler.game.cards.spades;
 
+import static com.craig.greggames.constants.game.cards.spades.SpadeGameConstants.MAX_TURN_PER_TRICK;
 import static com.craig.greggames.constants.game.cards.spades.SpadeGameConstants.POINTS_WON_PER_TRICK_BEFORE_OVERBID;
 import static com.craig.greggames.constants.game.cards.spades.SpadeGameConstants.TWO_TEAMS;
-import static com.craig.greggames.constants.game.cards.spades.SpadeGameConstants.MAX_TURN_PER_TRICK;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -10,9 +11,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
-import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.stereotype.Service;
 
+import com.craig.greggames.model.game.cards.player.PlayerPosition;
 import com.craig.greggames.model.game.cards.player.PlayerTable;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.craig.greggames.model.game.cards.spades.SpadePlayer;
@@ -37,7 +38,15 @@ public class SpadeTeamHandler {
 			spadePlayer.setBot(true);
 			newSpadeGame.getTeams().get(team).getPlayers().put(player, spadePlayer);
 			newSpadeGame.getTeams().get(team).setName(team);
+			
 		}
+		
+		
+		
+		
+		
+		
+		
 
 		logger.info("Teams: " +  newSpadeGame.getTeams());
 	}

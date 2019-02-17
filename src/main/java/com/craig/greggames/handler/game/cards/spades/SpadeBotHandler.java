@@ -17,6 +17,7 @@ import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.craig.greggames.model.game.cards.spades.SpadeGameMetaData;
 import com.craig.greggames.model.game.cards.spades.SpadePlayer;
 import com.craig.greggames.model.game.cards.spades.SpadeTeam;
+import com.craig.greggames.util.GregMapper;
 
 @Service
 public class SpadeBotHandler {
@@ -29,6 +30,8 @@ public class SpadeBotHandler {
 	
 	private Logger logger = Logger.getLogger(SpadeBotHandler.class);
 	
+	@Autowired
+	private GregMapper gregMapper;
 	@Autowired
 	private SpadeBotPlayerPositionEngine spadeBotPlayerPositionEngine;
 	
@@ -105,7 +108,7 @@ public class SpadeBotHandler {
 		SpadePlayer currPlayer = currPlayerTeam.getPlayers().get(newSpadeGame.getCurrTurn());
 
 		SpadeGameMetaData spadeGameMetaData = cardHandler.getSpadeGameMetaData(newSpadeGame);
-		logger.info("Spade game metadata " + spadeGameMetaData);
+		logger.info("Spade game metadata: " + gregMapper.convertObjectToString(spadeGameMetaData));
 		int playerTrickPosition = spadeTeamHandler.getTrickPlayerPosition(leadPlayer.getName(), currPlayer.getName());
 
 		return spadeBotPlayerPositionEngine.botPlayerEngine(spadeGameMetaData, newSpadeGame, playerTrickPosition);

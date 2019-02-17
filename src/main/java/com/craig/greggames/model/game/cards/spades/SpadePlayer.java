@@ -1,6 +1,10 @@
 package com.craig.greggames.model.game.cards.spades;
 
+import java.util.Map;
+
 import com.craig.greggames.model.game.cards.player.Player;
+import com.craig.greggames.model.game.cards.player.PlayerPosition;
+import com.craig.greggames.model.game.cards.player.PlayerTable;
 
 //@JsonInclude(Include.NON_NULL)
 public class SpadePlayer extends Player {
@@ -15,6 +19,9 @@ public class SpadePlayer extends Player {
 	private boolean isBidding;
 	private boolean isBidNil;
 	private boolean isBot;
+	
+	
+	
 	public int getPlayerBid() {
 		return playerBid;
 	}
@@ -93,10 +100,8 @@ public class SpadePlayer extends Player {
 
 	public void setNotification(SpadeNotifications notification) {
 		this.notification = notification;
-	}
-	
-	
-	
+	}	
+
 
 	
 }

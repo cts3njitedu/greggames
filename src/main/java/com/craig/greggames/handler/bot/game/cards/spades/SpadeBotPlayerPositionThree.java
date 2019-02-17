@@ -20,6 +20,7 @@ import com.craig.greggames.model.game.cards.spades.SpadeGameMetaData;
 import com.craig.greggames.model.game.cards.spades.SpadePlayer;
 import com.craig.greggames.model.game.cards.spades.SpadeTeam;
 import com.craig.greggames.model.game.cards.team.TeamTable;
+import com.craig.greggames.util.GregMapper;
 
 @Service
 public class SpadeBotPlayerPositionThree implements SpadeBotPlayerPosition {
@@ -33,6 +34,10 @@ public class SpadeBotPlayerPositionThree implements SpadeBotPlayerPosition {
 	private CardHandler cardHandler;
 	
 	private Logger logger = Logger.getLogger(SpadeBotPlayerPositionThree.class);
+	
+	
+	@Autowired
+	private GregMapper gregMapper;
 
 	@Override
 	public boolean validatePosition(int position) {
@@ -83,7 +88,7 @@ public class SpadeBotPlayerPositionThree implements SpadeBotPlayerPosition {
 					cardHandler.findHighestSmallestCardContinous(spadeGameMetaData.getAllPlayedCards().get(suit)));
 		}
 
-		lowestCardsPlayed.remove(null);
+
 		Map<CardSuit, Card> highestCardsPlayed = new HashMap<>();
 
 		for (CardSuit suit : spadeGameMetaData.getAllPlayedCards().keySet()) {
@@ -97,7 +102,6 @@ public class SpadeBotPlayerPositionThree implements SpadeBotPlayerPosition {
 					cardHandler.findSmallestCard(spadeGameMetaData.getCurrPlayerRemainingCards().get(suit)));
 		}
 
-		lowestRemainingCards.remove(null);
 
 		Map<CardSuit, Card> highestRemainingCards = new HashMap<>();
 
@@ -106,7 +110,6 @@ public class SpadeBotPlayerPositionThree implements SpadeBotPlayerPosition {
 					cardHandler.findLargestCard(spadeGameMetaData.getCurrPlayerRemainingCards().get(suit)));
 		}
 
-		highestRemainingCards.remove(null);
 
 		boolean hasLeadingPlayerSuit = spadeGameMetaData.getCurrPlayerRemainingCards()
 				.containsKey(leadPlayerCard.getSuit());
@@ -114,6 +117,10 @@ public class SpadeBotPlayerPositionThree implements SpadeBotPlayerPosition {
 		boolean canPlaySpades = (hearts.size()==0 && clubs.size()==0&&diamonds.size()==0) || spadeGame.isSpadePlayed();
 		boolean hasSpades = spades.size()==0;
 		Card winnerCard = currWinner.getPlayingCard();
+		
+		logger.info("Current player card " + gregMapper.convertObjectToString(currPlayer.getPlayingCard())
+		 + " Current teammate card " +  gregMapper.convertObjectToString(currPlayerTeamMate.getPlayingCard())
+		 + " Player before card: " + gregMapper.convertObjectToString(otherPlayer.getPlayingCard()));
 		if(currPlayer.isBidNil()) {
 			logger.info("Current player bid nil");
 			if(hasLeadingPlayerSuit) {
@@ -259,17 +266,22 @@ public class SpadeBotPlayerPositionThree implements SpadeBotPlayerPosition {
 				if(currPlayerTeamMate.getName()==currWinner.getName()) {
 					Card card = currPlayerTeamMate.getPlayingCard();
 					if(card.getSuit()==leadPlayerCard.getSuit()) {
-						if(card.getValue().getValue()>=highestCardsPlayed.get(card.getSuit()).getValue().getValue()) {
-							boolean isAllPlayersGreaterThanCard = cardHandler.isAllCardsGreaterThanCardPlayed(spadeGameMetaData.getCurrPlayerRemainingCards().get(leadPlayerCard.getSuit()), card);
-							if(isAllPlayersGreaterThanCard) {
+						if(highestCardsPlayed.get(card.getSuit())!=null) {
+							if(card.getValue().getValue()>=highestCardsPlayed.get(card.getSuit()).getValue().getValue()) {
+								boolean isAllPlayersGreaterThanCard = cardHandler.isAllCardsGreaterThanCardPlayed(spadeGameMetaData.getCurrPlayerRemainingCards().get(leadPlayerCard.getSuit()), card);
+								if(isAllPlayersGreaterThanCard) {
+									return lowestRemainingCards.get(leadPlayerCard.getSuit());
+								}
+								if((highestRemainingCards.get(leadPlayerCard.getSuit()).getValue().getValue()-1)>currPlayerTeamMate.getPlayingCard().getValue().getValue()) {
+									return highestRemainingCards.get(leadPlayerCard.getSuit());
+								}
 								return lowestRemainingCards.get(leadPlayerCard.getSuit());
 							}
-							if((highestRemainingCards.get(leadPlayerCard.getSuit()).getValue().getValue()-1)>currPlayerTeamMate.getPlayingCard().getValue().getValue()) {
-								return highestRemainingCards.get(leadPlayerCard.getSuit());
-							}
-							return lowestRemainingCards.get(leadPlayerCard.getSuit());
+							return highestRemainingCards.get(leadPlayerCard.getSuit());
 						}
+						
 						return highestRemainingCards.get(leadPlayerCard.getSuit());
+						
 					}
 					return lowestRemainingCards.get(leadPlayerCard.getSuit());
 				}
@@ -280,12 +292,22 @@ public class SpadeBotPlayerPositionThree implements SpadeBotPlayerPosition {
 				if(currPlayerTeamMate.getName()==currWinner.getName()) {
 					Card card = currPlayerTeamMate.getPlayingCard();
 					if(card.getSuit()==leadPlayerCard.getSuit()) {
-						if(card.getValue().getValue()>=highestCardsPlayed.get(card.getSuit()).getValue().getValue()) {
-							if(hasOnlySpades) {
-								return lowestRemainingCards.get(CardSuit.SPADES);
+						
+						if(highestCardsPlayed.get(card.getSuit())!=null) {
+							if(card.getValue().getValue()>=highestCardsPlayed.get(card.getSuit()).getValue().getValue()) {
+								if(hasOnlySpades) {
+									return lowestRemainingCards.get(CardSuit.SPADES);
+								}
+								return cardHandler.findSmallestCard(cardHandler.filterOutSpades(lowestRemainingCards.values()));
 							}
+							
+							if(hasSpades) {
+								return highestRemainingCards.get(CardSuit.SPADES);
+							}
+							
 							return cardHandler.findSmallestCard(cardHandler.filterOutSpades(lowestRemainingCards.values()));
 						}
+						
 						if(hasSpades) {
 							return highestRemainingCards.get(CardSuit.SPADES);
 						}

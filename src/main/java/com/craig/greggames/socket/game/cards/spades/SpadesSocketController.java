@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.craig.greggames.exception.GreggamesException;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
+import com.craig.greggames.model.game.cards.spades.SpadeGameView;
+import com.craig.greggames.response.game.cards.spades.SpadeResponseBuilder;
 import com.craig.greggames.service.cards.spades.SpadeService;
 //@CrossOrigin(origins = "http://localhost:4200")
 @Controller
@@ -16,13 +18,17 @@ public class SpadesSocketController {
 	
 	@Autowired
 	private SpadeService spadeService;
+	
+	@Autowired
+	private SpadeResponseBuilder spadeResponseBuilder;
 
 
 	@MessageMapping("/greggames/{ggType}")
     @SendTo("/topic/{ggType}")
-    public SpadeGame createGame(@DestinationVariable String ggType, @RequestBody SpadeGame spadeGame) throws Exception {
+    public SpadeGameView createGame(@DestinationVariable String ggType, @RequestBody SpadeGame spadeGame) throws Exception {
  
-         return spadeService.playGame(spadeGame);
+		
+         return spadeResponseBuilder.getSpadeGameView(spadeService.playGame(spadeGame));
     }
 	
 	

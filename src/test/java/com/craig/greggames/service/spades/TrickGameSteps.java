@@ -49,7 +49,7 @@ public class TrickGameSteps {
 		spadeGame.setNumberOfTeams(2);
 		spadeGame.setPlayerNotification(SpadeNotifications.CREATE);
 		spadeGame.setGameNotification(SpadeNotifications.CREATE);
-		spadeGame = messageController.createGame("", spadeGame);
+		spadeGame = messageController.createGame("", spadeGame).getNewGame();
 		spadeGame.setPlayerNotification(SpadeNotifications.START);
 		spadeGame.setGameNotification(SpadeNotifications.START);
 		spadeGame = spadeController.startGame(spadeGame);

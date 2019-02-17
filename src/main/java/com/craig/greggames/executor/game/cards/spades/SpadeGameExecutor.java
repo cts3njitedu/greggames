@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.craig.greggames.cleaners.games.cards.spades.SpadeGameCleanerEngine;
 import com.craig.greggames.enrichers.game.cards.spades.SpadeGameEnricherEngine;
 import com.craig.greggames.executor.game.cards.CardGameExecutor;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
@@ -11,6 +12,7 @@ import com.craig.greggames.model.game.cards.spades.dal.SpadePersistenceDal;
 import com.craig.greggames.postprocessor.game.cards.spades.PostProcessorExecutor;
 import com.craig.greggames.preprocessor.game.cards.spades.PreProcessorExecutor;
 import com.craig.greggames.states.game.cards.spades.SpadeGameStateEngine;
+import com.craig.greggames.util.GregMapper;
 import com.craig.greggames.validator.game.cards.spades.SpadeValidatorEngine;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -39,17 +41,23 @@ public class SpadeGameExecutor extends CardGameExecutor<SpadeGame> {
 	
 	@Autowired
 	private PostProcessorExecutor postProcessorExecutor;
+	
+	@Autowired
+	private SpadeGameCleanerEngine spadeGameCleanerEngine;
+	
+	@Autowired
+	private GregMapper gregMapper;
 
 	@Override
 	public SpadeGame execute(SpadeGame spadeGame) {
 		// TODO Auto-generated method stub
 		logger.info("Spade Game State Start: "+ spadeGame.getGameId()+ "Player Action: "+ spadeGame.getPlayerNotification());
-		try {
-			logger.info("Spade Game: " + new ObjectMapper().writeValueAsString(spadeGame));
-		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	
+		logger.info("Spade Game: " + gregMapper.convertObjectToString((spadeGame)));
+		
+		
+		spadeGameCleanerEngine.cleanse(spadeGame);
+		
 		SpadeGame newSpadeGame = preProcessorExecutor.preProcess(spadeGame);
 		
 		if(newSpadeGame == null) {

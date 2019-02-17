@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.craig.greggames.exception.GreggamesException;
 import com.craig.greggames.model.game.cards.Card;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
+import com.craig.greggames.model.game.cards.spades.SpadeGameView;
 import com.craig.greggames.model.game.cards.spades.dal.SpadePersistenceDal;
 import com.craig.greggames.service.cards.spades.SpadeService;
 import com.craig.greggames.util.DealUtility;
@@ -33,6 +34,12 @@ public class SpadesController {
 	public @ResponseBody List<SpadeGame> getGames() {
 
 		return spadeService.getGames();
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, path = { "/view" })
+	public @ResponseBody SpadeGameView getGameView() {
+
+		return spadeService.getGameView();
 	}
 
 	@RequestMapping(method = RequestMethod.POST, path = { "/games" })
