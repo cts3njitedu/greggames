@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.craig.greggames.handler.game.cards.spades.SpadeBotHandler;
 import com.craig.greggames.handler.game.cards.spades.SpadePlayerHandler;
+import com.craig.greggames.handler.game.cards.spades.SpadeTeamHandler;
 import com.craig.greggames.model.game.cards.player.PlayerTable;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.craig.greggames.model.game.cards.spades.SpadeNotifications;
@@ -33,8 +34,13 @@ public class SaveGamePostProcessor extends AbstractPostProcessor {
 	@Autowired
 	private SpadeBotHandler spadeBotHandler;
 	
+	@Autowired
+	private SpadeTeamHandler spadeTeamHandler;
+	
 	private Set<SpadeNotifications> spadeNotifications = new HashSet<>(Arrays.asList(SpadeNotifications.BID,SpadeNotifications.PLAY));
 	
+	private Set<SpadeNotifications> playerChangeNotifications = 
+			new HashSet<>(Arrays.asList(SpadeNotifications.LEAVE_GAME,SpadeNotifications.NEW_PLAYER));
 	private Logger logger = Logger.getLogger(SaveGamePostProcessor.class);
 	@Override
 	SpadeGame postProcess(SpadeGame spadeGame) {
@@ -42,29 +48,91 @@ public class SaveGamePostProcessor extends AbstractPostProcessor {
 		return saveGame(spadeGame);
 	}
 	
-	@Value ("${spade.maxTime}")
+	@Value ("${spade.maxTime:60}")
 	private long maxTime;
 	
-	private synchronized SpadeGame saveGame(SpadeGame spadeGame) {
+	private  SpadeGame saveGame(SpadeGame spadeGame) {
 		
 		logger.info("Entering " + getClass());
-		SpadeGame oldSpadeGame = spadeGame;
+//		SpadeGame oldSpadeGame = spadeGame;
 		//if game id is null this means this is a new game
-		if(spadeGame.getGameId()!=null) {
-			oldSpadeGame = spadePersistenceDal.findGame(spadeGame.getGameId());
-			mergeNewWithOld(oldSpadeGame, spadeGame);
-			spadeBotHandler.determineBots(spadeGame);
-			spadeGame.setLock(false);
-			if(spadeNotifications.contains(spadeGame.getPlayerNotification())) {
-				spadeGame.setMaxTime(maxTime);
-			}
+//		if(spadeGame.getGameId()!=null) {
+//			oldSpadeGame = spadePersistenceDal.findGame(spadeGame.getGameId());
+//			mergeNewWithOld(oldSpadeGame, spadeGame);
+//			spadeBotHandler.determineBots(spadeGame);
+//			spadeGame.setLock(false);
+//			if(spadeNotifications.contains(spadeGame.getPlayerNotification())) {
+//				spadeGame.setMaxTime(maxTime);
+//			}
+//		}
+		
+		spadeGame.setLock(false);
+		
+		if(spadeNotifications.contains(spadeGame.getPlayerNotification())) {
+			spadeGame.setMaxTime(maxTime);
 		}
 		
-		logger.info("Exiting " + getClass());
+		if(SpadeNotifications.CREATE==spadeGame.getPlayerNotification() || SpadeNotifications.START==spadeGame.getPlayerNotification()) {
+			logger.info("Creating or starting game: "+spadeGame.getPlayerNotification());
+			return spadePersistenceDal.saveGame(spadeGame);
+			
+		}
+		else if(!(playerChangeNotifications.contains(spadeGame.getPlayerNotification()))) {
+			logger.info("Game action is: " + spadeGame.getPlayerNotification());
+			Set<String> excludedFields = new HashSet<>();
+			excludedFields.add("activePlayers");
+			
+			
+			for(Entry<TeamTable, SpadeTeam> team: spadeGame.getTeams().entrySet()) {
+				
+				for(Entry<PlayerTable, SpadePlayer> player: team.getValue().getPlayers().entrySet()) {
+					StringBuilder playerBuilder = new StringBuilder().append("teams.").append(team.getKey())
+							.append(".players.").append(player.getKey());
+					String exludeBot = new StringBuilder().append(playerBuilder).append(".bot").toString();
+					String excludeUserId = new StringBuilder().append(playerBuilder).append(".userId").toString();
+					excludedFields.add(exludeBot);
+					excludedFields.add(excludeUserId);
+				}
+			}
+			return spadePersistenceDal.updateGame(spadeGame, excludedFields,new HashSet<>());
+		}
+		else {
+			Set<String> excludedFields = new HashSet<>();
+			excludedFields.add("activePlayers");
+			
+			logger.info("Player makeup is changing: " +spadeGame.getPlayerNotification());
+			for(Entry<TeamTable, SpadeTeam> team: spadeGame.getTeams().entrySet()) {
+				
+				for(Entry<PlayerTable, SpadePlayer> player: team.getValue().getPlayers().entrySet()) {
+					if(player.getKey()!=spadeGame.getGameModifier()) {
+						StringBuilder playerBuilder = new StringBuilder().append("teams.").append(team.getKey())
+								.append(".players.").append(player.getKey());
+						String exludeBot = new StringBuilder().append(playerBuilder).append(".bot").toString();
+						String excludeUserId = new StringBuilder().append(playerBuilder).append(".userId").toString();
+						excludedFields.add(exludeBot);
+						excludedFields.add(excludeUserId);	
+					}
+					
+				}
+			}
+			
+			logger.info("Exiting " + getClass());
+			return spadePersistenceDal.updateGame(spadeGame, excludedFields,new HashSet<>());
+			
+			
+			
+			
+		}
 		
-		return spadePersistenceDal.saveGame(spadeGame);
+		
+		
+		
+		
+		
+	
 		
 	}
+
 
 	//This is if a new player enters game or player leaves game
 	private void mergeNewWithOld(SpadeGame oldSpadeGame, SpadeGame newSpadeGame) {

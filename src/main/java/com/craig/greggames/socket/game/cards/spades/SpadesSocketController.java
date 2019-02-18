@@ -36,7 +36,7 @@ public class SpadesSocketController {
     @SendTo("/topic/{ggType}/{gameId}")
     public SpadeGame modifyGameState(@DestinationVariable String ggType, @DestinationVariable String gameId, SpadeGame spadeGame) throws Exception, GreggamesException {
 		System.out.println("Playing Game....");
-		spadeGame.setServingPlaying(false);
+		spadeGame.setServerPlaying(false);
         return spadeService.playGame(spadeGame);
     }
 	

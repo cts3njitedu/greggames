@@ -34,7 +34,7 @@ public class SpadeBotEnricher extends AbstractSpadeGameEnricher {
 	public void enricher(SpadeGame spadeGame) {
 		// TODO Auto-generated method stub
 		
-		if(spadeGame.isServingPlaying()) {
+		if(spadeGame.isServerPlaying()) {
 			logger.info("Entering Spade Bot Enricher with player action of  " +spadeGame.getGameNotification());
 			switch (spadeGame.getGameNotification()) {
 

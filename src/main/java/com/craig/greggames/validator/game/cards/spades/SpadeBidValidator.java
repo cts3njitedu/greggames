@@ -78,15 +78,20 @@ public class SpadeBidValidator extends AbstractSpadeValidator {
 
 			if (player.getPlayingCard() != null) {
 
-				player.setError(true);
-				if (player.getPlayingCard() != null) {
-					player.getRemainingCards().add(player.getPlayingCard());
-				}
+				if(player.getPlayingCard().getName()!=null || player.getPlayingCard().getSuit()!=null
+						|| player.getPlayingCard().getValue()!=null) {
+					
+					player.setError(true);
+					if (player.getPlayingCard() != null) {
+						player.getRemainingCards().add(player.getPlayingCard());
+					}
 
-				player.setPlayingCard(null);
-				player.getErrorMessages().put(SpadeErrors.CURRENTLY_BIDDING, SpadeErrors.CURRENTLY_BIDDING.getError());
-				player.setPlayerBid(0);
-				return false;
+					player.setPlayingCard(null);
+					player.getErrorMessages().put(SpadeErrors.CURRENTLY_BIDDING, SpadeErrors.CURRENTLY_BIDDING.getError());
+					player.setPlayerBid(0);
+					return false;
+				}
+				
 			}
 		}
 

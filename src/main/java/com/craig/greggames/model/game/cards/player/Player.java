@@ -9,8 +9,8 @@ import java.util.Set;
 import com.craig.greggames.model.game.ServerMessage;
 import com.craig.greggames.model.game.cards.Card;
 import com.craig.greggames.model.game.cards.spades.SpadeErrors;
-import com.craig.greggames.model.game.cards.spades.SpadePlayer;
 import com.craig.greggames.model.game.cards.team.TeamTable;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 public abstract class Player {
 
@@ -18,8 +18,8 @@ public abstract class Player {
 	private PlayerTable name;
 	private int rank;
 	private Card playingCard;
-	private boolean isTurn;
-	private boolean isWon;
+	private boolean turn;
+	private boolean won;
 	private Set<Card> remainingCards;
 	private Set<Card> playedCards;
 	private TeamTable team;
@@ -56,7 +56,7 @@ public abstract class Player {
 	public void setRank(int rank) {
 		this.rank = rank;
 	}
-
+	@JsonInclude(JsonInclude.Include.NON_NULL)
 	public Card getPlayingCard() {
 		return playingCard;
 	}
@@ -66,19 +66,19 @@ public abstract class Player {
 	}
 
 	public boolean isTurn() {
-		return isTurn;
+		return turn;
 	}
 
 	public void setTurn(boolean isTurn) {
-		this.isTurn = isTurn;
+		this.turn = isTurn;
 	}
 
 	public boolean isWon() {
-		return isWon;
+		return won;
 	}
 
 	public void setWon(boolean isWon) {
-		this.isWon = isWon;
+		this.won = isWon;
 	}
 
 	public Set<Card> getRemainingCards() {

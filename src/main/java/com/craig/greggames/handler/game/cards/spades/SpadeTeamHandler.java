@@ -13,6 +13,7 @@ import java.util.Map.Entry;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import com.craig.greggames.model.game.cards.Card;
 import com.craig.greggames.model.game.cards.player.PlayerPosition;
 import com.craig.greggames.model.game.cards.player.PlayerTable;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
@@ -36,6 +37,8 @@ public class SpadeTeamHandler {
 			spadePlayer.setName(player);
 			spadePlayer.setBidding(true);
 			spadePlayer.setBot(true);
+			//to handle mongo exception
+//			spadePlayer.setPlayingCard(new Card());
 			newSpadeGame.getTeams().get(team).getPlayers().put(player, spadePlayer);
 			newSpadeGame.getTeams().get(team).setName(team);
 			

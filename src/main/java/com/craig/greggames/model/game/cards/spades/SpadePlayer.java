@@ -1,10 +1,6 @@
 package com.craig.greggames.model.game.cards.spades;
 
-import java.util.Map;
-
 import com.craig.greggames.model.game.cards.player.Player;
-import com.craig.greggames.model.game.cards.player.PlayerPosition;
-import com.craig.greggames.model.game.cards.player.PlayerTable;
 
 //@JsonInclude(Include.NON_NULL)
 public class SpadePlayer extends Player {
@@ -12,13 +8,13 @@ public class SpadePlayer extends Player {
 	private int playerBid;
 	private int playerCurrentScore;
 	private int playerFinalScore;
-	private boolean isFailBid;
-	private boolean isOverBook;
+	private boolean failBid;
+	private boolean overBook;
 	private int playerBags;
 	private SpadeNotifications notification;
-	private boolean isBidding;
-	private boolean isBidNil;
-	private boolean isBot;
+	private boolean bidding;
+	private boolean bidNil;
+	private boolean bot;
 	
 	
 	
@@ -47,11 +43,11 @@ public class SpadePlayer extends Player {
 	}
 
 	public boolean isBidding() {
-		return isBidding;
+		return bidding;
 	}
 
 	public void setBidding(boolean isBidding) {
-		this.isBidding = isBidding;
+		this.bidding = isBidding;
 	}
 
 	public int getPlayerFinalScore() {
@@ -63,27 +59,27 @@ public class SpadePlayer extends Player {
 	}
 
 	public boolean isFailBid() {
-		return isFailBid;
+		return failBid;
 	}
 
 	public void setFailBid(boolean isFailBid) {
-		this.isFailBid = isFailBid;
+		this.failBid = isFailBid;
 	}
 
 	public boolean isOverBook() {
-		return isOverBook;
+		return overBook;
 	}
 
 	public void setOverBook(boolean isOverBook) {
-		this.isOverBook = isOverBook;
+		this.overBook = isOverBook;
 	}
 
 	public boolean isBidNil() {
-		return isBidNil;
+		return bidNil;
 	}
 
 	public void setBidNil(boolean isBidNil) {
-		this.isBidNil = isBidNil;
+		this.bidNil = isBidNil;
 	}
 
 	public boolean isBot() {
@@ -91,7 +87,7 @@ public class SpadePlayer extends Player {
 	}
 
 	public void setBot(boolean isBot) {
-		this.isBot = isBot;
+		this.bot = isBot;
 	}
 
 	public SpadeNotifications getNotification() {

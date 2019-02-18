@@ -7,14 +7,14 @@ public class SpadePlayerDAO extends PlayerDAO{
 	private int playerBid;
 	private int playerCurrentScore;
 	private int playerFinalScore;
-	private boolean isFailBid;
+	private boolean failBid;
 	private SpadeNotifications notification;
-	private boolean isOverBook;
+	private boolean overBook;
 	private int playerBags;
-	private boolean isBidding;
-	private boolean isBidNil;
+	private boolean bidding;
+	private boolean bidNil;
 	
-	private boolean isBot;
+	private boolean bot;
 	public int getPlayerBid() {
 		return playerBid;
 	}
@@ -40,11 +40,11 @@ public class SpadePlayerDAO extends PlayerDAO{
 	}
 
 	public boolean isBidding() {
-		return isBidding;
+		return bidding;
 	}
 
 	public void setBidding(boolean isBidding) {
-		this.isBidding = isBidding;
+		this.bidding = isBidding;
 	}
 
 	public int getPlayerFinalScore() {
@@ -56,35 +56,35 @@ public class SpadePlayerDAO extends PlayerDAO{
 	}
 
 	public boolean isFailBid() {
-		return isFailBid;
+		return failBid;
 	}
 
 	public void setFailBid(boolean isFailBid) {
-		this.isFailBid = isFailBid;
+		this.failBid = isFailBid;
 	}
 
 	public boolean isOverBook() {
-		return isOverBook;
+		return overBook;
 	}
 
 	public void setOverBook(boolean isOverBook) {
-		this.isOverBook = isOverBook;
+		this.overBook = isOverBook;
 	}
 
 	public boolean isBidNil() {
-		return isBidNil;
+		return bidNil;
 	}
 
 	public void setBidNil(boolean isBidNil) {
-		this.isBidNil = isBidNil;
+		this.bidNil = isBidNil;
 	}
 
 	public boolean isBot() {
-		return isBot;
+		return bot;
 	}
 
 	public void setBot(boolean isBot) {
-		this.isBot = isBot;
+		this.bot = isBot;
 	}
 
 	public SpadeNotifications getNotification() {

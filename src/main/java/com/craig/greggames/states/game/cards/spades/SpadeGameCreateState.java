@@ -22,7 +22,7 @@ public class SpadeGameCreateState extends AbstractSpadeGameState {
 	
 	private Logger logger = Logger.getLogger(SpadeGameCreateState.class);
 	
-	@Value ("${spade.maxTime}")
+	@Value ("${spade.maxTime:60}")
 	private long maxTime;
 
 	@Override

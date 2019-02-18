@@ -11,6 +11,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+import cucumber.api.java.it.Date;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(Include.NON_NULL)
 public class SpadeGame extends CardGame {
@@ -21,13 +23,13 @@ public class SpadeGame extends CardGame {
 	
 	private SpadePreviousHand previousHand;
 	private SpadePreviousTrick previousTrick;
-	private boolean isStarting;
+	private boolean starting;
 
-	private boolean isBidding;
+	private boolean bidding;
 
-	private boolean isPlaying;
+	private boolean playing;
 
-	private boolean isNewPlayer;
+	private boolean newPlayer;
 
 	private int pointsToWin;
 	
@@ -45,14 +47,14 @@ public class SpadeGame extends CardGame {
 	private int turnCount;
 
 	private int handCount;
-	private boolean isGameOver;
+	private boolean gameOver;
 
-	private boolean isSpadePlayed;
+	private boolean spadePlayed;
 	private int activePlayers;
 
 	private Map<TeamTable, SpadeTeam> teams;
 
-	private boolean isDealing;
+	private boolean dealing;
 	private int numberDeals;
 	private int bags;
 
@@ -75,18 +77,19 @@ public class SpadeGame extends CardGame {
 	private SpadeNotifications gameNotification;
 	private SpadeNotifications playerNotification;
 	
-	private boolean isBotPlaying;
+	private boolean botPlaying;
 	
-	private boolean isTrickOver;
-	private boolean isHandOver;
+	private boolean trickOver;
+	private boolean handOver;
 
 	private SpadeBroken spadeBroken;
 	
 	private long maxTime;
 	
-	private boolean isServingPlaying;
+	private boolean serverPlaying;
 	
 	private boolean lock;
+
 	public String getGameId() {
 		return gameId;
 	}
@@ -95,13 +98,7 @@ public class SpadeGame extends CardGame {
 		this.gameId = gameId;
 	}
 
-	public boolean isStarting() {
-		return isStarting;
-	}
-
-	public void setStarting(boolean isStarting) {
-		this.isStarting = isStarting;
-	}
+	
 
 	public int getPointsToWin() {
 		return pointsToWin;
@@ -151,13 +148,7 @@ public class SpadeGame extends CardGame {
 		this.numberOfPlayers = numberOfPlayers;
 	}
 
-	public boolean isGameOver() {
-		return isGameOver;
-	}
-
-	public void setGameOver(boolean isGameOver) {
-		this.isGameOver = isGameOver;
-	}
+	
 
 	public Map<TeamTable, SpadeTeam> getTeams() {
 		if (teams == null || teams.size() == 0) {
@@ -185,14 +176,6 @@ public class SpadeGame extends CardGame {
 
 	public void setPlayerCardCount(Map<PlayerTable, Integer> playerCardCount) {
 		this.playerCardCount = playerCardCount;
-	}
-
-	public boolean isDealing() {
-		return isDealing;
-	}
-
-	public void setDealing(boolean isDealing) {
-		this.isDealing = isDealing;
 	}
 
 	public int getNumberDeals() {
@@ -235,13 +218,7 @@ public class SpadeGame extends CardGame {
 		this.numberOfTeams = numberOfTeams;
 	}
 
-	public boolean isBidding() {
-		return isBidding;
-	}
-
-	public void setBidding(boolean isBidding) {
-		this.isBidding = isBidding;
-	}
+	
 
 	public int getTurnCount() {
 		return turnCount;
@@ -283,13 +260,7 @@ public class SpadeGame extends CardGame {
 		this.tempWinner = tempWinner;
 	}
 
-	public boolean isSpadePlayed() {
-		return isSpadePlayed;
-	}
-
-	public void setSpadePlayed(boolean isSpadePlayed) {
-		this.isSpadePlayed = isSpadePlayed;
-	}
+	
 
 	public int getActivePlayers() {
 		return activePlayers;
@@ -299,13 +270,6 @@ public class SpadeGame extends CardGame {
 		this.activePlayers = activePlayers;
 	}
 
-	public boolean isNewPlayer() {
-		return isNewPlayer;
-	}
-
-	public void setNewPlayer(boolean isNewPlayer) {
-		this.isNewPlayer = isNewPlayer;
-	}
 
 	public PlayerTable getGameModifier() {
 		return gameModifier;
@@ -315,14 +279,7 @@ public class SpadeGame extends CardGame {
 		this.gameModifier = gameModifier;
 	}
 
-	public boolean isPlaying() {
-		return isPlaying;
-	}
-
-	public void setPlaying(boolean isPlaying) {
-		this.isPlaying = isPlaying;
-	}
-
+	
 	public SpadePreviousHand getPreviousHand() {
 		return previousHand;
 	}
@@ -358,26 +315,7 @@ public class SpadeGame extends CardGame {
 	public void setPlayerNotification(SpadeNotifications playerNotification) {
 	
 		this.playerNotification = playerNotification;
-	}
-
-	
-
-	public boolean isTrickOver() {
-		return isTrickOver;
-	}
-
-	public void setTrickOver(boolean isTrickOver) {
-		this.isTrickOver = isTrickOver;
-	}
-
-	public boolean isHandOver() {
-		return isHandOver;
-	}
-
-	public void setHandOver(boolean isHandOver) {
-		this.isHandOver = isHandOver;
-	}
-	
+	}	
 	
 	public GregGameChildTypes getGameType() {
 		return gameType;
@@ -409,15 +347,6 @@ public class SpadeGame extends CardGame {
 	public void setGameVersionNb(long gameVersionNb) {
 		this.gameVersionNb = gameVersionNb;
 	}
-
-	public boolean isBotPlaying() {
-		return isBotPlaying;
-	}
-
-	public void setBotPlaying(boolean isBotPlaying) {
-		this.isBotPlaying = isBotPlaying;
-	}
-
 	
 	public long getMaxTime() {
 		return maxTime;
@@ -427,18 +356,6 @@ public class SpadeGame extends CardGame {
 		this.maxTime = maxTime;
 	}
 	
-	
-
-	public boolean isServingPlaying() {
-		return isServingPlaying;
-	}
-
-	public void setServingPlaying(boolean isServingPlaying) {
-		this.isServingPlaying = isServingPlaying;
-	}
-	
-	
-
 	public boolean isLock() {
 		return lock;
 	}
@@ -447,16 +364,95 @@ public class SpadeGame extends CardGame {
 		this.lock = lock;
 	}
 
-	@Override
-	public String toString() {
-		return "SpadeGame [gameId=" + gameId + ", isStarting=" + isStarting + ", isBidding=" + isBidding
-				+ ", pointsToWin=" + pointsToWin + ", startHand=" + startHand + ", startTurn=" + startTurn
-				+ ", currTurn=" + currTurn + ", trickCount=" + trickCount + ", turnCount=" + turnCount + ", handCount="
-				+ handCount + ", isGameOver=" + isGameOver + ", isSpadePlayed=" + isSpadePlayed + ", teams=" + teams
-				+ ", isDealing=" + isDealing + ", numberDeals=" + numberDeals + ", bags=" + bags + ", bagPoints="
-				+ bagPoints + ", bidNilPoints=" + bidNilPoints + ", bidNil=" + bidNil + ", numberOfPlayers="
-				+ numberOfPlayers + ", numberOfTeams=" + numberOfTeams + ", pointsToLose=" + pointsToLose
-				+ ", tempWinner=" + tempWinner + ", playerCardCount=" + playerCardCount + "]";
+	public boolean isStarting() {
+		return starting;
 	}
+
+	public void setStarting(boolean starting) {
+		this.starting = starting;
+	}
+
+	public boolean isBidding() {
+		return bidding;
+	}
+
+	public void setBidding(boolean bidding) {
+		this.bidding = bidding;
+	}
+
+	public boolean isPlaying() {
+		return playing;
+	}
+
+	public void setPlaying(boolean playing) {
+		this.playing = playing;
+	}
+
+	public boolean isNewPlayer() {
+		return newPlayer;
+	}
+
+	public void setNewPlayer(boolean newPlayer) {
+		this.newPlayer = newPlayer;
+	}
+
+	public boolean isGameOver() {
+		return gameOver;
+	}
+
+	public void setGameOver(boolean gameOver) {
+		this.gameOver = gameOver;
+	}
+
+	public boolean isSpadePlayed() {
+		return spadePlayed;
+	}
+
+	public void setSpadePlayed(boolean spadePlayed) {
+		this.spadePlayed = spadePlayed;
+	}
+
+	public boolean isDealing() {
+		return dealing;
+	}
+
+	public void setDealing(boolean dealing) {
+		this.dealing = dealing;
+	}
+
+	public boolean isBotPlaying() {
+		return botPlaying;
+	}
+
+	public void setBotPlaying(boolean botPlaying) {
+		this.botPlaying = botPlaying;
+	}
+
+	public boolean isTrickOver() {
+		return trickOver;
+	}
+
+	public void setTrickOver(boolean trickOver) {
+		this.trickOver = trickOver;
+	}
+
+	public boolean isHandOver() {
+		return handOver;
+	}
+
+	public void setHandOver(boolean handOver) {
+		this.handOver = handOver;
+	}
+
+	public boolean isServerPlaying() {
+		return serverPlaying;
+	}
+
+	public void setServerPlaying(boolean serverPlaying) {
+		this.serverPlaying = serverPlaying;
+	}
+
+	
+	
 
 }

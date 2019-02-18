@@ -2,6 +2,7 @@ package com.craig.greggames.model.game.cards.spades.dal;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -80,6 +81,15 @@ public class SpadePersistenceDalImpl implements SpadePersistenceDal{
 		}
 		
 		return spadeGame;
+	}
+
+	@Override
+	public SpadeGame updateGame(SpadeGame spadeGame,Set<String>excludedFields,Set<String>makeEmptyIfNull) {
+		// TODO Auto-generated method stub
+		SpadeGameDAO spadeGameDAO = mapper.spadeGameToDAO(spadeGame);
+		spadeGameDAO = repository.updateGame(spadeGameDAO, excludedFields,makeEmptyIfNull);
+		
+		return mapper.spadeDAOToGame(spadeGameDAO) ;
 	}
 
 }

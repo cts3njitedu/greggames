@@ -15,11 +15,11 @@ public class SpadeTeam {
 	
 	private int totalBags;
 
-	private boolean isOverBook;
+	private boolean overBook;
 
 	private Map<PlayerTable, SpadePlayer> players;
-	private boolean isWon;
-	private boolean isLost;
+	private boolean won;
+	private boolean lost;
 
 	private TeamTable name;
 	
@@ -58,11 +58,11 @@ public class SpadeTeam {
 
 
 	public boolean isOverBook() {
-		return isOverBook;
+		return overBook;
 	}
 
 	public void setOverBook(boolean isOverBook) {
-		this.isOverBook = isOverBook;
+		this.overBook = isOverBook;
 	}
 
 	
@@ -80,19 +80,19 @@ public class SpadeTeam {
 	}
 
 	public boolean isWon() {
-		return isWon;
+		return won;
 	}
 
 	public void setWon(boolean isWon) {
-		this.isWon = isWon;
+		this.won = isWon;
 	}
 
 	public boolean isLost() {
-		return isLost;
+		return lost;
 	}
 
 	public void setLost(boolean isLost) {
-		this.isLost = isLost;
+		this.lost = isLost;
 	}
 
 	public TeamTable getName() {

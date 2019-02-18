@@ -41,7 +41,7 @@ public class SpadeGameBroadCaster {
 	@Autowired
 	private TaskCreator taskCreator;
 	
-	@Value ("${spade.setTimer}")
+	@Value ("${spade.setTimer:false}")
 	private boolean setTimer;
 	
 	@PostConstruct

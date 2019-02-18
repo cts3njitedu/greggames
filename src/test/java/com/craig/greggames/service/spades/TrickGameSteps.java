@@ -59,6 +59,8 @@ public class TrickGameSteps {
 		spadeGame.setGameModifier(spadeGame.getCurrTurn());
 		spadeGame.getTeams().get(spadeTeamHandler.getTeamByPlayer(spadeGame.getCurrTurn(), spadeGame.getNumberOfTeams()))
 				.getPlayers().get(spadeGame.getCurrTurn()).setPlayerBid(50);
+		spadeGame.getTeams().get(spadeTeamHandler.getTeamByPlayer(spadeGame.getCurrTurn(), spadeGame.getNumberOfTeams()))
+		.getPlayers().get(spadeGame.getCurrTurn()).setUserId("chicken");
 		spadeGame.setPlayerNotification(SpadeNotifications.BID);
 		spadeGame.setGameModifier(spadeGame.getCurrTurn());
 		spadeGame = messageController.modifyGameState("spade", spadeGame.getGameId(), spadeGame);
@@ -66,7 +68,7 @@ public class TrickGameSteps {
 				.getPlayers().get(spadeGame.getCurrTurn()).setPlayerBid(40);
 		spadeGame.setPlayerNotification(SpadeNotifications.BID);
 		spadeGame.setGameModifier(spadeGame.getCurrTurn());
-		spadeGame.setServingPlaying(true);
+		spadeGame.setServerPlaying(true);
 		spadeGame = messageController.modifyGameState("spade", spadeGame.getGameId(), spadeGame);
 		spadeGame.getTeams().get(spadeTeamHandler.getTeamByPlayer(spadeGame.getCurrTurn(), spadeGame.getNumberOfTeams()))
 				.getPlayers().get(spadeGame.getCurrTurn()).setPlayerBid(30);
@@ -132,7 +134,7 @@ public class TrickGameSteps {
 		spadeGame.getTeams().get(team).getPlayers().get(player).setPlayingCard(card);
 		spadeGame.setPlayerNotification(SpadeNotifications.PLAY);
 		spadeGame.setGameModifier(spadeGame.getCurrTurn());
-		spadeGame.setServingPlaying(true);
+		spadeGame.setServerPlaying(true);
 		spadeGame = messageController.modifyGameState("spade", spadeGame.getGameId(), spadeGame);
 		
 		player = spadeGame.getCurrTurn();

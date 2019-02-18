@@ -12,8 +12,11 @@ import com.craig.greggames.model.game.cards.player.PlayerTable;
 import com.craig.greggames.model.game.cards.spades.SpadeBroken;
 import com.craig.greggames.model.game.cards.spades.SpadeNotifications;
 import com.craig.greggames.model.game.cards.team.TeamTable;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @Document(collection = "spadegame")
+@JsonInclude(Include.NON_NULL)
 public class SpadeGameDAO extends CardGame{
 
 	@Id
@@ -22,14 +25,14 @@ public class SpadeGameDAO extends CardGame{
 	private final GregGameChildTypes gameType = GregGameChildTypes.SPADES;
 	private SpadePreviousHandDAO previousHand;
 	private SpadePreviousTrickDAO previousTrick;
-	private boolean isStarting;
+	private boolean starting;
 
 	private SpadeNotifications notification;
 
-	private boolean isBidding;
+	private boolean bidding;
 
-	private boolean isPlaying;
-	private boolean isNewPlayer;
+	private boolean playing;
+	private boolean newPlayer;
 	private int pointsToWin;
 	
 	private long versionNb;
@@ -46,15 +49,15 @@ public class SpadeGameDAO extends CardGame{
 	private int turnCount;
 
 	private int handCount;
-	private boolean isGameOver;
+	private boolean gameOver;
 
-	private boolean isSpadePlayed;
+	private boolean spadePlayed;
 	
 	private int activePlayers;
 
 	private Map<TeamTable, SpadeTeamDAO> teams;
 
-	private boolean isDealing;
+	private boolean dealing;
 	private int numberDeals;
 	private int bags;
 
@@ -75,16 +78,16 @@ public class SpadeGameDAO extends CardGame{
 	private SpadeNotifications playerNotification;
 	private PlayerTable tempWinner;
 	
-	private boolean isTrickOver;
-	private boolean isHandOver;
+	private boolean trickOver;
+	private boolean handOver;
 	
-	private boolean isBotPlaying;
+	private boolean botPlaying;
 	
 	private SpadeBroken spadeBroken;
 	
 	private long maxTime;
 	
-	private boolean isServingPlaying;
+	private boolean serverPlaying;
 	
 	private boolean lock;
 
@@ -97,11 +100,11 @@ public class SpadeGameDAO extends CardGame{
 	}
 
 	public boolean isStarting() {
-		return isStarting;
+		return starting;
 	}
 
 	public void setStarting(boolean isStarting) {
-		this.isStarting = isStarting;
+		this.starting = isStarting;
 	}
 
 	public int getPointsToWin() {
@@ -153,11 +156,11 @@ public class SpadeGameDAO extends CardGame{
 	}
 
 	public boolean isGameOver() {
-		return isGameOver;
+		return gameOver;
 	}
 
 	public void setGameOver(boolean isGameOver) {
-		this.isGameOver = isGameOver;
+		this.gameOver = isGameOver;
 	}
 
 	public Map<TeamTable, SpadeTeamDAO> getTeams() {
@@ -189,11 +192,11 @@ public class SpadeGameDAO extends CardGame{
 	}
 
 	public boolean isDealing() {
-		return isDealing;
+		return dealing;
 	}
 
 	public void setDealing(boolean isDealing) {
-		this.isDealing = isDealing;
+		this.dealing = isDealing;
 	}
 
 	public int getNumberDeals() {
@@ -237,11 +240,11 @@ public class SpadeGameDAO extends CardGame{
 	}
 
 	public boolean isBidding() {
-		return isBidding;
+		return bidding;
 	}
 
 	public void setBidding(boolean isBidding) {
-		this.isBidding = isBidding;
+		this.bidding = isBidding;
 	}
 
 	public int getTurnCount() {
@@ -285,11 +288,11 @@ public class SpadeGameDAO extends CardGame{
 	}
 
 	public boolean isSpadePlayed() {
-		return isSpadePlayed;
+		return spadePlayed;
 	}
 
 	public void setSpadePlayed(boolean isSpadePlayed) {
-		this.isSpadePlayed = isSpadePlayed;
+		this.spadePlayed = isSpadePlayed;
 	}
 
 	public int getActivePlayers() {
@@ -301,11 +304,11 @@ public class SpadeGameDAO extends CardGame{
 	}
 
 	public boolean isNewPlayer() {
-		return isNewPlayer;
+		return newPlayer;
 	}
 
 	public void setNewPlayer(boolean isNewPlayer) {
-		this.isNewPlayer = isNewPlayer;
+		this.newPlayer = isNewPlayer;
 	}
 
 	public PlayerTable getGameModifier() {
@@ -317,11 +320,11 @@ public class SpadeGameDAO extends CardGame{
 	}
 
 	public boolean isPlaying() {
-		return isPlaying;
+		return playing;
 	}
 
 	public void setPlaying(boolean isPlaying) {
-		this.isPlaying = isPlaying;
+		this.playing = isPlaying;
 	}
 
 	public SpadePreviousHandDAO getPreviousHand() {
@@ -367,19 +370,19 @@ public class SpadeGameDAO extends CardGame{
 	}
 
 	public boolean isTrickOver() {
-		return isTrickOver;
+		return trickOver;
 	}
 
 	public void setTrickOver(boolean isTrickOver) {
-		this.isTrickOver = isTrickOver;
+		this.trickOver = isTrickOver;
 	}
 
 	public boolean isHandOver() {
-		return isHandOver;
+		return handOver;
 	}
 
 	public void setHandOver(boolean isHandOver) {
-		this.isHandOver = isHandOver;
+		this.handOver = isHandOver;
 	}
 
 	@Override
@@ -414,11 +417,11 @@ public class SpadeGameDAO extends CardGame{
 	}
 
 	public boolean isBotPlaying() {
-		return isBotPlaying;
+		return botPlaying;
 	}
 
 	public void setBotPlaying(boolean isBotPlaying) {
-		this.isBotPlaying = isBotPlaying;
+		this.botPlaying = isBotPlaying;
 	}
 
 	public long getMaxTime() {
@@ -429,12 +432,13 @@ public class SpadeGameDAO extends CardGame{
 		this.maxTime = maxTime;
 	}
 
-	public boolean isServingPlaying() {
-		return isServingPlaying;
+	
+	public boolean isServerPlaying() {
+		return serverPlaying;
 	}
 
-	public void setServingPlaying(boolean isServingPlaying) {
-		this.isServingPlaying = isServingPlaying;
+	public void setServerPlaying(boolean serverPlaying) {
+		this.serverPlaying = serverPlaying;
 	}
 
 	public boolean isLock() {

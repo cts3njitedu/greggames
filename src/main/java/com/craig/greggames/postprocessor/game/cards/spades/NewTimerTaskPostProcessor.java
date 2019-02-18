@@ -35,7 +35,7 @@ public class NewTimerTaskPostProcessor extends AbstractPostProcessor {
 			logger.info("Valid state to set task");
 			spadeGameBroadCaster.removeGameFromScheduler(spadeGame);
 			spadeGameBroadCaster.addGameToScheduler(spadeGame);
-			if (spadeGame.isServingPlaying()) {
+			if (spadeGame.isServerPlaying()) {
 				logger.info("Broadcasting message for "+spadeGame.getGameId());
 				simpMessagingTemplate.convertAndSend("/topic/spades/" + spadeGame.getGameId(), spadeGame);
 			}

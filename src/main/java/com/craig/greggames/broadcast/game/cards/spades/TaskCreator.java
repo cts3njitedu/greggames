@@ -58,7 +58,7 @@ public class TaskCreator {
 				
 				if(time==0) {
 					logger.info("Time is up for player " + timeGame.getCurrTurn());
-					timeGame.setServingPlaying(true);
+					timeGame.setServerPlaying(true);
 					timeGame.setGameModifier(timeGame.getCurrTurn());
 					timeGame.setPlayerNotification(timeGame.getGameNotification());
 					timeGame = spadeService.playGame(timeGame);

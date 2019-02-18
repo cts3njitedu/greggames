@@ -91,7 +91,7 @@ public class SpadeBotHandler {
 		
 		logger.info("Determining bot card");
 		SpadePlayer player = spadeGame.getTeams().get(spadeTeamHandler.getTeamByPlayer(spadeGame.getCurrTurn(), spadeGame.getNumberOfTeams())).getPlayers().get(spadeGame.getCurrTurn());
-		if(spadeGame.isServingPlaying()) {
+		if(spadeGame.isServerPlaying()) {
 			logger.info("Server is playing");
 			player.setPlayingCard(getBotCard(spadeGame));
 		}

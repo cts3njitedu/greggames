@@ -57,7 +57,7 @@ public class SpadesController {
 	@RequestMapping(method = RequestMethod.POST, path = { "/games/{gameId}/start" })
 	public @ResponseBody SpadeGame startGame(SpadeGame spadeGame) {
 
-		spadeGame.setServingPlaying(false);
+		spadeGame.setServerPlaying(false);
 		return spadeService.playGame(spadeGame);
 	}
 	
@@ -72,21 +72,21 @@ public class SpadesController {
 	@RequestMapping(method = RequestMethod.PUT, path = { "/games/{gameId}" })
 	public @ResponseBody SpadeGame modifyGameState(@PathVariable String gameId, @RequestBody SpadeGame spadeGame) throws GreggamesException {
 
-		spadeGame.setServingPlaying(false);
+		spadeGame.setServerPlaying(false);
 		return spadeService.playGame(spadeGame);
 		//return null;
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, path = { "/games/{gameId}/players" })
 	public @ResponseBody SpadeGame addPlayer(@PathVariable String gameId, @RequestBody SpadeGame spadeGame) throws GreggamesException {
-		spadeGame.setServingPlaying(false);
+		spadeGame.setServerPlaying(false);
 		return spadeService.playGame(spadeGame);
 		//return null;
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, path = { "/games/{gameId}/players/{playerId}/validator" })
 	public @ResponseBody SpadeGame playerValidator(@PathVariable String gameId, @RequestBody SpadeGame spadeGame) throws GreggamesException {
-		spadeGame.setServingPlaying(false);
+		spadeGame.setServerPlaying(false);
 		return spadeService.playGame(spadeGame);
 		//return null;
 	}

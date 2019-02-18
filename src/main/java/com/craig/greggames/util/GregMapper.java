@@ -1,12 +1,14 @@
 package com.craig.greggames.util;
 
 import java.io.IOException;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.craig.greggames.model.game.cards.spades.dao.SpadeGameDAO;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 @Service
 public class GregMapper {
@@ -52,5 +54,12 @@ public class GregMapper {
 		}
 
 		return filledJsonObject;
+	}
+	
+	
+	
+	public <T> Map<String, Object> convertObjectToMap(T object){
+		ObjectMapper mapper = new ObjectMapper();
+		return mapper.convertValue(object , new TypeReference<Map<String, Object>>() {});
 	}
 }
