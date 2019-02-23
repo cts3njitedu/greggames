@@ -20,7 +20,7 @@ public class CancelTimerPreProcessor extends AbstractPreProcessor{
 	private SpadeGameBroadCaster spadeGameBroadCaster;
 	
 	private Set<SpadeNotifications> spadeNotifications=
-			new HashSet<>(Arrays.asList(SpadeNotifications.START,SpadeNotifications.BID, SpadeNotifications.PLAY));
+			new HashSet<>(Arrays.asList(SpadeNotifications.START,SpadeNotifications.BID, SpadeNotifications.PLAY,SpadeNotifications.TRICK_OVER));
 	
 	private Logger logger = Logger.getLogger(CancelTimerPreProcessor.class);
 	

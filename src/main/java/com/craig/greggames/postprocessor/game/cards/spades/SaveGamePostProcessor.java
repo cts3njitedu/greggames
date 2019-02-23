@@ -18,6 +18,7 @@ import com.craig.greggames.handler.game.cards.spades.SpadePlayerHandler;
 import com.craig.greggames.handler.game.cards.spades.SpadeTeamHandler;
 import com.craig.greggames.model.game.cards.player.PlayerTable;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
+import com.craig.greggames.model.game.cards.spades.SpadeGameState;
 import com.craig.greggames.model.game.cards.spades.SpadeNotifications;
 import com.craig.greggames.model.game.cards.spades.SpadePlayer;
 import com.craig.greggames.model.game.cards.spades.SpadeTeam;
@@ -25,7 +26,7 @@ import com.craig.greggames.model.game.cards.spades.dal.SpadePersistenceDal;
 import com.craig.greggames.model.game.cards.team.TeamTable;
 
 @Service
-@Order(Ordered.HIGHEST_PRECEDENCE)
+@Order(1)
 public class SaveGamePostProcessor extends AbstractPostProcessor {
 
 	@Autowired
@@ -51,6 +52,8 @@ public class SaveGamePostProcessor extends AbstractPostProcessor {
 	@Value ("${spade.maxTime:60}")
 	private long maxTime;
 	
+	private long maxNotificationTime = 1;
+	
 	private  SpadeGame saveGame(SpadeGame spadeGame) {
 		
 		logger.info("Entering " + getClass());
@@ -67,6 +70,17 @@ public class SaveGamePostProcessor extends AbstractPostProcessor {
 //		}
 		
 		spadeGame.setLock(false);
+		if(SpadeNotifications.TRICK_OVER == spadeGame.getPlayerNotification() || SpadeNotifications.HAND_OVER==spadeGame.getPlayerNotification()) {
+			return spadePersistenceDal.saveGame(spadeGame);
+		}
+		
+		
+		
+		
+		if(spadeGame.isGameOver()) {
+			spadeGame.setMaxTime(maxNotificationTime);
+			return spadePersistenceDal.saveGame(spadeGame);
+		}
 		
 		if(spadeNotifications.contains(spadeGame.getPlayerNotification())) {
 			spadeGame.setMaxTime(maxTime);

@@ -157,7 +157,6 @@ public class SpadeGameHandler {
 					spadeGame.setTrickCount(0);
 					spadeGame.setTurnCount(1);
 					spadePlayerHandler.cleanUpWhoHasPlayed(spadeGame);
-					cardHandler.removePlayingCard(spadeGame);
 					spadePlayerHandler.determineTurn(spadeGame);
 
 				}
@@ -171,7 +170,7 @@ public class SpadeGameHandler {
 				spadeGame.setGameNotification(SpadeNotifications.PLAY);
 				spadeGame.setTrickOver(true);
 				spadePlayerHandler.cleanUpWhoHasPlayed(spadeGame);
-				cardHandler.removePlayingCard(spadeGame);
+//				cardHandler.removePlayingCard(spadeGame);
 				spadePlayerHandler.determineTurn(spadeGame);
 
 			}

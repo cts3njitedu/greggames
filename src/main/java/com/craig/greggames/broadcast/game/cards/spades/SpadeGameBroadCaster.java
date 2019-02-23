@@ -3,23 +3,24 @@ package com.craig.greggames.broadcast.game.cards.spades;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
-import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import javax.annotation.PostConstruct;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Service;
 
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.craig.greggames.model.game.cards.spades.SpadeNotifications;
 import com.craig.greggames.model.game.cards.spades.dal.SpadePersistenceDal;
-import com.craig.greggames.postprocessor.game.cards.spades.NewTimerTaskPostProcessor;
+import com.craig.greggames.service.cards.spades.SpadeService;
 @Service
 public class SpadeGameBroadCaster {
 	
@@ -43,6 +44,9 @@ public class SpadeGameBroadCaster {
 	
 	@Value ("${spade.setTimer:false}")
 	private boolean setTimer;
+	
+	@Autowired
+	private SpadeService spadeService;
 	
 	@PostConstruct
 	private void initiateTimers() {
@@ -83,6 +87,24 @@ public class SpadeGameBroadCaster {
 		}
 		
 		
+	}
+	public void addTrickGameToScheduler(SpadeGame spadeGame) {
+		
+		logger.info("Adding trick game for game id " + spadeGame.getGameId());
+		ScheduledFuture<?> scheduledFuture = threadPoolTaskScheduler.scheduleAtFixedRate(taskCreator.createTrickTask(spadeGame), 
+				Date.from(LocalDateTime.now()
+	            .atZone(ZoneId.systemDefault()).toInstant().plusSeconds(spadeGame.getMaxTime())),TIME_INTERVAL);
+
+		scheduleFutureMap.put(spadeGame.getGameId(), scheduledFuture);
+	}
+	
+	public void addHandGameToScheduler(SpadeGame spadeGame) {
+		
+		logger.info("Adding hand game for game id " + spadeGame.getGameId());
+		ScheduledFuture<?> scheduledFuture = threadPoolTaskScheduler.schedule(taskCreator.createHandTask(spadeGame), 
+				Date.from(LocalDateTime.now()
+	            .atZone(ZoneId.systemDefault()).toInstant()));
+		scheduleFutureMap.put(spadeGame.getGameId(), scheduledFuture);
 	}
 
 }
