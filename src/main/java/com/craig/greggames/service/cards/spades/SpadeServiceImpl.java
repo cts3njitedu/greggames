@@ -1,5 +1,6 @@
 package com.craig.greggames.service.cards.spades;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,14 @@ public class SpadeServiceImpl implements SpadeService {
 	public SpadeGameView getGameView() {
 		// TODO Auto-generated method stub
 		SpadeGameView spadeGameView = new SpadeGameView();
-		spadeGameView.setSpadeGames(spadePersistenceDal.getGames());
+		List<SpadeGame> spadeGames = spadePersistenceDal.getGames();
+		List<SpadeGame> newSpadeGames = new ArrayList<>();
+//		for(SpadeGame spadeGame: spadeGames) {
+//			SpadeGame newSpadeGame = new SpadeGame();
+//			newSpadeGame.setGameId(spadeGame.getGameId());
+//			newSpadeGames.add(newSpadeGame);
+//		}
+		spadeGameView.setSpadeGames(spadeGames);
 		
 		return spadeGameView;
 	}

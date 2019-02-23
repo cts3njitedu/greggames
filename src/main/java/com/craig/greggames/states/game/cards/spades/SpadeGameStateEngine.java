@@ -14,7 +14,7 @@ import com.craig.greggames.states.GreggameStateEngine;
 public class SpadeGameStateEngine implements GreggameStateEngine<SpadeGame>{
 
 	private final GregGameChildTypes greggame = GregGameChildTypes.SPADES;
-	private Logger logger = Logger.getLogger(SpadeGameStateEngine.class);
+	private static final Logger logger = Logger.getLogger(SpadeGameStateEngine.class);
 	@Autowired
 	private List<SpadeGameState> abstractSpadeGameStates;
 	@Override

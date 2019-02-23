@@ -1,14 +1,10 @@
 package com.craig.greggames.postprocessor.game.cards.spades;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
@@ -21,7 +17,7 @@ import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.craig.greggames.model.game.cards.spades.SpadeNotifications;
 
 @Service
-@Order(1)
+@Order(2)
 public class HandPostProcessor extends AbstractPostProcessor {
 
 	@Autowired
@@ -39,11 +35,7 @@ public class HandPostProcessor extends AbstractPostProcessor {
 	@Autowired
 	private SpadeBidderHandler spadeBidderHandler;
 	
-	private Set<SpadeNotifications> spadeNotifications = new HashSet<>(Arrays.asList(SpadeNotifications.BID,SpadeNotifications.PLAY));
-	
-	private Set<SpadeNotifications> playerChangeNotifications = 
-			new HashSet<>(Arrays.asList(SpadeNotifications.LEAVE_GAME,SpadeNotifications.NEW_PLAYER));
-	private Logger logger = Logger.getLogger(HandPostProcessor.class);
+	private static final Logger logger = Logger.getLogger(HandPostProcessor.class);
 	@Override
 	SpadeGame postProcess(SpadeGame spadeGame) {
 		// TODO Auto-generated method stub
@@ -52,8 +44,8 @@ public class HandPostProcessor extends AbstractPostProcessor {
 	
 	@Value ("${spade.maxTime:60}")
 	private long maxTime;
-	
-	private long maxNotificationTime = 12;
+	@Value ("${spade.maxNotificationTime:12}")
+	private long maxNotificationTime;
 	
 	private  SpadeGame saveGame(SpadeGame spadeGame) {
 		
@@ -65,7 +57,10 @@ public class HandPostProcessor extends AbstractPostProcessor {
 				logger.info("Pausing game id: "+spadeGame.getGameId());
 				TimeUnit.SECONDS.sleep(maxNotificationTime);
 				logger.info("Finish pausing game id: "+spadeGame.getGameId());
-				cardHandler.distributeCards(spadeGame);
+				if(!spadeGame.isGameOver()) {
+					cardHandler.distributeCards(spadeGame);
+					
+				}
 				spadeTeamHandler.cleanUpPoints(spadeGame);
 				spadeBidderHandler.cleanUpBid(spadeGame);
 				spadePlayerHandler.cleanUpWhoHasPlayed(spadeGame);

@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
+import com.craig.greggames.model.game.cards.spades.SpadeGameAbridged;
 import com.craig.greggames.model.game.cards.spades.dao.SpadeGameDAO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -61,5 +62,10 @@ public class GregMapper {
 	public <T> Map<String, Object> convertObjectToMap(T object){
 		ObjectMapper mapper = new ObjectMapper();
 		return mapper.convertValue(object , new TypeReference<Map<String, Object>>() {});
+	}
+	
+	public SpadeGame convertSpadeGameAbridgedToSpadeGame(SpadeGame spadeGame, SpadeGameAbridged spadeGameAbridged) {
+		
+		return null;
 	}
 }

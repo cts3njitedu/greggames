@@ -6,7 +6,9 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.web.socket.server.standard.ServletServerContainerFactoryBean;
 
 @SpringBootApplication
 @EnableScheduling
@@ -20,4 +22,12 @@ public class CardGamesApplication {
 	void started() {
 	    TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
 	}
+	
+	
+//	@Bean
+//	public ServletServerContainerFactoryBean getServlet() {
+//		ServletServerContainerFactoryBean serverContainerFactoryBean = new ServletServerContainerFactoryBean();
+//		serverContainerFactoryBean.setMaxTextMessageBufferSize(200*1024*1024);
+//		return serverContainerFactoryBean;
+//	}
 }

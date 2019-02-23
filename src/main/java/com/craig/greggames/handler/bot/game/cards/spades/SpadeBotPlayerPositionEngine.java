@@ -16,7 +16,7 @@ public class SpadeBotPlayerPositionEngine {
 	@Autowired
 	private List<SpadeBotPlayerPosition> spadeBotPlayerPositions;
 	
-	private Logger logger = Logger.getLogger(SpadeBotPlayerPositionEngine.class);
+	private static final Logger logger = Logger.getLogger(SpadeBotPlayerPositionEngine.class);
 	public Card botPlayerEngine(SpadeGameMetaData spadeGameMetaData, SpadeGame spadeGame, int position) {
 		
 		logger.info("Entering " + getClass());

@@ -22,7 +22,7 @@ public class CancelTimerPreProcessor extends AbstractPreProcessor{
 	private Set<SpadeNotifications> spadeNotifications=
 			new HashSet<>(Arrays.asList(SpadeNotifications.START,SpadeNotifications.BID, SpadeNotifications.PLAY,SpadeNotifications.TRICK_OVER));
 	
-	private Logger logger = Logger.getLogger(CancelTimerPreProcessor.class);
+	private static final Logger logger = Logger.getLogger(CancelTimerPreProcessor.class);
 	
 	@Override
 	boolean isValidState(SpadeGame spadeGame) {

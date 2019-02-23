@@ -14,7 +14,7 @@ public class PreProcessorExecutor {
 	@Autowired
 	private List<AbstractPreProcessor> preProcessors;
 	
-	private Logger logger = Logger.getLogger(PreProcessorExecutor.class);
+	private static final Logger logger = Logger.getLogger(PreProcessorExecutor.class);
 	
 	public SpadeGame preProcess(SpadeGame spadeGame) {
 		

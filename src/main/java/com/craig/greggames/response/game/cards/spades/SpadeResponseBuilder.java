@@ -18,14 +18,17 @@ public class SpadeResponseBuilder {
 	
 	public SpadeGameView getSpadeGameView(SpadeGame spadeGame) {
 		SpadeGameView spadeGameView = new SpadeGameView();
-		spadeGameView.setSpadeGames(spadePersistenceDal.getGames());
+		//spadeGameView.setSpadeGames(spadePersistenceDal.getGames());
 		if(spadeGame!=null) {
 			if(SpadeNotifications.CREATE==spadeGame.getPlayerNotification()) {
-				spadeGameView.setNewGame(spadeGame);
+				SpadeGame newSpadeGame = new SpadeGame();
+				newSpadeGame.setGameId(spadeGame.getGameId());
+				spadeGameView.setNewGame(newSpadeGame);
 				
 			}
 			
 		}
+		//filter out unecessary day
 		
 		return spadeGameView;
 		

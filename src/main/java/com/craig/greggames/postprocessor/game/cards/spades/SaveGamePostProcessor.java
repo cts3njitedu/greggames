@@ -23,7 +23,7 @@ import com.craig.greggames.model.game.cards.spades.dal.SpadePersistenceDal;
 import com.craig.greggames.model.game.cards.team.TeamTable;
 
 @Service
-@Order(3)
+@Order(4)
 public class SaveGamePostProcessor extends AbstractPostProcessor {
 
 	@Autowired
@@ -39,7 +39,7 @@ public class SaveGamePostProcessor extends AbstractPostProcessor {
 	
 	private Set<SpadeNotifications> playerChangeNotifications = 
 			new HashSet<>(Arrays.asList(SpadeNotifications.LEAVE_GAME,SpadeNotifications.NEW_PLAYER));
-	private Logger logger = Logger.getLogger(SaveGamePostProcessor.class);
+	private static final Logger logger = Logger.getLogger(SaveGamePostProcessor.class);
 	@Override
 	SpadeGame postProcess(SpadeGame spadeGame) {
 		// TODO Auto-generated method stub
@@ -49,22 +49,12 @@ public class SaveGamePostProcessor extends AbstractPostProcessor {
 	@Value ("${spade.maxTime:60}")
 	private long maxTime;
 	
-	private long maxNotificationTime = 1;
+	@Value ("${spade.maxNotificationTime:1}")
+	private long maxNotificationTime;
 	
 	private  SpadeGame saveGame(SpadeGame spadeGame) {
 		
 		logger.info("Entering " + getClass());
-//		SpadeGame oldSpadeGame = spadeGame;
-		//if game id is null this means this is a new game
-//		if(spadeGame.getGameId()!=null) {
-//			oldSpadeGame = spadePersistenceDal.findGame(spadeGame.getGameId());
-//			mergeNewWithOld(oldSpadeGame, spadeGame);
-//			spadeBotHandler.determineBots(spadeGame);
-//			spadeGame.setLock(false);
-//			if(spadeNotifications.contains(spadeGame.getPlayerNotification())) {
-//				spadeGame.setMaxTime(maxTime);
-//			}
-//		}
 		
 		spadeGame.setLock(false);
 		if(SpadeNotifications.TRICK_OVER == spadeGame.getPlayerNotification() || SpadeNotifications.HAND_OVER==spadeGame.getPlayerNotification()) {
@@ -74,8 +64,7 @@ public class SaveGamePostProcessor extends AbstractPostProcessor {
 		
 		
 		
-		if(spadeGame.isGameOver()) {
-			spadeGame.setMaxTime(maxNotificationTime);
+		if(SpadeNotifications.GAME_OVER==spadeGame.getPlayerNotification()) {
 			return spadePersistenceDal.saveGame(spadeGame);
 		}
 		

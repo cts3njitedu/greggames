@@ -20,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.craig.greggames.handler.game.cards.spades.SpadeTeamHandler;
-import com.craig.greggames.handler.game.cards.spades.SpadeValidationHandler;
 import com.craig.greggames.model.game.cards.Card;
 import com.craig.greggames.model.game.cards.CardSuit;
 import com.craig.greggames.model.game.cards.CardValue;
@@ -40,7 +39,7 @@ public class CardHandler {
 	@Autowired
 	private DealUtility dealUtility;
 
-	private Logger logger = Logger.getLogger(CardHandler.class);
+	private static final Logger logger = Logger.getLogger(CardHandler.class);
 	public void distributeCards(SpadeGame newSpadeGame) {
 
 		logger.info("Distributing cards...");
@@ -318,7 +317,19 @@ public class CardHandler {
 		}
 	}
 
-	public List<Card> sortCards(Set<Card> cardSet) {
+	public List<Card> sortCardsBySuitList(List<Card> cards){
+		
+		
+		Map<CardSuit,Set<Card>> cardMap = distributeCardsAccordingToSuit(cards.stream().collect(Collectors.toSet()));
+		
+		List<Card> sortedCards = new ArrayList<>();
+		for(Entry<CardSuit, Set<Card>> cardEntry : cardMap.entrySet()) {
+			List<Card> listCard = cardEntry.getValue().stream().collect(Collectors.toList());
+			sortedCards.addAll(sortCards(listCard));
+		}
+		return sortedCards;
+	}
+	public List<Card> sortCards(Collection<Card> cardSet) {
 
 		List<Card> cards = cardSet.stream().collect(Collectors.toList());
 		cards.sort((Card c1, Card c2) -> c1.getValue().getValue() - c2.getValue().getValue());

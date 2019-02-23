@@ -18,7 +18,7 @@ public class SpadeBidderHandler {
 	@Autowired
 	private SpadeTeamHandler spadeTeamHandler;
 
-	private Logger logger = Logger.getLogger(SpadeBidderHandler.class);
+	private static final Logger logger = Logger.getLogger(SpadeBidderHandler.class);
 
 	public void determineBid(SpadeGame newSpadeGame) {
 

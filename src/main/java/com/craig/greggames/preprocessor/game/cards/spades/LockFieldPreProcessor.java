@@ -23,8 +23,8 @@ public class LockFieldPreProcessor extends AbstractPreProcessor{
 	private SpadePersistenceDal spadePersistenceDal;
 	
 	private Set<SpadeNotifications> spadeNotifications=
-			new HashSet<>(Arrays.asList(SpadeNotifications.START,SpadeNotifications.BID, SpadeNotifications.PLAY));
-	private Logger logger = Logger.getLogger(LockFieldPreProcessor.class);
+			new HashSet<>(Arrays.asList(SpadeNotifications.START,SpadeNotifications.BID, SpadeNotifications.PLAY, SpadeNotifications.PLAY_AGAIN));
+	private static final Logger logger = Logger.getLogger(LockFieldPreProcessor.class);
 	
 	@Override
 	boolean isValidState(SpadeGame spadeGame) {

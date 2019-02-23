@@ -20,7 +20,7 @@ public class SpadeGameCreateState extends AbstractSpadeGameState {
 
 	private final SpadeNotifications spadeNotification = SpadeNotifications.CREATE;
 	
-	private Logger logger = Logger.getLogger(SpadeGameCreateState.class);
+	private static final Logger logger = Logger.getLogger(SpadeGameCreateState.class);
 	
 	@Value ("${spade.maxTime:60}")
 	private long maxTime;

@@ -38,7 +38,7 @@ public class SpadeGameHandler {
 	private SpadeBotHandler spadeBotHandler;
 	
 	
-	private Logger logger = Logger.getLogger(SpadeGameHandler.class);
+	private static final Logger logger = Logger.getLogger(SpadeGameHandler.class);
 
 	
 	public void create(SpadeGame newSpadeGame) {
@@ -130,10 +130,8 @@ public class SpadeGameHandler {
 				spadeGame.setHandOver(true);
 				if (spadeGame.isGameOver()) {
 					logger.info("Game is over for game id " + spadeGame.getGameId());
-					spadeGame.setTeams(null);
-					spadeGame.setPlaying(false);
-					create(spadeGame);
-					start(spadeGame);
+//					create(spadeGame);
+//					start(spadeGame);
 
 				} else {
 

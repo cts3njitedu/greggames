@@ -28,7 +28,7 @@ public class SpadeBotHandler {
 	@Autowired
 	private CardHandler cardHandler;
 	
-	private Logger logger = Logger.getLogger(SpadeBotHandler.class);
+	private static final Logger logger = Logger.getLogger(SpadeBotHandler.class);
 	
 	@Autowired
 	private GregMapper gregMapper;

@@ -32,7 +32,7 @@ public class SpadeGameBidState extends AbstractSpadeGameState {
 	private SpadeGameHandler spadeGameHandler;
 	private final SpadeNotifications spadeNotification = SpadeNotifications.BID;
 	
-	private Logger logger = Logger.getLogger(SpadeGameBidState.class);
+	private static final Logger logger = Logger.getLogger(SpadeGameBidState.class);
 
 	@Override
 	public SpadeGame state(SpadeGame spadeGame) {

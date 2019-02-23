@@ -24,7 +24,7 @@ import com.craig.greggames.model.game.cards.team.TeamTable;
 @Service
 public class SpadeTeamHandler {
 
-	private Logger logger = Logger.getLogger(SpadeTeamHandler.class);
+	private static final Logger logger = Logger.getLogger(SpadeTeamHandler.class);
 	public void makeTeams(SpadeGame newSpadeGame) {
 
 		logger.info("Making Teams...");
@@ -180,34 +180,59 @@ public class SpadeTeamHandler {
 
 		//what if there is a tie?
 		if (maxScoreTeam.getTotalScore() >= newSpadeGame.getPointsToWin()) {
-			
+			int wonCount = 0;
 			for (Entry<TeamTable, SpadeTeam> entry : newSpadeGame.getTeams().entrySet()) {
 
 				if (entry.getValue().getTotalScore() == maxScoreTeam.getTotalScore()) {
 					logger.info(entry.getKey() + " has won game with score of " + entry.getValue().getTotalScore() );
 					entry.getValue().setWon(true);
+					wonCount++;
 				} else {
 					entry.getValue().setWon(false);
 				}
 			}
-			newSpadeGame.setGameOver(true);
+			if(wonCount>1) {
+				for (Entry<TeamTable, SpadeTeam> entry : newSpadeGame.getTeams().entrySet()) {
 
+					entry.getValue().setWon(false);
+					
+				}
+				newSpadeGame.setGameOver(false);
+			}
+			else {
+				newSpadeGame.setGameOver(true);
+			}
+			
 		}
 
 		else {
 			
+			
 			if(minScoreTeam.getTotalScore()<=newSpadeGame.getPointsToLose()) {
-				
+				int lostCount = 0;
+				int wonCount = 0;
 				for (Entry<TeamTable, SpadeTeam> entry : newSpadeGame.getTeams().entrySet()) {
 
-					if (entry.getValue().getTotalScore() == maxScoreTeam.getTotalScore()) {
-						logger.info(entry.getKey() + " has won game with score of " + entry.getValue().getTotalScore());
-						entry.getValue().setWon(true);
-					} else {
+					if (entry.getValue().getTotalScore() == minScoreTeam.getTotalScore()) {
+						logger.info(entry.getKey() + " has lost game with score of " + entry.getValue().getTotalScore());
 						entry.getValue().setWon(false);
+						lostCount++;
+					} else {
+						entry.getValue().setWon(true);
+						wonCount++;
 					}
 				}
-				newSpadeGame.setGameOver(true);
+				if(lostCount==newSpadeGame.getNumberOfTeams()||wonCount>1) {
+					for (Entry<TeamTable, SpadeTeam> entry : newSpadeGame.getTeams().entrySet()) {
+
+						entry.getValue().setWon(false);
+						
+					}
+					newSpadeGame.setGameOver(false);
+				}
+				else {
+					newSpadeGame.setGameOver(true);
+				}
 			}
 			
 

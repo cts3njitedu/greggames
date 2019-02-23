@@ -23,7 +23,7 @@ public class SpadeMetaDataHandler {
 	@Autowired
 	private GregMapper gregMapper;
 	
-	private Logger logger = Logger.getLogger(SpadeMetaDataHandler.class);
+	private static final Logger logger = Logger.getLogger(SpadeMetaDataHandler.class);
 
 	public void addPreviousHand(SpadeGame spadeGame) {
 

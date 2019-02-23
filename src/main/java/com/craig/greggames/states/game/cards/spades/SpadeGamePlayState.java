@@ -24,7 +24,7 @@ public class SpadeGamePlayState extends AbstractSpadeGameState {
 	@Autowired
 	private SpadePersistenceDal spadePersistenceDal;
 
-	private Logger logger = Logger.getLogger(SpadeGamePlayState.class);
+	private static final Logger logger = Logger.getLogger(SpadeGamePlayState.class);
 
 	@Autowired
 	private SpadeGameHandler spadeGameHandler;

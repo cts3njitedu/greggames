@@ -3,6 +3,7 @@ package com.craig.greggames.model.game.cards.player;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -22,6 +23,7 @@ public abstract class Player {
 	private boolean won;
 	private Set<Card> remainingCards;
 	private Set<Card> playedCards;
+//	private List<Card> sortedCards;
 	private TeamTable team;
 	
 	private boolean hasPlayed;
@@ -33,6 +35,7 @@ public abstract class Player {
 
 	private Map<PlayerPosition, PlayerTable> playerPositions;
 
+	private boolean playAgain;
 	public String getUserId() {
 		return userId;
 	}
@@ -161,6 +164,22 @@ public abstract class Player {
 	public void setPlayerPositions(Map<PlayerPosition, PlayerTable> playerPositions) {
 		this.playerPositions = playerPositions;
 	}
+
+	public boolean isPlayAgain() {
+		return playAgain;
+	}
+
+	public void setPlayAgain(boolean playAgain) {
+		this.playAgain = playAgain;
+	}
+
+//	public List<Card> getSortedCards() {
+//		return sortedCards;
+//	}
+//
+//	public void setSortedCards(List<Card> sortedCards) {
+//		this.sortedCards = sortedCards;
+//	}
 
 	
 

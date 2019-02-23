@@ -14,7 +14,7 @@ import com.craig.greggames.model.game.cards.spades.dal.SpadePersistenceDal;
 @Order(1)
 public class SpadeGameReceiveErrorState extends AbstractSpadeGameState {
 
-	private Logger logger = Logger.getLogger(SpadeGameReceiveErrorState.class);
+	private static final Logger logger = Logger.getLogger(SpadeGameReceiveErrorState.class);
 	@Autowired
 	private SpadePlayerHandler spadePlayerHandler;
 

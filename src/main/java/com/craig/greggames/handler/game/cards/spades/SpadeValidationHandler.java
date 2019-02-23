@@ -22,7 +22,7 @@ public class SpadeValidationHandler {
 	@Autowired
 	private CardHandler cardHandler;
 	
-	private Logger logger = Logger.getLogger(SpadeValidationHandler.class);
+	private static final Logger logger = Logger.getLogger(SpadeValidationHandler.class);
 	public boolean validateBid(SpadeGame spadeGame) {
 
 		if (spadeGame.getGameModifier() == null) {

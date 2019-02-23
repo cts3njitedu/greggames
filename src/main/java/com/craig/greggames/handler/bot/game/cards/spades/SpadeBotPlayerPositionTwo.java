@@ -32,7 +32,7 @@ public class SpadeBotPlayerPositionTwo implements SpadeBotPlayerPosition {
 
 	@Autowired
 	private CardHandler cardHandler;
-	private Logger logger = Logger.getLogger(SpadeBotPlayerPositionTwo.class);
+	private static final Logger logger = Logger.getLogger(SpadeBotPlayerPositionTwo.class);
 
 	@Override
 	public boolean validatePosition(int position) {

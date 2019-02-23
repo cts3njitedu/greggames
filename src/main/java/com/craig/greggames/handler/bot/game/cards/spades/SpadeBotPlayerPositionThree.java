@@ -33,7 +33,7 @@ public class SpadeBotPlayerPositionThree implements SpadeBotPlayerPosition {
 	@Autowired
 	private CardHandler cardHandler;
 	
-	private Logger logger = Logger.getLogger(SpadeBotPlayerPositionThree.class);
+	private static final Logger logger = Logger.getLogger(SpadeBotPlayerPositionThree.class);
 	
 	
 	@Autowired

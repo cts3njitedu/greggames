@@ -89,6 +89,8 @@ public class SpadeGame extends CardGame {
 	private boolean serverPlaying;
 	
 	private boolean lock;
+	
+	private boolean playAgain;
 
 	public String getGameId() {
 		return gameId;
@@ -450,6 +452,14 @@ public class SpadeGame extends CardGame {
 
 	public void setServerPlaying(boolean serverPlaying) {
 		this.serverPlaying = serverPlaying;
+	}
+
+	public boolean isPlayAgain() {
+		return playAgain;
+	}
+
+	public void setPlayAgain(boolean playAgain) {
+		this.playAgain = playAgain;
 	}
 
 	

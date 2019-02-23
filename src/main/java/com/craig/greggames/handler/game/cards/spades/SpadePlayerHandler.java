@@ -31,7 +31,7 @@ public class SpadePlayerHandler {
 	@Autowired
 	private SpadeBotHandler spadeBotHandler;
 	
-	private Logger logger = Logger.getLogger(SpadePlayerHandler.class);
+	private static final Logger logger = Logger.getLogger(SpadePlayerHandler.class);
 	public void determinePlayerWinner(SpadeGame newSpadeGame) {
 
 		logger.info("Determining player winner");

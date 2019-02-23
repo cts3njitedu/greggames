@@ -25,7 +25,7 @@ public class SpadeGameErrorState extends AbstractSpadeGameState {
 	@Autowired
 	private SpadePlayerHandler spadePlayerHandler;
 	
-	private Logger logger = Logger.getLogger(SpadeGameErrorState.class);
+	private static final Logger logger = Logger.getLogger(SpadeGameErrorState.class);
 	@Override
 	public SpadeGame state(SpadeGame spadeGame) {
 		// TODO Auto-generated method stub

@@ -30,13 +30,20 @@ public class SpadeBidValidator extends AbstractSpadeValidator {
 		notificationSet.add(SpadeNotifications.BID);
 
 	}
+	
+	
 	@Override
 	public boolean validate(SpadeGame spadeGame) {
 		// TODO Auto-generated method stub
 		logger.info("Entering " + getClass());
+		
 		if(!notificationSet.contains(spadeGame.getPlayerNotification())) {
-			return true;
+			if(spadeGame.getPlayerNotification()!=SpadeNotifications.PLAY) {
+				return true;
+			}
+			
 		}
+		
 		if (spadeGame.getGameModifier() == null) {
 
 			return false;

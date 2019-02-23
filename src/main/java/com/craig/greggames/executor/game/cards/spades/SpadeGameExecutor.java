@@ -8,6 +8,7 @@ import com.craig.greggames.cleaners.games.cards.spades.SpadeGameCleanerEngine;
 import com.craig.greggames.enrichers.game.cards.spades.SpadeGameEnricherEngine;
 import com.craig.greggames.executor.game.cards.CardGameExecutor;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
+import com.craig.greggames.model.game.cards.spades.SpadeNotifications;
 import com.craig.greggames.model.game.cards.spades.dal.SpadePersistenceDal;
 import com.craig.greggames.postprocessor.game.cards.spades.PostProcessorExecutor;
 import com.craig.greggames.preprocessor.game.cards.spades.PreProcessorExecutor;
@@ -21,7 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class SpadeGameExecutor extends CardGameExecutor<SpadeGame> {
 
 
-	private Logger logger = Logger.getLogger(SpadeGameExecutor.class);
+	private static final Logger logger = Logger.getLogger(SpadeGameExecutor.class);
 
 	
 	@Autowired
@@ -69,12 +70,14 @@ public class SpadeGameExecutor extends CardGameExecutor<SpadeGame> {
 		
 		boolean isValid = validatorEngine.validate(newSpadeGame);
 		
-		//stop before going
-		if(isValid) {
-			stateEngine.machine(newSpadeGame);
-			
-			
+		if(!isValid) {
+			logger.info("Invalid request for : " + newSpadeGame.getGameModifier());
+			newSpadeGame.setPlayerNotification(SpadeNotifications.CLIENT_ERROR);
 		}
+		//stop before going
+		logger.info("Player notification after validation: " + newSpadeGame.getPlayerNotification());
+		stateEngine.machine(newSpadeGame);
+		
 		
 		return postProcessorExecutor.postProcess(newSpadeGame);
 		

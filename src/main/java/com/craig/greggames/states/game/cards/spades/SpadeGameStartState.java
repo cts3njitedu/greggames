@@ -25,7 +25,7 @@ public class SpadeGameStartState extends AbstractSpadeGameState {
 
 	@Autowired
 	private SpadeGameHandler spadeGameHandler;
-	private Logger logger = Logger.getLogger(SpadeGameStartState.class);
+	private static final Logger logger = Logger.getLogger(SpadeGameStartState.class);
 	private final SpadeNotifications spadeNotification = SpadeNotifications.START;
 
 	@Override

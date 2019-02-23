@@ -28,5 +28,8 @@ public enum SpadeNotifications {
 	
 	LEAVE_GAME,
 	
-	TIMER
+	TIMER,
+	
+	CLIENT_ERROR,
+	PLAY_AGAIN
 }

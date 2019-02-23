@@ -28,7 +28,7 @@ public class NewTimerTaskPostProcessor extends AbstractPostProcessor {
 	private Set<SpadeNotifications> spadeNotifications = new HashSet<>(
 			Arrays.asList(SpadeNotifications.BID, SpadeNotifications.PLAY, SpadeNotifications.START));
 
-	private Logger logger = Logger.getLogger(NewTimerTaskPostProcessor.class);
+	private static final Logger logger = Logger.getLogger(NewTimerTaskPostProcessor.class);
 
 	@Override
 	SpadeGame postProcess(SpadeGame spadeGame) {

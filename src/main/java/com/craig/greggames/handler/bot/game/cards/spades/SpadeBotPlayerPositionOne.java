@@ -31,7 +31,7 @@ public class SpadeBotPlayerPositionOne implements SpadeBotPlayerPosition {
 	@Autowired
 	private CardHandler cardHandler;
 	
-	private Logger logger = Logger.getLogger(SpadeBotPlayerPositionOne.class);
+	private static final Logger logger = Logger.getLogger(SpadeBotPlayerPositionOne.class);
 
 	@Override
 	public boolean validatePosition(int position) {

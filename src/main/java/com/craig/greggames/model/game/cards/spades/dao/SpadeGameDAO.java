@@ -91,6 +91,7 @@ public class SpadeGameDAO extends CardGame{
 	
 	private boolean lock;
 
+	private boolean playAgain;
 	public String getGameId() {
 		return gameId;
 	}
@@ -448,6 +449,18 @@ public class SpadeGameDAO extends CardGame{
 	public void setLock(boolean lock) {
 		this.lock = lock;
 	}
+
+	public boolean isPlayAgain() {
+		return playAgain;
+	}
+
+	public void setPlayAgain(boolean playAgain) {
+		this.playAgain = playAgain;
+	}
+	
+	
+	
+	
 	
 	
 	

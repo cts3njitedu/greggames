@@ -14,6 +14,7 @@ public class SpadeGameView {
 	private SpadeGame newGame;
 	
 	private List<SpadeGame> spadeGames;
+	
 
 	public SpadeGame getNewGame() {
 		return newGame;

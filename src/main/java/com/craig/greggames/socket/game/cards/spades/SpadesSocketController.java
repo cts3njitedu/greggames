@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.craig.greggames.exception.GreggamesException;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
+import com.craig.greggames.model.game.cards.spades.SpadeGameAbridged;
 import com.craig.greggames.model.game.cards.spades.SpadeGameView;
+import com.craig.greggames.model.game.cards.spades.dal.SpadePersistenceDal;
 import com.craig.greggames.response.game.cards.spades.SpadeResponseBuilder;
 import com.craig.greggames.service.cards.spades.SpadeService;
 //@CrossOrigin(origins = "http://localhost:4200")
@@ -22,6 +24,8 @@ public class SpadesSocketController {
 	@Autowired
 	private SpadeResponseBuilder spadeResponseBuilder;
 
+	@Autowired
+	private SpadePersistenceDal spadePersistenceDal;
 
 	@MessageMapping("/greggames/{ggType}")
     @SendTo("/topic/{ggType}")
@@ -36,8 +40,14 @@ public class SpadesSocketController {
     @SendTo("/topic/{ggType}/{gameId}")
     public SpadeGame modifyGameState(@DestinationVariable String ggType, @DestinationVariable String gameId, SpadeGame spadeGame) throws Exception, GreggamesException {
 		System.out.println("Playing Game....");
+//		SpadeGame spadeGame = spadePersistenceDal.findGame(spadeGameAbridged.getGameId());
 		spadeGame.setServerPlaying(false);
-        return spadeService.playGame(spadeGame);
+		spadeService.playGame(spadeGame);
+//		SpadeGame newSpadeGame = new SpadeGame();
+//		newSpadeGame.setGameId(spadeGame.getGameId());
+//		return newSpadeGame;
+			
+		return spadeGame;
     }
 	
 	

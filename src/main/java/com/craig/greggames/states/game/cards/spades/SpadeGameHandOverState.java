@@ -11,7 +11,7 @@ public class SpadeGameHandOverState extends AbstractSpadeGameState {
 
 	private final SpadeNotifications spadeNotification = SpadeNotifications.HAND_OVER;
 	
-	private Logger logger = Logger.getLogger(SpadeGameHandOverState.class);
+	private static final Logger logger = Logger.getLogger(SpadeGameHandOverState.class);
 
 	@Override
 	public SpadeGame state(SpadeGame spadeGame) {
