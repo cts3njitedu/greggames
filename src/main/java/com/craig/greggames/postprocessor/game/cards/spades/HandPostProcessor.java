@@ -21,7 +21,7 @@ import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.craig.greggames.model.game.cards.spades.SpadeNotifications;
 
 @Service
-@Order(Ordered.HIGHEST_PRECEDENCE)
+@Order(1)
 public class HandPostProcessor extends AbstractPostProcessor {
 
 	@Autowired
@@ -53,7 +53,7 @@ public class HandPostProcessor extends AbstractPostProcessor {
 	@Value ("${spade.maxTime:60}")
 	private long maxTime;
 	
-	private long maxNotificationTime = 5;
+	private long maxNotificationTime = 12;
 	
 	private  SpadeGame saveGame(SpadeGame spadeGame) {
 		

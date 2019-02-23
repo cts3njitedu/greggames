@@ -149,15 +149,15 @@ public class SpadeGameHandler {
 					spadeGame.setStartTurn(spadeGame.getStartHand());
 					spadeGame.setCurrTurn(spadeGame.getStartHand());
 
-					cardHandler.distributeCards(spadeGame);
-					spadeTeamHandler.cleanUpPoints(spadeGame);
-					spadeBidderHandler.cleanUpBid(spadeGame);
+//					cardHandler.distributeCards(spadeGame);
+//					spadeTeamHandler.cleanUpPoints(spadeGame);
+//					spadeBidderHandler.cleanUpBid(spadeGame);
 
 					spadeGame.setHandCount(spadeGame.getHandCount() + 1);
 					spadeGame.setTrickCount(0);
 					spadeGame.setTurnCount(1);
-					spadePlayerHandler.cleanUpWhoHasPlayed(spadeGame);
-					spadePlayerHandler.determineTurn(spadeGame);
+//					spadePlayerHandler.cleanUpWhoHasPlayed(spadeGame);
+//					spadePlayerHandler.determineTurn(spadeGame);
 
 				}
 

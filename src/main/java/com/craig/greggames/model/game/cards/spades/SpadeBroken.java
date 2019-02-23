@@ -9,7 +9,7 @@ public class SpadeBroken {
 	
 	private int trickCount;
 	
-	private boolean isFirstSpade;
+	private boolean firstSpade;
 
 	public PlayerTable getPlayer() {
 		return player;
@@ -28,11 +28,11 @@ public class SpadeBroken {
 	}
 
 	public boolean isFirstSpade() {
-		return isFirstSpade;
+		return firstSpade;
 	}
 
 	public void setFirstSpade(boolean isFirstSpade) {
-		this.isFirstSpade = isFirstSpade;
+		this.firstSpade = isFirstSpade;
 	}
 	
 	

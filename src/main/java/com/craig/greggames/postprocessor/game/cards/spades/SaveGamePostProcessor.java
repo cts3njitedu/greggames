@@ -3,22 +3,19 @@ package com.craig.greggames.postprocessor.game.cards.spades;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
 import com.craig.greggames.handler.game.cards.spades.SpadeBotHandler;
-import com.craig.greggames.handler.game.cards.spades.SpadePlayerHandler;
 import com.craig.greggames.handler.game.cards.spades.SpadeTeamHandler;
 import com.craig.greggames.model.game.cards.player.PlayerTable;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
-import com.craig.greggames.model.game.cards.spades.SpadeGameState;
 import com.craig.greggames.model.game.cards.spades.SpadeNotifications;
 import com.craig.greggames.model.game.cards.spades.SpadePlayer;
 import com.craig.greggames.model.game.cards.spades.SpadeTeam;
@@ -26,7 +23,7 @@ import com.craig.greggames.model.game.cards.spades.dal.SpadePersistenceDal;
 import com.craig.greggames.model.game.cards.team.TeamTable;
 
 @Service
-@Order(1)
+@Order(3)
 public class SaveGamePostProcessor extends AbstractPostProcessor {
 
 	@Autowired
