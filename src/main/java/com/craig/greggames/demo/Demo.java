@@ -14,11 +14,8 @@ import com.craig.greggames.handler.game.cards.spades.SpadeGameHandler;
 import com.craig.greggames.handler.game.cards.spades.SpadePlayerHandler;
 import com.craig.greggames.handler.game.cards.spades.SpadeTeamHandler;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
-import com.craig.greggames.model.game.cards.spades.SpadeNotifications;
 import com.craig.greggames.util.GregMapper;
 import com.craig.greggames.util.UpdateGenerator;
-
-import cucumber.deps.com.thoughtworks.xstream.mapper.Mapper;
 
 public class Demo {
 

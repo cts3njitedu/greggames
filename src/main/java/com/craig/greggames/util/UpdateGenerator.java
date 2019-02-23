@@ -1,16 +1,10 @@
 package com.craig.greggames.util;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
-
-import java.beans.IntrospectionException;
 import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -20,7 +14,6 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.ReflectionUtils;
-import org.springframework.util.ReflectionUtils.FieldCallback;
 import org.springframework.util.ReflectionUtils.MethodCallback;
 
 import com.craig.greggames.model.game.cards.spades.SpadeNotifications;
