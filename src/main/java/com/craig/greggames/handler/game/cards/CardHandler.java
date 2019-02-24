@@ -295,15 +295,15 @@ public class CardHandler {
 
 				.get(player).getPlayingCard();
 
-		Set<Card> cardsLeft = newSpadeGame.getTeams()
-				.get(spadeTeamHandler.getTeamByPlayer(player, newSpadeGame.getNumberOfTeams())).getPlayers().get(player)
-				.getRemainingCards();
-
+		SpadePlayer spadePlayer = newSpadeGame.getTeams()
+				.get(spadeTeamHandler.getTeamByPlayer(player, newSpadeGame.getNumberOfTeams())).getPlayers().get(player);
+		Set<Card> cardsLeft = spadePlayer.getRemainingCards().stream().collect(Collectors.toSet());
 		Set<Card> cardsPlayed = newSpadeGame.getTeams()
 				.get(spadeTeamHandler.getTeamByPlayer(player, newSpadeGame.getNumberOfTeams())).getPlayers().get(player)
 				.getPlayedCards();
 		cardsLeft.remove(oldPlayingCard);
 		cardsPlayed.add(oldPlayingCard);
+		spadePlayer.setRemainingCards(cardsLeft.stream().collect(Collectors.toList()));
 
 	}
 
@@ -316,6 +316,16 @@ public class CardHandler {
 
 		}
 	}
+	
+	public void sortAllPlayerCards(SpadeGame spadeGame) {
+		for (Entry<TeamTable, SpadeTeam> teams : spadeGame.getTeams().entrySet()) {
+			for (Entry<PlayerTable, SpadePlayer> players : teams.getValue().getPlayers().entrySet()) {
+				List<Card>remainingCards = players.getValue().getRemainingCards().stream().collect(Collectors.toList());
+				
+				players.getValue().setRemainingCards(sortCardsBySuitList(remainingCards));
+			}
+		}
+	}
 
 	public List<Card> sortCardsBySuitList(List<Card> cards){
 		
@@ -323,10 +333,20 @@ public class CardHandler {
 		Map<CardSuit,Set<Card>> cardMap = distributeCardsAccordingToSuit(cards.stream().collect(Collectors.toSet()));
 		
 		List<Card> sortedCards = new ArrayList<>();
-		for(Entry<CardSuit, Set<Card>> cardEntry : cardMap.entrySet()) {
-			List<Card> listCard = cardEntry.getValue().stream().collect(Collectors.toList());
-			sortedCards.addAll(sortCards(listCard));
-		}
+		
+		//clubs
+		List<Card> listCard = cardMap.get(CardSuit.DIAMONDS).stream().collect(Collectors.toList());
+		sortedCards.addAll(sortCards(listCard));
+		
+		listCard = cardMap.get(CardSuit.CLUBS).stream().collect(Collectors.toList());
+		sortedCards.addAll(sortCards(listCard));
+		
+		listCard = cardMap.get(CardSuit.HEARTS).stream().collect(Collectors.toList());
+		sortedCards.addAll(sortCards(listCard));
+		
+		listCard = cardMap.get(CardSuit.SPADES).stream().collect(Collectors.toList());
+		sortedCards.addAll(sortCards(listCard));
+		
 		return sortedCards;
 	}
 	public List<Card> sortCards(Collection<Card> cardSet) {
@@ -433,7 +453,7 @@ public class CardHandler {
 		
 		SpadePlayer teamMate = findTeamMate(playersOnTeam, currPlayer);
 		
-		Map<CardSuit, Set<Card>> currPlayerRemainingCards = distributeCardsAccordingToSuit(currPlayer.getRemainingCards());
+		Map<CardSuit, Set<Card>> currPlayerRemainingCards = distributeCardsAccordingToSuit(currPlayer.getRemainingCards().stream().collect(Collectors.toSet()));
 		
 		Set<Card> allCardsPlayed = new HashSet<>();
 		

@@ -29,10 +29,17 @@ public class NewTimerTaskPostProcessor extends AbstractPostProcessor {
 			Arrays.asList(SpadeNotifications.BID, SpadeNotifications.PLAY, SpadeNotifications.START));
 
 	private static final Logger logger = Logger.getLogger(NewTimerTaskPostProcessor.class);
+	
+	private Set<SpadeNotifications> messageNotifications = new HashSet<>(Arrays.asList(
+			SpadeNotifications.CLIENT_ERROR
+	));
 
 	@Override
 	SpadeGame postProcess(SpadeGame spadeGame) {
 		// TODO Auto-generated method stub
+		if(messageNotifications.contains(spadeGame.getPlayerNotification())) {
+			return spadeGame;
+		}
 		logger.info("Entering " + getClass());
 		if (spadeNotifications.contains(spadeGame.getPlayerNotification())) {
 			logger.info("Valid state to set task");

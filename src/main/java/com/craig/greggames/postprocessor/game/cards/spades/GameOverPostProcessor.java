@@ -1,5 +1,8 @@
 package com.craig.greggames.postprocessor.game.cards.spades;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
@@ -27,6 +30,10 @@ public class GameOverPostProcessor extends AbstractPostProcessor {
 	@Autowired
 	private SpadeGameHandler spadeGameHandler;
 	private static final Logger logger = Logger.getLogger(GameOverPostProcessor.class);
+	
+	private Set<SpadeNotifications> messageNotifications = new HashSet<>(Arrays.asList(
+			SpadeNotifications.CLIENT_ERROR
+	));
 
 	@Override
 	SpadeGame postProcess(SpadeGame spadeGame) {
@@ -41,6 +48,9 @@ public class GameOverPostProcessor extends AbstractPostProcessor {
 
 	private SpadeGame saveGame(SpadeGame spadeGame) {
 
+		if(messageNotifications.contains(spadeGame.getPlayerNotification())) {
+			return spadeGame;
+		}
 		logger.info("Entering: " + getClass());
 		if (spadeGame.isGameOver()) {
 

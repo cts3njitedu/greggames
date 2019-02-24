@@ -1,8 +1,6 @@
 package com.craig.greggames.demo;
 
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,13 +10,10 @@ import com.craig.greggames.handler.game.cards.CardHandler;
 import com.craig.greggames.handler.game.cards.spades.SpadeGameHandler;
 import com.craig.greggames.handler.game.cards.spades.SpadeTeamHandler;
 import com.craig.greggames.model.game.cards.Card;
-import com.craig.greggames.model.game.cards.CardSuit;
 import com.craig.greggames.model.game.cards.player.PlayerTable;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.craig.greggames.model.game.cards.spades.SpadePlayer;
 import com.craig.greggames.model.game.cards.team.TeamTable;
-import com.craig.greggames.util.DealUtility;
-import com.craig.greggames.validator.game.cards.spades.SpadeValidator;
 import com.craig.greggames.validator.game.cards.spades.SpadeValidatorEngine;
 
 @Service
@@ -100,7 +95,7 @@ public class PlaySpades {
 		System.out.println("Bid: " + spadePlayer4.getPlayerBid());
 
 		Card card = null;
-		Set<Card> cards = null;
+		List<Card> cards = null;
 		for (int i = 1; i <= 13; i++) {
 
 			PlayerTable player = spadeGame.getCurrTurn();

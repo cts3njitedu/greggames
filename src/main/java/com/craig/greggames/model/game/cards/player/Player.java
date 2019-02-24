@@ -1,5 +1,6 @@
 package com.craig.greggames.model.game.cards.player;
 
+import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -21,7 +22,7 @@ public abstract class Player {
 	private Card playingCard;
 	private boolean turn;
 	private boolean won;
-	private Set<Card> remainingCards;
+	private List<Card> remainingCards;
 	private Set<Card> playedCards;
 //	private List<Card> sortedCards;
 	private TeamTable team;
@@ -84,14 +85,14 @@ public abstract class Player {
 		this.won = isWon;
 	}
 
-	public Set<Card> getRemainingCards() {
+	public List<Card> getRemainingCards() {
 		if (remainingCards == null) {
-			remainingCards = new HashSet<Card>();
+			remainingCards = new ArrayList<Card>();
 		}
 		return remainingCards;
 	}
 
-	public void setRemainingCards(Set<Card> remainingCards) {
+	public void setRemainingCards(List<Card> remainingCards) {
 		this.remainingCards = remainingCards;
 	}
 

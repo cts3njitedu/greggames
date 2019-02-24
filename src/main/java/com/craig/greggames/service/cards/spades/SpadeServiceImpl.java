@@ -2,15 +2,23 @@ package com.craig.greggames.service.cards.spades;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.craig.greggames.executor.game.cards.spades.SpadeGameExecutor;
+import com.craig.greggames.handler.game.cards.CardHandler;
+import com.craig.greggames.model.game.cards.Card;
+import com.craig.greggames.model.game.cards.player.PlayerTable;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.craig.greggames.model.game.cards.spades.SpadeGameView;
+import com.craig.greggames.model.game.cards.spades.SpadePlayer;
 import com.craig.greggames.model.game.cards.spades.SpadePlayerView;
+import com.craig.greggames.model.game.cards.spades.SpadeTeam;
 import com.craig.greggames.model.game.cards.spades.dal.SpadePersistenceDal;
+import com.craig.greggames.model.game.cards.team.TeamTable;
 import com.craig.greggames.response.game.cards.spades.SpadeResponseBuilder;
 
 @Service
@@ -22,6 +30,8 @@ public class SpadeServiceImpl implements SpadeService {
 	@Autowired
 	private SpadeGameExecutor spadeGameExecutor;
 	
+	@Autowired
+	private CardHandler cardHandler;
 	
 
 	@Override
@@ -33,7 +43,9 @@ public class SpadeServiceImpl implements SpadeService {
 	@Override
 	public SpadeGame findGame(String gameId) {
 		// TODO Auto-generated method stub
-		return spadePersistenceDal.findGame(gameId);
+		SpadeGame spadeGame = spadePersistenceDal.findGame(gameId);
+		cardHandler.sortAllPlayerCards(spadeGame);
+		return spadeGame;
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package com.craig.greggames.validator.game.cards.spades;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +66,7 @@ public class SpadeCardValidator extends AbstractSpadeValidator {
 			Card card = player.getPlayingCard();
 			Card startCard = leadPlayer.getPlayingCard();
 
-			Set<Card> cards = player.getRemainingCards();
+			Set<Card> cards = player.getRemainingCards().stream().collect(Collectors.toSet());
 
 			Map<CardSuit, Set<Card>> cardsForEachSuit = cardHandler.distributeCardsAccordingToSuit(cards);
 
@@ -128,7 +129,7 @@ public class SpadeCardValidator extends AbstractSpadeValidator {
 		leadPlayer.getErrorMessages().clear();
 
 		Card leadPlayerCard = leadPlayer.getPlayingCard();
-		Set<Card> cards = leadPlayer.getRemainingCards();
+		Set<Card> cards = leadPlayer.getRemainingCards().stream().collect(Collectors.toSet());
 
 		Map<CardSuit, Set<Card>> cardsForEachSuit = cardHandler.distributeCardsAccordingToSuit(cards);
 

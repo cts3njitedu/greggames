@@ -1,5 +1,9 @@
 package com.craig.greggames.executor.game.cards.spades;
 
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -7,9 +11,14 @@ import org.springframework.stereotype.Service;
 import com.craig.greggames.cleaners.games.cards.spades.SpadeGameCleanerEngine;
 import com.craig.greggames.enrichers.game.cards.spades.SpadeGameEnricherEngine;
 import com.craig.greggames.executor.game.cards.CardGameExecutor;
+import com.craig.greggames.model.game.cards.Card;
+import com.craig.greggames.model.game.cards.player.PlayerTable;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.craig.greggames.model.game.cards.spades.SpadeNotifications;
+import com.craig.greggames.model.game.cards.spades.SpadePlayer;
+import com.craig.greggames.model.game.cards.spades.SpadeTeam;
 import com.craig.greggames.model.game.cards.spades.dal.SpadePersistenceDal;
+import com.craig.greggames.model.game.cards.team.TeamTable;
 import com.craig.greggames.postprocessor.game.cards.spades.PostProcessorExecutor;
 import com.craig.greggames.preprocessor.game.cards.spades.PreProcessorExecutor;
 import com.craig.greggames.states.game.cards.spades.SpadeGameStateEngine;
@@ -74,10 +83,11 @@ public class SpadeGameExecutor extends CardGameExecutor<SpadeGame> {
 			logger.info("Invalid request for : " + newSpadeGame.getGameModifier());
 			newSpadeGame.setPlayerNotification(SpadeNotifications.CLIENT_ERROR);
 		}
-		//stop before going
+		
 		logger.info("Player notification after validation: " + newSpadeGame.getPlayerNotification());
 		stateEngine.machine(newSpadeGame);
 		
+	
 		
 		return postProcessorExecutor.postProcess(newSpadeGame);
 		

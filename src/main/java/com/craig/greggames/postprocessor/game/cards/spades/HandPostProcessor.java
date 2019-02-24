@@ -1,5 +1,8 @@
 package com.craig.greggames.postprocessor.game.cards.spades;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
@@ -36,6 +39,12 @@ public class HandPostProcessor extends AbstractPostProcessor {
 	private SpadeBidderHandler spadeBidderHandler;
 	
 	private static final Logger logger = Logger.getLogger(HandPostProcessor.class);
+	
+	
+	private Set<SpadeNotifications> messageNotifications = new HashSet<>(Arrays.asList(
+			SpadeNotifications.CLIENT_ERROR
+	));
+	
 	@Override
 	SpadeGame postProcess(SpadeGame spadeGame) {
 		// TODO Auto-generated method stub
@@ -49,6 +58,9 @@ public class HandPostProcessor extends AbstractPostProcessor {
 	
 	private  SpadeGame saveGame(SpadeGame spadeGame) {
 		
+		if(messageNotifications.contains(spadeGame.getPlayerNotification())) {
+			return spadeGame;
+		}
 		logger.info("Entering: "+getClass());
 		if(spadeGame.isHandOver()) {
 			simpMessagingTemplate.convertAndSend("/topic/spades/" + spadeGame.getGameId(), spadeGame);

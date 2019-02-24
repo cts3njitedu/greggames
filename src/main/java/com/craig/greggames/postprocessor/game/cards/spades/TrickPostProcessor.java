@@ -56,6 +56,7 @@ public class TrickPostProcessor extends AbstractPostProcessor {
 				
 				spadeGame.setTrickOver(false);
 				spadeGame.setPreviousTrick(null);
+				spadeGame.setSpadeBroken(null);
 				spadeGame.setPlayerNotification(SpadeNotifications.TRICK_OVER);
 				
 			} catch (InterruptedException e) {

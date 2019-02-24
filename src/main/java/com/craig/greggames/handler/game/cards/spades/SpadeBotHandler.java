@@ -3,6 +3,7 @@ package com.craig.greggames.handler.game.cards.spades;
 import static com.craig.greggames.constants.game.cards.spades.SpadeGameConstants.POINTS_WON_PER_TRICK_BEFORE_OVERBID;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +48,7 @@ public class SpadeBotHandler {
 				.get(spadeTeamHandler.getTeamByPlayer(spadeGame.getCurrTurn(), spadeGame.getNumberOfTeams()));
 
 		SpadePlayer player = team.getPlayers().get(spadeGame.getCurrTurn());
-		Set<Card> cards = player.getRemainingCards();
+		Set<Card> cards = player.getRemainingCards().stream().collect(Collectors.toSet());
 		for (Card card : cards) {
 
 			switch (card.getSuit()) {

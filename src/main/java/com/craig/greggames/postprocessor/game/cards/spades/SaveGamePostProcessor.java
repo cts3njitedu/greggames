@@ -40,9 +40,17 @@ public class SaveGamePostProcessor extends AbstractPostProcessor {
 	private Set<SpadeNotifications> playerChangeNotifications = 
 			new HashSet<>(Arrays.asList(SpadeNotifications.LEAVE_GAME,SpadeNotifications.NEW_PLAYER));
 	private static final Logger logger = Logger.getLogger(SaveGamePostProcessor.class);
+	
+	private Set<SpadeNotifications> messageNotifications = new HashSet<>(Arrays.asList(
+			SpadeNotifications.CLIENT_ERROR
+	));
+	
 	@Override
 	SpadeGame postProcess(SpadeGame spadeGame) {
 		// TODO Auto-generated method stub
+		if(messageNotifications.contains(spadeGame.getPlayerNotification())) {
+			return spadeGame;
+		}
 		return saveGame(spadeGame);
 	}
 	
