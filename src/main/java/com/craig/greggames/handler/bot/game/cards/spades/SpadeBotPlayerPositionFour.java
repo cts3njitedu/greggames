@@ -113,7 +113,7 @@ public class SpadeBotPlayerPositionFour implements SpadeBotPlayerPosition {
 				.containsKey(leadPlayerCard.getSuit());
 		boolean hasOnlySpades = clubs.size() == 0 && hearts.size() == 0 && diamonds.size() == 0;
 		boolean canPlaySpades = (hearts.size()==0 && clubs.size()==0&&diamonds.size()==0) || spadeGame.isSpadePlayed();
-		boolean hasSpades = spades.size()==0;
+		boolean hasSpades = spades.size()!=0;
 		Card winnerCard = currWinner.getPlayingCard();
 		
 		if(currPlayer.isBidNil()) {

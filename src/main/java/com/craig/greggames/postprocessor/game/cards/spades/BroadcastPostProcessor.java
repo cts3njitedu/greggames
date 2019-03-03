@@ -1,5 +1,7 @@
 package com.craig.greggames.postprocessor.game.cards.spades;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -17,7 +19,7 @@ import com.craig.greggames.model.game.cards.spades.SpadeNotifications;
 
 @Service
 @Order(Ordered.LOWEST_PRECEDENCE)
-public class NewTimerTaskPostProcessor extends AbstractPostProcessor {
+public class BroadcastPostProcessor extends AbstractPostProcessor {
 
 	@Autowired
 	private SpadeGameBroadCaster spadeGameBroadCaster;
@@ -26,9 +28,11 @@ public class NewTimerTaskPostProcessor extends AbstractPostProcessor {
 	private SimpMessagingTemplate simpMessagingTemplate;
 
 	private Set<SpadeNotifications> spadeNotifications = new HashSet<>(
-			Arrays.asList(SpadeNotifications.BID, SpadeNotifications.PLAY, SpadeNotifications.START));
+			Arrays.asList(SpadeNotifications.BID, SpadeNotifications.PLAY, SpadeNotifications.START,
+					SpadeNotifications.CREATE, SpadeNotifications.NEW_PLAYER,SpadeNotifications.LEAVE_GAME,
+					SpadeNotifications.TRICK_OVER,SpadeNotifications.HAND_OVER,SpadeNotifications.GAME_OVER));
 
-	private static final Logger logger = Logger.getLogger(NewTimerTaskPostProcessor.class);
+	private static final Logger logger = Logger.getLogger(BroadcastPostProcessor.class);
 	
 	private Set<SpadeNotifications> messageNotifications = new HashSet<>(Arrays.asList(
 			SpadeNotifications.CLIENT_ERROR
@@ -37,20 +41,11 @@ public class NewTimerTaskPostProcessor extends AbstractPostProcessor {
 	@Override
 	SpadeGame postProcess(SpadeGame spadeGame) {
 		// TODO Auto-generated method stub
-		if(messageNotifications.contains(spadeGame.getPlayerNotification())) {
-			return spadeGame;
+		logger.info("Entering: " + getClass());
+		if(spadeNotifications.contains(spadeGame.getPlayerNotification())) {
+			simpMessagingTemplate.convertAndSend("/topic/spades/" + spadeGame.getGameId(), spadeGame);
 		}
-		logger.info("Entering " + getClass());
-		if (spadeNotifications.contains(spadeGame.getPlayerNotification())) {
-			logger.info("Valid state to set task");
-			spadeGameBroadCaster.removeGameFromScheduler(spadeGame);
-
-			spadeGameBroadCaster.addGameToScheduler(spadeGame);
-			if (spadeGame.isServerPlaying()) {
-				logger.info("Broadcasting message for " + spadeGame.getGameId());
-				simpMessagingTemplate.convertAndSend("/topic/spades/" + spadeGame.getGameId(), spadeGame);
-			}
-		}
+		logger.info("Exiting: " + getClass());
 		return spadeGame;
 	}
 

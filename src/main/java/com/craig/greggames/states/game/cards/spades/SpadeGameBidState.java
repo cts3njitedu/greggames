@@ -12,7 +12,7 @@ import com.craig.greggames.model.game.cards.spades.SpadeErrors;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.craig.greggames.model.game.cards.spades.SpadeNotifications;
 import com.craig.greggames.model.game.cards.spades.dal.SpadePersistenceDal;
-import com.craig.greggames.postprocessor.game.cards.spades.NewTimerTaskPostProcessor;
+import com.craig.greggames.postprocessor.game.cards.spades.BroadcastPostProcessor;
 import com.craig.greggames.validator.game.cards.spades.SpadeValidatorEngine;
 
 @Service

@@ -10,9 +10,11 @@ import com.craig.greggames.model.game.cards.spades.SpadeGameAbridged;
 import com.craig.greggames.model.game.cards.spades.dao.SpadeGameDAO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 @Service
 public class GregMapper {
+
 
 	public SpadeGameDAO spadeGameToDAO(SpadeGame spadeGame) {
 
@@ -32,6 +34,20 @@ public class GregMapper {
 		return spadeGame;
 	}
 
+	public <T> T convertObjectToList(Object sourceObject,TypeReference <?> typeReference){
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
+		T obj = null;
+		try {
+			obj = mapper.readValue(convertObjectToString(sourceObject),typeReference);
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return obj;
+		
+	}
 	public <T> String convertObjectToString(T jsonObject) {
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonString = null;

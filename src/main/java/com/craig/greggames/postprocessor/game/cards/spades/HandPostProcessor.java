@@ -18,6 +18,7 @@ import com.craig.greggames.handler.game.cards.spades.SpadePlayerHandler;
 import com.craig.greggames.handler.game.cards.spades.SpadeTeamHandler;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.craig.greggames.model.game.cards.spades.SpadeNotifications;
+import com.craig.greggames.util.TimeHelper;
 
 @Service
 @Order(2)
@@ -38,6 +39,9 @@ public class HandPostProcessor extends AbstractPostProcessor {
 	@Autowired
 	private SpadeBidderHandler spadeBidderHandler;
 	
+	@Autowired
+	private TimeHelper timeHelper;
+	
 	private static final Logger logger = Logger.getLogger(HandPostProcessor.class);
 	
 	
@@ -54,7 +58,7 @@ public class HandPostProcessor extends AbstractPostProcessor {
 	@Value ("${spade.maxTime:60}")
 	private long maxTime;
 	@Value ("${spade.maxNotificationTime:12}")
-	private long maxNotificationTime;
+	private int maxNotificationTime;
 	
 	private  SpadeGame saveGame(SpadeGame spadeGame) {
 		
@@ -65,26 +69,20 @@ public class HandPostProcessor extends AbstractPostProcessor {
 		if(spadeGame.isHandOver()) {
 			simpMessagingTemplate.convertAndSend("/topic/spades/" + spadeGame.getGameId(), spadeGame);
 			
-			try {
-				logger.info("Pausing game id: "+spadeGame.getGameId());
-				TimeUnit.SECONDS.sleep(maxNotificationTime);
-				logger.info("Finish pausing game id: "+spadeGame.getGameId());
-				if(!spadeGame.isGameOver()) {
-					cardHandler.distributeCards(spadeGame);
-					
-				}
-				spadeTeamHandler.cleanUpPoints(spadeGame);
-				spadeBidderHandler.cleanUpBid(spadeGame);
-				spadePlayerHandler.cleanUpWhoHasPlayed(spadeGame);
-				spadePlayerHandler.determineTurn(spadeGame);
-				spadeGame.setHandOver(false);
-				spadeGame.setPreviousHand(null);
-				spadeGame.setPlayerNotification(SpadeNotifications.HAND_OVER);
+			logger.info("Pausing game id: "+spadeGame.getGameId());
+			timeHelper.delayTask(maxNotificationTime);
+			logger.info("Finish pausing game id: "+spadeGame.getGameId());
+			if(!spadeGame.isGameOver()) {
+				cardHandler.distributeCards(spadeGame);
 				
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
+			spadeTeamHandler.cleanUpPoints(spadeGame);
+			spadeBidderHandler.cleanUpBid(spadeGame);
+			spadePlayerHandler.cleanUpWhoHasPlayed(spadeGame);
+			spadePlayerHandler.determineTurn(spadeGame);
+			spadeGame.setHandOver(false);
+			spadeGame.setPreviousHand(null);
+			spadeGame.setPlayerNotification(SpadeNotifications.HAND_OVER);
 		}
 		logger.info("Exiting: " + getClass());
 		return spadeGame;

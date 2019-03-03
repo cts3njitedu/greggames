@@ -33,6 +33,7 @@ public abstract class PlayerDAO {
 	private boolean error;
 	private Map<SpadeErrors,String> errorMessages;
 	private Map<ServerMessage, String> serverMessages;
+	private boolean displayServerMessage;
 
 	private Map<PlayerPosition, PlayerTable> playerPositions;
 	
@@ -175,14 +176,15 @@ public abstract class PlayerDAO {
 		this.playAgain = playAgain;
 	}
 
-//	public List<Card> getSortedCards() {
-//		return sortedCards;
-//	}
-//
-//	public void setSortedCards(List<Card> sortedCards) {
-//		this.sortedCards = sortedCards;
-//	}
-//	
+	public boolean isDisplayServerMessage() {
+		return displayServerMessage;
+	}
+
+	public void setDisplayServerMessage(boolean displayServerMessage) {
+		this.displayServerMessage = displayServerMessage;
+	}
+
+	
 	
 	
 	

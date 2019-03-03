@@ -7,6 +7,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.craig.greggames.model.GregGameChildTypes;
+import com.craig.greggames.model.game.AsyncState;
 import com.craig.greggames.model.game.cards.CardGame;
 import com.craig.greggames.model.game.cards.player.PlayerTable;
 import com.craig.greggames.model.game.cards.spades.SpadeBroken;
@@ -92,6 +93,8 @@ public class SpadeGameDAO extends CardGame{
 	private boolean lock;
 
 	private boolean playAgain;
+	
+	private AsyncState asyncState;
 	public String getGameId() {
 		return gameId;
 	}
@@ -456,6 +459,14 @@ public class SpadeGameDAO extends CardGame{
 
 	public void setPlayAgain(boolean playAgain) {
 		this.playAgain = playAgain;
+	}
+
+	public AsyncState getAsyncState() {
+		return asyncState;
+	}
+
+	public void setAsyncState(AsyncState asyncState) {
+		this.asyncState = asyncState;
 	}
 	
 	

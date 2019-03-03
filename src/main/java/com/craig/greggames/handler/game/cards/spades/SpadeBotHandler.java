@@ -112,8 +112,10 @@ public class SpadeBotHandler {
 		logger.info("Spade game metadata: " + gregMapper.convertObjectToString(spadeGameMetaData));
 		int playerTrickPosition = spadeTeamHandler.getTrickPlayerPosition(leadPlayer.getName(), currPlayer.getName());
 
-		return spadeBotPlayerPositionEngine.botPlayerEngine(spadeGameMetaData, newSpadeGame, playerTrickPosition);
+		Card card = spadeBotPlayerPositionEngine.botPlayerEngine(spadeGameMetaData, newSpadeGame, playerTrickPosition);
 
+		logger.info("Playing card: " + gregMapper.convertObjectToString(card) + ", for player "+ currPlayer.getName());
+		return card;
 	}
 
 	public void determineBots(SpadeGame newSpadeGame) {

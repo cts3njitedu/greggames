@@ -21,6 +21,8 @@ public class SpadeMessageCleaner extends AbstractSpadeGameCleaner {
 			for(Entry<PlayerTable, SpadePlayer> player: team.getValue().getPlayers().entrySet()) {
 				player.getValue().getErrorMessages().clear();
 				player.getValue().getServerMessages().clear();
+				player.getValue().setDisplayServerMessage(false);
+				player.getValue().setError(false);
 			}
 		}
 

@@ -23,11 +23,4 @@ public class CardGamesApplication {
 	    TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
 	}
 	
-	
-//	@Bean
-//	public ServletServerContainerFactoryBean getServlet() {
-//		ServletServerContainerFactoryBean serverContainerFactoryBean = new ServletServerContainerFactoryBean();
-//		serverContainerFactoryBean.setMaxTextMessageBufferSize(200*1024*1024);
-//		return serverContainerFactoryBean;
-//	}
 }

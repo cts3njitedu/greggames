@@ -35,6 +35,8 @@ public abstract class Player {
 	private Map<ServerMessage, String> serverMessages;
 
 	private Map<PlayerPosition, PlayerTable> playerPositions;
+	
+	private boolean displayServerMessage;
 
 	private boolean playAgain;
 	public String getUserId() {
@@ -174,13 +176,14 @@ public abstract class Player {
 		this.playAgain = playAgain;
 	}
 
-//	public List<Card> getSortedCards() {
-//		return sortedCards;
-//	}
-//
-//	public void setSortedCards(List<Card> sortedCards) {
-//		this.sortedCards = sortedCards;
-//	}
+	public boolean isDisplayServerMessage() {
+		return displayServerMessage;
+	}
+
+	public void setDisplayServerMessage(boolean displayServerMessage) {
+		this.displayServerMessage = displayServerMessage;
+	}
+
 
 	
 

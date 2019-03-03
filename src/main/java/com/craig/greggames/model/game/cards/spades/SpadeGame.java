@@ -4,6 +4,7 @@ import java.util.EnumMap;
 import java.util.Map;
 
 import com.craig.greggames.model.GregGameChildTypes;
+import com.craig.greggames.model.game.AsyncState;
 import com.craig.greggames.model.game.cards.CardGame;
 import com.craig.greggames.model.game.cards.player.PlayerTable;
 import com.craig.greggames.model.game.cards.team.TeamTable;
@@ -89,7 +90,9 @@ public class SpadeGame extends CardGame {
 	private boolean lock;
 	
 	private boolean playAgain;
-
+	
+	private AsyncState asyncState;
+	
 	public String getGameId() {
 		return gameId;
 	}
@@ -458,6 +461,15 @@ public class SpadeGame extends CardGame {
 
 	public void setPlayAgain(boolean playAgain) {
 		this.playAgain = playAgain;
+	}
+
+
+	public AsyncState getAsyncState() {
+		return asyncState;
+	}
+
+	public void setAsyncState(AsyncState asyncState) {
+		this.asyncState = asyncState;
 	}
 
 	
