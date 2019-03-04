@@ -9,6 +9,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.craig.cards.Players;
+import com.craig.cards.TestConfiguration;
 import com.craig.greggames.CardGamesApplication;
 import com.craig.greggames.handler.game.cards.spades.SpadeBotHandler;
 import com.craig.greggames.handler.game.cards.spades.SpadeTeamHandler;
@@ -28,7 +29,7 @@ import cucumber.api.java.en.When;
 
 
 
-@ContextConfiguration(classes = CardGamesApplication.class)
+@ContextConfiguration(classes = {CardGamesApplication.class,TestConfiguration.class})
 public class SpadeBotBidSteps {
 
 	@Autowired
