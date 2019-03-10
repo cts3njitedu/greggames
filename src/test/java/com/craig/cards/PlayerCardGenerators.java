@@ -146,7 +146,7 @@ public class PlayerCardGenerators {
 		spadePlayer1.setBidNil(false);
 		spadePlayer1.setRemainingCards(Arrays.asList(Deck.SIX_DIAMONDS.getCard(),Deck.THREE_HEARTS.getCard(),Deck.NINE_CLUBS.getCard(),Deck.FOUR_SPADES.getCard()
 				,Deck.ACE_CLUBS.getCard(),Deck.EIGHT_HEARTS.getCard()));
-		spadePlayer1.setPlayingCard(Deck.JACK_CLUBS.getCard());
+		spadePlayer1.setPlayingCard(Deck.TEN_DIAMONDS.getCard());
 		
 		SpadePlayer spadePlayer2 = null;
 		TeamTable team2 = spadeTeamHandler.getTeamByPlayer(PlayerTable.PLAYER2, spadeGame.getNumberOfTeams());
@@ -157,15 +157,15 @@ public class PlayerCardGenerators {
 //		spadePlayer2.setRemainingCards(Arrays.asList(Deck.SEVEN_DIAMONDS.getCard(),Deck.FOUR_DIAMONDS.getCard(),Deck.ACE_HEARTS.getCard(),Deck.EIGHT_HEARTS.getCard()));
 //		spadePlayer2.setRemainingCards(Arrays.asList(Deck.SEVEN_SPADES.getCard(),Deck.FOUR_SPADES.getCard(),Deck.ACE_SPADES.getCard(),Deck.EIGHT_SPADES.getCard()));
 		spadePlayer2.setBidNil(false);
-		spadePlayer2.setPlayingCard(Deck.TEN_CLUBS.getCard());
+		spadePlayer2.setPlayingCard(Deck.NINE_DIAMONDS.getCard());
 		
 	
 		SpadePlayer spadePlayer3=null;
 		team1 = spadeTeamHandler.getTeamByPlayer(PlayerTable.PLAYER3, spadeGame.getNumberOfTeams());
 		spadePlayer3 = spadeGame.getTeams().get(team1).getPlayers().get(PlayerTable.PLAYER3);
 		spadePlayer3.setPlayingCard(null);
-		spadePlayer3.setRemainingCards(Arrays.asList(Deck.SEVEN_CLUBS.getCard(),Deck.TEN_DIAMONDS.getCard(),Deck.KING_CLUBS.getCard(),Deck.ACE_HEARTS.getCard(),Deck.FOUR_CLUBS.getCard()));
-//		spadePlayer3.setRemainingCards(Arrays.asList(Deck.SEVEN_SPADES.getCard(),Deck.TEN_SPADES.getCard(),Deck.ACE_SPADES.getCard(),Deck.EIGHT_SPADES.getCard()));
+//		spadePlayer3.setRemainingCards(Arrays.asList(Deck.SEVEN_CLUBS.getCard(),Deck.TEN_DIAMONDS.getCard(),Deck.KING_CLUBS.getCard(),Deck.ACE_HEARTS.getCard(),Deck.FOUR_CLUBS.getCard()));
+		spadePlayer3.setRemainingCards(Arrays.asList(Deck.THREE_SPADES.getCard(),Deck.FIVE_SPADES.getCard(),Deck.SIX_SPADES.getCard(),Deck.JACK_SPADES.getCard()));
 		spadePlayer3.setBidNil(false);
 		
 		
@@ -173,6 +173,6 @@ public class PlayerCardGenerators {
 		team2 = spadeTeamHandler.getTeamByPlayer(PlayerTable.PLAYER4, spadeGame.getNumberOfTeams());
 		spadePlayer4 = spadeGame.getTeams().get(team2).getPlayers().get(PlayerTable.PLAYER4);
 		spadePlayer4.setPlayingCard(null);
-		spadePlayer4.setBidNil(true);
+		spadePlayer4.setBidNil(false);
 	}
 }

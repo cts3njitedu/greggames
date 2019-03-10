@@ -46,6 +46,9 @@ public class SpadeBotPlayerPositionOne implements SpadeBotPlayerPosition {
 		Map<CardSuit, Card> highestCardsPlayed = spadeGameMetaData.getHighestCardPlayed();
 		Map<CardSuit, Card> lowestRemainingCards = spadeGameMetaData.getLowestRemainingCard();
 		Map<CardSuit, Card> highestRemainingCards = spadeGameMetaData.getHighestRemainingCard();
+		Map<Integer, SpadePlayer> positionPlayerMap = spadeGameMetaData.getPositionPlayerMap();
+		SpadePlayer positionTwo = positionPlayerMap.get(2);
+		SpadePlayer positionFour = positionPlayerMap.get(4);
 
 		boolean canPlaySpades = spadeGameMetaData.isCanPlaySpades();
 		
@@ -66,7 +69,7 @@ public class SpadeBotPlayerPositionOne implements SpadeBotPlayerPosition {
 
 			return cardHandler.findLargestCard(cardHandler.filterOutSpades(highestRemainingCards.values()));
 		} 
-		else if(hasOtherPlayerBidNil) {
+		else if(positionTwo.isBidNil() || positionFour.isBidNil()) {
 			logger.info("Other player bid nil");
 			if(canPlaySpades) {
 				return cardHandler.findSmallestCard(lowestRemainingCards.values());

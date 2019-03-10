@@ -254,9 +254,11 @@ public class CardHandler {
 	}
 
 	public Card findSmallestCardLargerThanCard(Set<Card> cardSet, Card cardToCompare) {
-		if (cardToCompare == null) {
+		if (cardToCompare == null||cardSet==null|| cardSet.size() == 0) {
 			return null;
 		}
+		
+		
 
 		List<Card> cards = cardSet.stream().collect(Collectors.toList());
 		cards.sort((Card c1, Card c2) -> c1.getValue().getValue() - c2.getValue().getValue());
@@ -569,7 +571,19 @@ public class CardHandler {
 			spadeGameMetaData.setCurrWinner(currWinner);
 		}
 		
+		Map<Integer, SpadePlayer> positionPlayerMap = new HashMap<>();
 		
+		int count = 1;
+		int code = newSpadeGame.getStartTurn().getCode();
+		for(int i=count; i<=MAX_TURN_PER_TRICK; i++) {
+			positionPlayerMap.put(i, teams.get(spadeTeamHandler.getTeamByPlayer(PlayerTable.getPlayer(code), newSpadeGame.getNumberOfTeams())).getPlayers().get(PlayerTable.getPlayer(code)));
+			code++;
+			if(code>MAX_TURN_PER_TRICK) {
+				code = 1;
+			}
+		}
+		
+		spadeGameMetaData.setPositionPlayerMap(positionPlayerMap);
 		
 	
 	}

@@ -1,10 +1,8 @@
 package com.craig.greggames.handler.bot.game.cards.spades;
 
-import static com.craig.greggames.constants.game.cards.spades.SpadeGameConstants.MAX_TURN_PER_TRICK;
+import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,15 +12,12 @@ import com.craig.greggames.handler.game.cards.CardHandler;
 import com.craig.greggames.handler.game.cards.spades.SpadeTeamHandler;
 import com.craig.greggames.model.game.cards.Card;
 import com.craig.greggames.model.game.cards.CardSuit;
-import com.craig.greggames.model.game.cards.player.PlayerTable;
+import com.craig.greggames.model.game.cards.CardValue;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.craig.greggames.model.game.cards.spades.SpadeGameMetaData;
 import com.craig.greggames.model.game.cards.spades.SpadePlayer;
-import com.craig.greggames.model.game.cards.spades.SpadeTeam;
-import com.craig.greggames.model.game.cards.team.TeamTable;
 import com.craig.greggames.util.GregMapper;
-
-import ch.qos.logback.core.joran.conditional.IfAction;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy.LowerCaseStrategy;
 
 @Service
 public class SpadeBotPlayerPositionThree implements SpadeBotPlayerPosition {
@@ -68,6 +63,10 @@ public class SpadeBotPlayerPositionThree implements SpadeBotPlayerPosition {
 
 		Map<CardSuit, Card> highestRemainingCards = spadeGameMetaData.getHighestRemainingCard();
 
+		Map<Integer, SpadePlayer> positionPlayerMap = spadeGameMetaData.getPositionPlayerMap();
+		SpadePlayer positionTwo = positionPlayerMap.get(2);
+		SpadePlayer positionFour = positionPlayerMap.get(4);
+
 		boolean hasLeadingPlayerSuit = spadeGameMetaData.isHasLeadPlayerSuit();
 		boolean hasOnlySpades = spadeGameMetaData.isHasOnlySpades();
 		boolean canPlaySpades = spadeGameMetaData.isCanPlaySpades();
@@ -80,20 +79,30 @@ public class SpadeBotPlayerPositionThree implements SpadeBotPlayerPosition {
 		if (currPlayer.isBidNil()) {
 			logger.info("Current player bid nil");
 			if (hasLeadingPlayerSuit) {
-				Card cardToCompare = leadPlayerCard;
-				if (winnerCard.getSuit() == cardToCompare.getSuit()) {
-					cardToCompare = winnerCard;
+				if (spadeGameMetaData.getLeadPlayer().getName() == currWinner.getName()) {
+					Card card = cardHandler.findLargestCardLessThanCard(
+							spadeGameMetaData.getCurrPlayerRemainingCards().get(leadPlayerCard.getSuit()),
+							leadPlayerCard);
+					if (card != null) {
+						return card;
+					}
+					return cardHandler.findSmallestCardLargerThanCard(
+							spadeGameMetaData.getCurrPlayerRemainingCards().get(leadPlayerCard.getSuit()),
+							leadPlayerCard);
+				} else {
+					if (positionFour.getPlayingCard().getSuit() == leadPlayerCard.getSuit()) {
+						Card card = cardHandler.findLargestCardLessThanCard(
+								spadeGameMetaData.getCurrPlayerRemainingCards().get(leadPlayerCard.getSuit()),
+								positionFour.getPlayingCard());
+						if (card != null) {
+							return card;
+						}
+						return cardHandler.findSmallestCardLargerThanCard(
+								spadeGameMetaData.getCurrPlayerRemainingCards().get(leadPlayerCard.getSuit()),
+								positionFour.getPlayingCard());
+					}
+					return highestRemainingCards.get(leadPlayerCard.getSuit());
 				}
-
-				Card card = cardHandler.findLargestCardLessThanCard(
-						spadeGameMetaData.getCurrPlayerRemainingCards().get(cardToCompare.getSuit()), cardToCompare);
-
-				if (card != null) {
-					return card;
-				}
-
-				return cardHandler.findSmallestCardLargerThanCard(
-						spadeGameMetaData.getCurrPlayerRemainingCards().get(cardToCompare.getSuit()), cardToCompare);
 
 			}
 
@@ -125,93 +134,75 @@ public class SpadeBotPlayerPositionThree implements SpadeBotPlayerPosition {
 				}
 				return lowestRemainingCards.get(leadPlayerCard.getSuit());
 			} else {
-
-				if (hasSpades) {
-					if (currWinner.getName() == currPlayerTeamMate.getName()) {
-						if (hasSpades) {
-							return lowestRemainingCards.get(CardSuit.SPADES);
-						} else {
-							return cardHandler.findSmallestCard(lowestRemainingCards.values());
-						}
-					}
-					if (hasOnlySpades) {
+				if (currWinner.getName() == currPlayerTeamMate.getName()) {
+					return cardHandler.findSmallestCard(lowestRemainingCards.values());
+				} else {
+					if (hasSpades) {
 						return lowestRemainingCards.get(CardSuit.SPADES);
 					}
-					return cardHandler.findSmallestCard(cardHandler.filterOutSpades(lowestRemainingCards.values()));
-				} else {
-
 					return cardHandler.findSmallestCard(lowestRemainingCards.values());
 				}
 			}
-		} else if (previousPlayer.isBidNil()) {
+		} else if (positionTwo.isBidNil()) {
 			logger.info("Previous player bid nil");
 			if (hasLeadingPlayerSuit) {
-				if (previousPlayer.getName() == currWinner.getName()) {
+				if (positionTwo.getName() == currWinner.getName()) {
 
-					Card card = cardHandler.findLargestCardLessThanCard(spadeGameMetaData.getCurrPlayerRemainingCards().get(leadPlayerCard.getSuit()), previousPlayer.getPlayingCard());
-					if(card!=null) {
-						return card;
+					if (positionTwo.getPlayingCard().getSuit() == leadPlayerCard.getSuit()) {
+						Card card = cardHandler.findLargestCardLessThanCard(spadeGameMetaData.getCurrPlayerPlayedCards()
+								.get(positionTwo.getPlayingCard().getSuit()), positionTwo.getPlayingCard());
+						if (card != null) {
+							return card;
+						}
+						return highestRemainingCards.get(leadPlayerCard.getSuit());
 					}
 					return highestRemainingCards.get(leadPlayerCard.getSuit());
-				}
-				// teammate is winning
-				Card card = cardHandler.findSmallestCardLargerThanCard(spadeGameMetaData.getCurrPlayerRemainingCards().get(leadPlayerCard.getSuit()), leadPlayerCard);
-				if(card!=null) {
-					return card;
-				}
-				return highestRemainingCards.get(leadPlayerCard.getSuit());
-
-			} else {
-
-				if (previousPlayer.getName() == currWinner.getName()) {
-
-					if (hasOnlySpades) {
-						if (previousPlayer.getPlayingCard().getSuit() == CardSuit.SPADES) {
-							return lowestRemainingCards.get(CardSuit.SPADES);
-						}
-						return highestRemainingCards.get(CardSuit.SPADES);
-					}
-					return cardHandler.findSmallestCard(cardHandler.filterOutSpades(highestRemainingCards.values()));
 				} else {
-
-					if (hasOnlySpades) {
-						return lowestRemainingCards.get(CardSuit.SPADES);
-					}
-					return cardHandler.findSmallestCard(cardHandler.filterOutSpades(highestRemainingCards.values()));
-				}
-
-			}
-		} else if (otherPlayer.isBidNil()) {
-			logger.info("Next player bid nil");
-			if (hasLeadingPlayerSuit) {
-				Card cardToCompare = leadPlayerCard;
-				if (winnerCard.getSuit() == leadPlayerCard.getSuit()) {
-					cardToCompare = winnerCard;
-				}
-				Card card = cardHandler.findSmallestCardLargerThanCard(
-						spadeGameMetaData.getCurrPlayerRemainingCards().get(leadPlayerCard.getSuit()), cardToCompare);
-				if (card != null) {
-					if ((card.getValue().getValue() - 2) >= cardToCompare.getValue().getValue()) {
-						return card;
-					}
-					card = cardHandler.findLargestCardLessThanCard(
+					// teammate is winning
+					Card card = cardHandler.findSmallestCardLargerThanCard(
 							spadeGameMetaData.getCurrPlayerRemainingCards().get(leadPlayerCard.getSuit()),
-							cardToCompare);
+							leadPlayerCard);
 					if (card != null) {
 						return card;
 					}
 					return lowestRemainingCards.get(leadPlayerCard.getSuit());
-
 				}
-				return cardHandler.findLargestCardLessThanCard(
-						spadeGameMetaData.getCurrPlayerRemainingCards().get(leadPlayerCard.getSuit()), cardToCompare);
 
 			} else {
-				if (currPlayerTeamMate.getName() == currWinner.getName()) {
-					if (hasOnlySpades) {
-						return lowestRemainingCards.get(CardSuit.SPADES);
+
+				if (hasOnlySpades) {
+					return lowestRemainingCards.get(CardSuit.SPADES);
+				}
+				return cardHandler.findSmallestCard(cardHandler.filterOutSpades(highestRemainingCards.values()));
+
+			}
+		} else if (positionFour.isBidNil()) {
+			logger.info("Next player bid nil");
+			if (hasLeadingPlayerSuit) {
+				if (spadeGameMetaData.getLeadPlayer().getName() == currWinner.getName()) {
+					Card card = cardHandler.findLargestCardLessThanCard(
+							spadeGameMetaData.getCurrPlayerRemainingCards().get(leadPlayerCard.getSuit()),
+							leadPlayerCard);
+					if (card != null) {
+						return card;
 					}
-					return cardHandler.findSmallestCard(cardHandler.filterOutSpades(highestRemainingCards.values()));
+					return lowestRemainingCards.get(leadPlayerCard.getSuit());
+				} else {
+					if (positionTwo.getName() == currWinner.getName()) {
+						Card card = cardHandler.findSmallestCardLargerThanCard(spadeGameMetaData
+								.getCurrPlayerRemainingCards().get(positionTwo.getPlayingCard().getSuit()),
+								positionTwo.getPlayingCard());
+						if (card != null) {
+							return card;
+						}
+						return cardHandler.findLargestCardLessThanCard(spadeGameMetaData.getCurrPlayerRemainingCards()
+								.get(positionTwo.getPlayingCard().getSuit()), positionTwo.getPlayingCard());
+					}
+					return lowestRemainingCards.get(leadPlayerCard.getSuit());
+				}
+			} else {
+				if(hasOnlySpades) {
+					return lowestRemainingCards.get(CardSuit.SPADES);
 				}
 				return cardHandler.findSmallestCard(cardHandler.filterOutSpades(highestRemainingCards.values()));
 			}
@@ -220,40 +211,37 @@ public class SpadeBotPlayerPositionThree implements SpadeBotPlayerPosition {
 		else {
 			logger.info("No one bid nil");
 			if (hasLeadingPlayerSuit) {
-				Card playerCard = highestRemainingCards.get(leadPlayerCard.getSuit());
-				Card card = currPlayerTeamMate.getPlayingCard();
-
-				if (currPlayerTeamMate.getName() == currWinner.getName()) {
-					
-					if(card.getSuit()==leadPlayerCard.getSuit()) {
-						if((playerCard.getValue().getValue()-2)>=card.getValue().getValue()) {
-							return playerCard;
-						}
-						return lowestRemainingCards.get(leadPlayerCard.getSuit());
-					}
-					return highestRemainingCards.get(leadPlayerCard.getSuit());
-				}
+				Card card = highestRemainingCards.get(leadPlayerCard.getSuit());
 				
-				if(winnerCard.getSuit()==leadPlayerCard.getSuit()) {
-					if((playerCard.getValue().getValue()-2)>=winnerCard.getValue().getValue()) {
-						return playerCard;
+				if(spadeGameMetaData.getLeadPlayer().getName() == currWinner.getName()) {
+					if((card.getValue().getValue()-2)>=leadPlayerCard.getValue().getValue()) {
+						return card;
 					}
 					return lowestRemainingCards.get(leadPlayerCard.getSuit());
 				}
-				
-				return lowestRemainingCards.get(leadPlayerCard.getSuit());
+				else {
+					if(positionTwo.getPlayingCard().getSuit() == leadPlayerCard.getSuit()) {
+						if(card.getValue().getValue() > positionTwo.getPlayingCard().getValue().getValue()) {
+							return card;
+						}
+						return lowestRemainingCards.get(leadPlayerCard.getSuit()); 
+					}
+					return lowestRemainingCards.get(leadPlayerCard.getSuit());
+				}
 			} else {
 
 				if (currPlayerTeamMate.getName() == currWinner.getName()) {
-					Card card = currPlayerTeamMate.getPlayingCard();
-					if (card.getSuit() == leadPlayerCard.getSuit()) {
+					if(leadPlayerCard.getValue().getValue()>=CardValue.JACK.getValue()) {
 						if(hasOnlySpades) {
 							return lowestRemainingCards.get(CardSuit.SPADES);
 						}
-						return cardHandler.findSmallestCard(lowestRemainingCards.values());
+						return cardHandler.findSmallestCard(cardHandler.filterOutSpades(lowestRemainingCards.values()));
+					}
+					if(hasOnlySpades) {
+						return lowestRemainingCards.get(CardSuit.SPADES);
 					}
 					
-					return cardHandler.findSmallestCard(lowestRemainingCards.values());
+					return cardHandler.findSmallestCard(cardHandler.filterOutSpades(lowestRemainingCards.values())); 
 				}
 				if (hasSpades) {
 					return lowestRemainingCards.get(CardSuit.SPADES);

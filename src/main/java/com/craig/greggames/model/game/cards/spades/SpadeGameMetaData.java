@@ -43,6 +43,9 @@ public class SpadeGameMetaData {
 	
 	int trickPlayerPosition;
 	
+	Map<Integer, SpadePlayer> positionPlayerMap;
+	
+	
 	public SpadePlayer getCurrPlayer() {
 		return currPlayer;
 	}
@@ -181,6 +184,13 @@ public class SpadeGameMetaData {
 	public void setTrickPlayerPosition(int trickPlayerPosition) {
 		this.trickPlayerPosition = trickPlayerPosition;
 	}
+	public Map<Integer, SpadePlayer> getPositionPlayerMap() {
+		return positionPlayerMap;
+	}
+	public void setPositionPlayerMap(Map<Integer, SpadePlayer> positionPlayerMap) {
+		this.positionPlayerMap = positionPlayerMap;
+	}
+	
 	
 	
 	

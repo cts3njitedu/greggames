@@ -1,10 +1,6 @@
 package com.craig.greggames.handler.bot.game.cards.spades;
 
-import static com.craig.greggames.constants.game.cards.spades.SpadeGameConstants.MAX_TURN_PER_TRICK;
-
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +11,10 @@ import com.craig.greggames.handler.game.cards.spades.SpadeTeamHandler;
 import com.craig.greggames.model.game.cards.Card;
 import com.craig.greggames.model.game.cards.CardSuit;
 import com.craig.greggames.model.game.cards.CardValue;
-import com.craig.greggames.model.game.cards.player.PlayerTable;
 import com.craig.greggames.model.game.cards.spades.SpadeGame;
 import com.craig.greggames.model.game.cards.spades.SpadeGameMetaData;
 import com.craig.greggames.model.game.cards.spades.SpadePlayer;
 import com.craig.greggames.model.game.cards.spades.SpadeTeam;
-import com.craig.greggames.model.game.cards.team.TeamTable;
 
 @Service
 public class SpadeBotPlayerPositionTwo implements SpadeBotPlayerPosition {
@@ -65,6 +59,9 @@ public class SpadeBotPlayerPositionTwo implements SpadeBotPlayerPosition {
 
 		Map<CardSuit, Card> highestRemainingCards = spadeGameMetaData.getHighestRemainingCard();
 
+		Map<Integer, SpadePlayer> positionPlayerMap = spadeGameMetaData.getPositionPlayerMap();
+		SpadePlayer positionThree = positionPlayerMap.get(3);
+
 		boolean hasLeadingPlayerSuit = spadeGameMetaData.isHasLeadPlayerSuit();
 		boolean hasOnlySpades = spadeGameMetaData.isHasOnlySpades();
 		boolean canPlaySpades = spadeGameMetaData.isCanPlaySpades();
@@ -91,14 +88,18 @@ public class SpadeBotPlayerPositionTwo implements SpadeBotPlayerPosition {
 		else if (currPlayerTeamMate.isBidNil()) {
 			logger.info("Current player teammate bid nil");
 			if (hasLeadingPlayerSuit) {
-				return highestRemainingCards.get(leadPlayerCard.getSuit());
+				Card card = highestRemainingCards.get(leadPlayerCard.getSuit());
+				if ((card.getValue().getValue() - 2) >= leadPlayerCard.getValue().getValue()) {
+					return card;
+				}
+				return lowestRemainingCards.get(leadPlayerCard.getSuit());
 			} else {
 
 				if (hasSpades) {
 
 					return lowestRemainingCards.get(CardSuit.SPADES);
 				}
-				return cardHandler.findSmallestCard(cardHandler.filterOutSpades(lowestRemainingCards.values()));
+				return cardHandler.findSmallestCard(lowestRemainingCards.values());
 
 			}
 
@@ -107,36 +108,28 @@ public class SpadeBotPlayerPositionTwo implements SpadeBotPlayerPosition {
 			if (hasLeadingPlayerSuit) {
 				Card card = cardHandler.findLargestCardLessThanCard(
 						spadeGameMetaData.getCurrPlayerRemainingCards().get(leadPlayerCard.getSuit()), leadPlayerCard);
-				if (card == null) {
-					return highestRemainingCards.get(leadPlayerCard.getSuit());
+				if (card != null) {
+					return card;
 				}
-				return card;
+				return highestRemainingCards.get(leadPlayerCard.getSuit());
 
 			} else {
-
-				if (hasOnlySpades) {
-					return lowestRemainingCards.get(CardSuit.SPADES);
+				if (leadPlayerCard.getValue().getValue() >= CardValue.NINE.getValue()) {
+					if (hasOnlySpades) {
+						return lowestRemainingCards.get(CardSuit.SPADES);
+					}
+					return cardHandler.findSmallestCard(cardHandler.filterOutSpades(highestRemainingCards.values()));
+				} else {
+					if (hasSpades) {
+						return lowestRemainingCards.get(CardSuit.SPADES);
+					}
+					return cardHandler.findSmallestCard(highestRemainingCards.values());
 				}
-				return cardHandler.findSmallestCard(cardHandler.filterOutSpades(highestRemainingCards.values()));
 			}
-		} else if (otherPlayer.isBidNil()) {
+		} else if (positionThree.isBidNil()) {
 			logger.info("Next player bid nil");
 			if (hasLeadingPlayerSuit) {
 				Card card = cardHandler.findSmallestCardLargerThanCard(
-						spadeGameMetaData.getCurrPlayerRemainingCards().get(leadPlayerCard.getSuit()), leadPlayerCard);
-				if (card != null) {
-					if ((card.getValue().getValue() - 2) >= leadPlayerCard.getValue().getValue()) {
-						return card;
-					}
-					card = cardHandler.findLargestCardLessThanCard(
-							spadeGameMetaData.getCurrPlayerRemainingCards().get(leadPlayerCard.getSuit()),
-							leadPlayerCard);
-					if (card != null) {
-						return card;
-					}
-					return lowestRemainingCards.get(leadPlayerCard.getSuit());
-				}
-				card = cardHandler.findLargestCardLessThanCard(
 						spadeGameMetaData.getCurrPlayerRemainingCards().get(leadPlayerCard.getSuit()), leadPlayerCard);
 				if (card != null) {
 					return card;
@@ -150,7 +143,7 @@ public class SpadeBotPlayerPositionTwo implements SpadeBotPlayerPosition {
 					if (hasSpades) {
 						return lowestRemainingCards.get(CardSuit.SPADES);
 					}
-					return cardHandler.findSmallestCard(cardHandler.filterOutSpades(highestRemainingCards.values()));
+					return cardHandler.findSmallestCard(highestRemainingCards.values());
 
 				}
 
@@ -162,25 +155,19 @@ public class SpadeBotPlayerPositionTwo implements SpadeBotPlayerPosition {
 		} else {
 			logger.info("No one bid nil");
 			if (hasLeadingPlayerSuit) {
-				if (highestRemainingCards.get(leadPlayerCard.getSuit()).getValue().getValue() > leadPlayerCard
-						.getValue().getValue()) {
+				Card card = highestRemainingCards.get(leadPlayerCard.getSuit());
+				if (card.getValue().getValue() > leadPlayerCard.getValue().getValue()) {
 
 					return highestRemainingCards.get(leadPlayerCard.getSuit());
 				}
 				return lowestRemainingCards.get(leadPlayerCard.getSuit());
 			} else {
 
-				if (hasOnlySpades) {
+				if (hasSpades) {
 					return lowestRemainingCards.get(CardSuit.SPADES);
-				} else {
-
-					if (hasSpades) {
-						return lowestRemainingCards.get(CardSuit.SPADES);
-					}
-
-					return cardHandler.findSmallestCard(cardHandler.filterOutSpades(lowestRemainingCards.values()));
-
 				}
+
+				return cardHandler.findSmallestCard(lowestRemainingCards.values());
 
 			}
 		}

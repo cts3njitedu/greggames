@@ -61,7 +61,7 @@ public class SpadeBotHandler {
 
 			case SPADES:
 
-				if (card.getValue().getValue() >= CardValue.NINE.getValue()) {
+				if (card.getValue().getValue() >= CardValue.JACK.getValue()) {
 					spades++;
 				}
 
