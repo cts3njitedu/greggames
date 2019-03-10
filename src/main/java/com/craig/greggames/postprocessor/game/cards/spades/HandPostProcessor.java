@@ -83,7 +83,6 @@ public class HandPostProcessor extends AbstractPostProcessor {
 			spadeGame.setSpadeBroken(null);
 			spadeGame.setHandOver(false);
 			spadeGame.setPreviousHand(null);
-			
 			spadeGame.setPlayerNotification(SpadeNotifications.HAND_OVER);
 		}
 		logger.info("Exiting: " + getClass());
